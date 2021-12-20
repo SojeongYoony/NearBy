@@ -2,29 +2,19 @@ package com.koreait.nearby.domain;
 
 public class Profile {
 
-	private Long pNo;
 	private String id, content, pOrigin, pSaved, path;
 	
 	public Profile() {
-
+		// TODO Auto-generated constructor stub
 	}
 
-	public Profile(Long pNo, String id, String content, String pOrigin, String pSaved, String path) {
+	public Profile(String id, String content, String pOrigin, String pSaved, String path) {
 		super();
-		this.pNo = pNo;
 		this.id = id;
 		this.content = content;
 		this.pOrigin = pOrigin;
 		this.pSaved = pSaved;
 		this.path = path;
-	}
-
-	public Long getpNo() {
-		return pNo;
-	}
-
-	public void setpNo(Long pNo) {
-		this.pNo = pNo;
 	}
 
 	public String getId() {
@@ -69,9 +59,10 @@ public class Profile {
 
 	@Override
 	public String toString() {
-		return "Profile [pNo=" + pNo + ", id=" + id + ", content=" + content + ", pOrigin=" + pOrigin + ", pSaved="
-				+ pSaved + ", path=" + path + "]";
+		return "Profile [id=" + id + ", content=" + content + ", pOrigin=" + pOrigin + ", pSaved=" + pSaved + ", path="
+				+ path + "]";
 	}
+	
 	
 	
 	

@@ -37,7 +37,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Board selectBoardByNo(Long no) {
 		BoardRepository boardRepository = sqlSession.getMapper(BoardRepository.class);	
-		
+		logger.info("보드 목록 : "+boardRepository.selectBoardByNo(no));
 		return boardRepository.selectBoardByNo(no);
 	}
 	
@@ -58,28 +58,44 @@ public class BoardServiceImpl implements BoardService {
 			
 			if(file != null && !file.isEmpty() ) {
 		
+				String[] video = {"mp4", "mpeg", "avi", "mov"};
 				String origin = file.getOriginalFilename();
 				String extName = origin.substring(origin.lastIndexOf("."));
 				String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 				String saved = uuid + extName;
-						
+				
 				String sep = Matcher.quoteReplacement(File.separator);
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				String path = "resources"+sep + "upload" + sep + id+sep + sdf.format(new Date()).replaceAll("-", sep);
 				String realPath = multipartRequest.getServletContext().getRealPath(path);
 				
-				logger.info("path: "+ path);
-				logger.info("realpath: "+realPath);
+				//logger.info("path: "+ path);
+				//logger.info("realpath: "+realPath);  // 루트 확인용
 				
 				File dir = new File(realPath);
 				if ( !dir.exists() ) dir.mkdirs();
 				
-				File uploadFile = new File(realPath, saved);  
-				file.transferTo(uploadFile);  
+				File uploadFile = null;
+				
 				
 				board.setPath(path);
 				board.setOrigin(origin);
-				board.setSaved(saved);
+			
+				
+				// 비디오 확장자 saved 네임에 "video" 붙이기!
+				for( int i =0; i<video.length; i++) {
+					// System.out.println(saved.contains(video[i]));
+				 	if(saved.contains(video[i])) {
+						saved = "video" + saved;
+						uploadFile = new File(realPath, saved); 
+						board.setSaved(saved);
+					} else {
+						 uploadFile = new File(realPath, saved); 
+						board.setSaved(saved);
+					}
+				}
+				file.transferTo(uploadFile);
+				
 			}
 			else {
 				board.setPath("");
@@ -92,8 +108,13 @@ public class BoardServiceImpl implements BoardService {
 			e.printStackTrace();
 		}
 		
+		// 삽입확인용
+		logger.info(board.toString());
+		
 		BoardRepository boardRepository = sqlSession.getMapper(BoardRepository.class);	
 		int result = boardRepository.insertBoard(board);
+		
+		
 		message(result, response, "등록성공.", "등록실패", "/nearby/board/boardList");
 		
 		

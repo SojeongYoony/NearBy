@@ -8,6 +8,9 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css" />
+
+ 
  <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=4lnq99nnpg&submodules=geocoder"></script>
 <script>
   $(document).ready(function(){
@@ -213,25 +216,59 @@
 		naver.maps.onJSContentLoaded = initGeocoder;
 		naver.maps.Event.once(map, 'init_stylemap', initGeocoder);
 	}
-	
-	
-	
 </script>
 <style>
-   #map {
-     display:none;
-   }
-   .search { position:absolute;z-index:1000;top:15px;left:15px; }
-   .search #address { width:280px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
+	*{
+		padding: 0;
+		margin: 0;
+		box-sizing: border-box;	
+		width: 100%;
+	}
+	a {
+		text-decoration: none;
+		color: black;
+		font-weight: bold;
+	}
+    body{
+  	    width:100%;
+ 	    margin: 0 auto;
+  	 }
+  	.insert_wrap {
+        width:500px;
+        margin: 0 auto;
+     }
+   #map { display:none; }
+   .search { 
+   		position:absolute;
+   		z-index:1000;
+   		top:15px;
+   		left:15px; 
+   	}
+   .search #address { 
+   			width:280px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
    .search #submit { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
    .location {   width:280px;height:20px;line-height:20px;border:none; padding:5px; padding-left:10px; font-size:10px;  }
    input::placeholder {  font-size: 6px;	}
+   
+   #insert_btn { border-bottom: 8px solid  #fe4662;   }
+.fa-plus-square { color: #fe4662; }
+
+   
+   
+   
+   
 </style>
 </head>
 <body>
 	
+	<jsp:include page="/WEB-INF/views/layout/header.jsp" flush="true" />
+
+ 
 	<h1>업로드 화면</h1>
 	
+	
+	
+	<div class="insert_wrap">
 	<form id="insertBoard_Form" action="/nearby/board/insertBoard" method="post" enctype="multipart/form-data" name="insertBoard_Form">
 		<b>작성자</b><br>
 		${loginUser.id}<br><br>
@@ -258,7 +295,7 @@
 			  <label for="file"> <i class="fas fa-photo-video" id="upload" style="color:pink; font-size:40px;"></i>
 			       사진 / 동영상을 올려주세요   </label>
 		</div>
-		<input type="file" name="file" id="file" style="display:none;">
+		<input type="file" name="file" id="file" style="display:none;" multiple>
 		
 				
 		<b>내용</b><br>
@@ -269,7 +306,7 @@
 	
 	
 	</form>
-
+</div>
 	
 </body>
 </html>

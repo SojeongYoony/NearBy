@@ -7,55 +7,340 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<style>
+	/* 초기화 */
+	*{ margin: 0; padding: 0; box-sizing: border-box; font-size: 14px; font-weight: 600; }
+	html{ background-color: rgb(240, 242, 245); }
+	a{ text-decoration: 0; color: black; }
+	ul, ol{ list-style-type: none; }
+	
+	label{
+	    display: block;
+	    text-align: left;
+	    padding-bottom: 5px;
+	    font-size: 18px;
+	}
+	
+	input{
+	    background-color: aliceblue;
+	    border: 2px solid rgb(0, 0, 0, 0);
+	}
+	
+	input:focus{
+	    outline: none;
+	}
+	
+	.container{
+	    width: 600px;
+	    margin: 100px auto;
+	    background-color: white;
+	    border-radius: 30px;
+	}
+	
+	.head{
+	    width: 100%;
+	}
+	
+	/* 상단 로고 */
+	.title > a{
+	    display: block;
+	    width: 200px; height: 130px;
+	    margin: 30px auto;
+	    text-align: center;
+	    font-size: 0;
+	
+	    background-image: url(/NearBy_logo.png);
+	    background-size: 200px 130px;
+	    background-repeat: no-repeat;
+	}
+	
+	.join_form{
+	    width: 600px;
+	    margin: 0 auto;
+	}
+	
+	/* profile area */
+	#profile_area {
+		height: 200px;
+		padding: 50px 0 0 80px;
+	}
+	#profile_result {
+		width: 100px;
+		height: 100px;
+		border-radius:  100px;
+	}
+	.p_btn {
+		padding-top: 10px;
+		background-color: white;
+		font-size: 14px;
+	}
+	.p_btn:hover {
+		text-decoration: underline;
+	}
+	#user_name_area {
+		font-size: 20px;
+		padding-top: 50px;
+		margin-left: 50px;
+	}
+	#file {
+		width: 200px;
+	}
+	#p_img img {
+		width: 100%;
+		height: 100%;
+		border-radius: 100%;
+	}
+	
+	#profile_form {
+		display: flex;
+	}
+	
+	/* 
+	    아이디, 비밀번호, 비밀번호 재확인, 이름
+	*/
+	.input_box{
+	    width: 450px;
+	    margin: 35px auto;
+	
+	}
+	
+	.input_box input{
+	    width: 100%; height: 45px;
+	    border-radius: 10px;
+	}
+	
+	/* 번호 */
+	.tel_box{
+	    width: 450px; height: 100%;
+	    margin: 35px auto;
+	
+	}
+	
+	.tel_box > span > input{
+	    width: 450px; height: 45px;
+	    border-radius: 10px;
+	}
+	
+	/* 생년월일 */
+	.birth_box{
+	    width: 450px;
+	    margin: 35px auto;
+	}
+	
+	.birth_box > select, option{
+	    width: 120px; height: 40px;
+	    text-align: center;
+	    margin: 0 10px 0 0;
+	    font-size: 16px;
+	}
+	
+	/* 성별 */
+	.gender_box{
+	    width: 450px;
+	    margin: 35px auto;
+	}
+	
+	.gender_box > p{
+	    font-size: 18px;
+	    padding-bottom: 5px;
+	}
+	
+	.gender_box > label{
+	    display: inline-block;
+	    padding-bottom: 5px;
+	    margin: 0 40px 0 40px;
+	}
+	
+	/* input tag 공백 */
+	.space input[type=text] {
+		padding-left:15px;
+	}
+	
+	/* 회원가입 버튼 */
+	.join_btn_wrap{
+	    width: 450px;
+	    margin: 35px auto;
+	}
+	#find_pw_btn {
+		background-color: pink;
+	}
+	#find_pw_btn:hover {
+		background-color: #ff6e56;
+	}
+	
+	.join_btn_wrap input, button{
+		color:white;
+	    width: 220px; height: 50px;
+	    background: linear-gradient(#ff6e56,#ff3268);
+	    border-radius: 10px;
+	    margin-bottom: 40px;
+		border: none; 
+	}
+	
+	/* 모든 버튼 */
+	.btns:hover {
+		cursor: pointer;
+	}
+
+</style>
+
 <script type="text/javascript">
+
+//이름/비밀번호/핸드폰/생일/성별 --> 이메일은X
+
 	$(document).ready(function(){
-		fnCheckSubmit();             // 모든 함수 확인 후 서브밋넘기기
-		fnbirth();                     // 생년월일 삽입
-		fnIdCheck();				 
-		fnPwCheck();				   
-		fnPwDoubleCheck();
-		fnNameCheck();
-		fnEmailCheck();
-		fnPhoneCheck();
-		fnResetBtn();
+		fnBirth();
+		fnFileCheck();
+		fnHomeBtn();
+		fnProfilePic(); // 프로필 사진 등록
 	}); 
+ 
+    // 아이디
+	let regId = /^[a-zA-Z0-9_-]{4,}$/;
+    // 이름
+	let regName = /^[a-zA-Z가-힣]{1,30}$/;
+    // 핸드폰 번호
+	let regPhone = /^((01[1|6|7|8|9])[1-9]+[0-9]{6,7})|(010[1-9][0-9]{7})$/;
+	let id_result = false;
+	let name_result = false;
+	let phone_result = false; 
+   
+ /* ************************************************************************************ */
+ 
+ 
+ 
+ 
+ 
+         
 	
-	// 서브밋
-	 function fnCheckSubmit(){
-	    $('#join_form').on('submit',function(event){
-	      if( confirm('가입하시겠습니까?') == false){
-				event.preventDefault(); 
-	          return false;
-			} else if (  id_result == false ) {
-	            event.preventDefault();  
-	            return false;    
-			} else if ( pw_result == false ) {
-                event.preventDefault(); 
-                return false;  
-            } else if ( pw_double_result == false ) {
-                event.preventDefault();  
-                return false;  
-            } else if ( name_result == false ) {
-                event.preventDefault();  
-                return false;  
-            } else if ( email_result == false ) {
-				event.preventDefault();
-                return false;  
-            } else if ( authCodePass == false ) { // 12/14 추가
-				event.preventDefault();
-				alert('이메일 인증을 진행해주세요'); 
-            	return false;
-            } else if ( phone_result == false ) {
-				event.preventDefault(); 
-               return false;
-            } else 
-            	return true;
-	        });
-	    } //   function fnCheckSubmit()
+/* ------------------------------------------------------------ fnFileCheck() ------------------------------------------------------------ */
+	// 첨부파일 점검 함수 (확장자 + 크기)
+	function fnFileCheck(){
+		
+		$('#file').on('change', function(){
+			/* 확장자 점검 */
+			let origin = $(this).val(); // 첨부된 파일명
+			let extName = origin.substring(origin.lastIndexOf(".") + 1).toUpperCase(); // 확장자를 대문자로 저장 aaa.aaa.aaa.ccc 일 때, 마지막 마침표 다음 자리부터 끝까지 substring으로 가지고오고 
+			if ( $.inArray(extName, ['JPG', 'JPEG', 'GIF', 'PNG']) == -1 ) {	// 첨부된 파일이 ['JPG', 'JPEG', 'GIF', 'PNG'] 중 하나가 아니면 (-1) :: 확장자 제한 두기
+				Swal.fire({
+					icon: 'warning',
+					title: '확장자를 확인해주세요',
+					text: '첨부 가능한 이미지의 확장자는 jpg, jpeg, gif, png 입니다.'
+				});
+				$(this).val(''); // 첨부 초기화
+				return;
+			}			
+			
+			/* 파일크기 점검 */
+			let maxSize = 1024 * 1024 * 10;	// 최대 크기 10MB
+			let fileSize = $(this)[0].files[0].size; // 첨부된 파일 크기
+			if (fileSize > maxSize) {
+				Swal.fire({
+					icon: 'warning',
+					title: '파일의 크기를 확인해 주세요',
+					text: '10MB 이하의 파일만 사용하실 수 있습니다.'
+				});
+				$(this).val('');
+				return;
+			}
+			
+		}) // change function
+		
+	} //fn FileCheck
+	
+/* 	gender: $('input:radio[name="gender"]:checked').val(), */
+
+
+/* ------------------------------------------------------------ fnProfilePic() ------------------------------------------------------------ */
+	// 사진 변경
+	function fnProfilePic(){
+		$('#insert_btn').on('click', function(){
+			if($('#file').val() == '') {
+				Swal.fire({
+					icon: 'warning',
+					title: '등록된 사진이 없습니다'
+				});
+				return;
+			} // End if
+			
+			var formData = new FormData();
+				formData.append('content', $('#content').val());
+				formData.append('id', $('#id').val());
+				
+				let file = $('#file')[0].files[0];
+				formData.append('file', file); // 첨부를 FormData에 넣기
+				console.log(formData);
+			
+				$.ajax({
+				url: '/nearby/profile/profilePic',
+				type: 'post',
+				contentType: false,
+				processData: false,
+				data: formData,
+				enctype: 'multipart/form-data',
+				dataType: 'json',
+				success: function(map){
+					if(map.insertResult && map.insertResult > 0) {
+						Swal.fire({
+							icon: 'success',
+							title: '사진등록완료',
+							text: map.profile.id + '님의 프로필 사진등록이 완료되었습니다.',
+						})
+						$('#file').val('');
+						$('#content').val('');
+						fnShowAttachedFile(map);
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: '사진등록실패',
+							text: map.profile.id + '님의 프로필 사진등록을 실패했습니다.',
+						})
+						
+					}
+				} // success
+			}) // End ajax
+			
+		}) // End insert_btn click event
+	} // fnProfilePic
+
+	
+/* ------------------------------------------------------------ fnShowAttachedFile() ------------------------------------------------------------ */
+	// 첨부된 파일 확인 함수
+	function fnShowAttachedFile(map) {
+		$('#profile_result').empty();
+	
+		$('#profile_result')
+		.append( $('<div id="p_img" style="width:100%;height:100%;">').html( $('<img>').attr('src', '/nearby/' + map.path + '/' + map.profile.pSaved) ) );
+	}
+</script>
 	    
-	
+<script>
+
+
+/* ---------------------------------------	fnHomeBtn()	------------------------------------------- */
+	// 홈으로 가기
+	function fnHomeBtn() {
+		$('#home_btn').on('click', function(){
+			if(confirm('홈으로 이동하시겠습니까?')) {
+				location.href='/nearby/board/boardList';
+			}
+		}) // End home_btn click event
+	} // End fnHomeBtn
+
+
+/* ---------------------------------------	fnResetBtn() ------------------------------------------- */
+  // reset_btn 클릭시 msg 없애기
+  function fnResetBtn(){
+    $('#reset_btn').on('click',function(){
+    	$('#id_check').text('');
+    	$('#name_check').text('');
+    	$('#phone_check').text('');
+    })
+   }
 	// 생년월일 삽입
-	function fnbirth(){
+	function fnBirth(){
 		let year = '';
 		year +=  '<option value="year">년도</option>';
 		for(let i=2007; i>=1907; i--){
@@ -77,301 +362,97 @@
 		 }
 		  $('#day').html(day);	 
 	}
- 
-    // 아이디
-	let regId = /^[a-zA-Z0-9_-]{4,}$/;
-    // 비밀번호
-	let regPwd = /^[a-zA-Z0-9!@$%^&*()]{8,20}$/;
-    // 이름
-	let regName = /^[a-zA-Z가-힣]{1,30}$/;
-    // 이메일
-	let regEmail = /^[0-9a-zA-Z-_]+@[a-zA-Z0-9]+([.][a-zA-Z]{2,}){1,2}/;
-    // 핸드폰 번호
-	let regPhone = /^((01[1|6|7|8|9])[1-9]+[0-9]{6,7})|(010[1-9][0-9]{7})$/;
-	let id_result = false;
-	let pw_result = false;
-	let pw_double_result = false;
-	let name_result = false;
-	let email_result = false;
-	let authCodePass = false;
-	let phone_result = false; 
-   
-      
-      function fnIdCheck(){   
-            
-            $("#id").on('keyup blur',function(){
-            	if ( regId.test($(this).val()) == false ) {
-    				$('#id_check').text("아이디는 소문자/숫자 4자 이상 사용 가능합니다.").addClass('error_msg').removeClass('pass_msg');
-    				id_result = false;
-    				return;
-    			  }
-				$.ajax({
-					url : '/nearby/member/idCheck',
-					type : 'post',
-					data : 'id=' + $('#id').val(),
-					dataType: 'json',               // 받아올 데이터 타입
-					success : function(resData){
-						 if( resData.result == null){
-							 $('#id_check').text('사용 가능한 아이디').addClass("pass_msg").removeClass('error_msg');
-							 id_result = true;
-						 } else if($('#id').val() == '' ){
-							 $('#id_check').text('입력 필수입니다.').addClass('error_msg').removeClass('pass_msg');;
-			                    id_result = false;
-			             } else if(resData.result != null) {
-							 $('#id_check').text('이미 사용중인 아이디').addClass('error_msg').removeClass('pass_msg');;
-							 id_result = false;
-						 }
-					},
-					error : function(xhr, ajaxOptions, thrownError) {
-				       alert(xhr.responseText);
-				//		console.log(xhr.status);
-				  //      console.log(thrownError);
-					}
-					
-				}) // ajax
-				 console.log("id: "+id_result);
-				  return id_result;	 
-			}); // id
-    } // fnId
-        
-      // 비밀번호 정규식 
-      function fnPwCheck(){
-         
-         $('#pw').on('blur keyup', function(){
-            if( regPwd.test( $("#pw").val())){    
-                $("#pw_check").text("사용가능한 비밀번호입니다.").addClass("pass_msg").removeClass('error_msg');
-                pw_result = true;
-            } else if (    $('#pw').val() == '' ){
-                $("#pw_check").text('입력은 필수입니다.').addClass('error_msg').removeClass('pass_msg');
-                pw_result = false;
-            }    else {
-                $("#pw_check").text("비밀번호는 8~20자의 영문 대/소문자, 숫자, 특수문자 등 3종류 이상으로 조합해주세요.").addClass('error_msg').removeClass('pass_msg');
-                pw_result = false;
-            }
-         console.log("pw: "+pw_result);
-            return pw_result;
-         }); 
-      
-      } // fnPwCheck
-      
-   // 비밀번호 재확인 일치 
-         function fnPwDoubleCheck(){
-          
-          $('#pwCheck').on('blur keyup', function(){     
-                if($('#pw').val() !=  $("#pwCheck").val() ){
-                    $("#pw_doubleCheck").text( '비밀번호가 일치하지 않습니다.').addClass('error_msg').removeClass('pass_msg');
-                    pw_double_result = false;
-                } else{
-                    $("#pw_doubleCheck").text('').removeClass('error_msg').removeClass('pass_msg');
-                    pw_double_result = true;
-                }  
-          console.log("pw2 : "+pw_double_result);
-          return pw_double_result;
-            });
-      }
-          
-      // 이름 정규식
-        function fnNameCheck() {  
-           $('#name').on('blur', function(){
-               if( regName.test( $(this).val())){    
-                 $('#name_check').text('');
-                 $('#name_check').removeClass('error_msg');
-                 name_result = true;
-               } else if ( $('#name').val() == '' ){
-                   $('#name_check').text('이름은 필수입니다.').addClass('error_msg').removeClass('pass_msg');
-                   name_result = false;
-               }  else if( regName.test( $(this).val()) == false){    
-                   $('#name_check').text('잘못된 이름 형식입니다.').addClass('error_msg').removeClass('pass_msg'); 
-                   name_result = false;
-               }
-           console.log(name_result);
-               return name_result;
-           });
-         
-          } // fnName
-          
-    /*     // 이메일    
-      function  fnEmailCheck(){
-         $('#email').on('blur', function(){
-                  if( regEmail.test( $('#email').val())){    
-                    
-                      $.ajax({
-      					url : '/nearby/member/selectByEmail',
-      					type : 'post',
-      					data : 'email=' + $('#email').val(),
-      					dataType: 'json',               // 받아올 데이터 타입
-      					success : function(resData){
-      					 if(resData.result == null) {
-      						  $('#email_check').text('사용 가능한 이메일입니다.').addClass('pass_msg').removeClass('error_msg');
-                        	   email_result = true;
-                        	   fnSendAuthCode();
-                        	   return;
-      					 } else if(resData.result != null) {
-      			            	 $('#email_check').text('이미 사용중인 이메일입니다.').addClass('error_msg').removeClass('pass_msg');
-      							 email_result = false;
-      						 }
-      					},
-      					error : function(xhr, ajaxOptions, thrownError) {
-      				       alert(xhr.responseText);
-      					}
-      				}) // ajax
-                   
-                   } else if( $('#email').val() ==''  ) {
-                	   $('#email_check').text('이메일은 필수입니다.').addClass('error_msg').removeClass('pass_msg');
-                   } else{
-                       $('#email_check').text('잘못된 이메일 형식입니다.').addClass('error_msg').removeClass('pass_msg');
-                       email_result = false;
-                  }
-                  return email_result;
-           });
-         } // fnEmail
-         
-         function fnSendAuthCode(){
-         	
-         	$('#authCode_btn').click(function(){
-         		$.ajax({
-         			url : '/nearby/member/sendAuthCode',
-         			type: 'post',
-         			data: 'email='+ $('#email').val(),
-         			dataType: 'json',
-         			success : function(map) {
-         				alert('인증코드가 발송되었습니다.');
-         				fnVerifyAuthcode(map.authCode); // 12/13추가
-         			//	alert(map.authCode);   ==> SecurityUtils에 authCode 확인용 sysout 추가
-         			},
-         			error: function() {
-     					alert('인증코드 전송 실패');
-     				}
-         		});	 // ajax
-         	});
-         	return;
-         } */
-/* ******************* 12/14 수정 ************* fnVerifyAuthcode() ********************* */
-      	// 인증코드 검증 변수와 함수
-      	function fnVerifyAuthcode(authCode){
-      		$('#verify_btn').click(function(){
-      			if ( $('#authCode').val() == authCode ) {
-      				alert('인증되었습니다.');
-      				authCodePass = true;
-      			} else if ( $('#authCode').val() == '' ) { // 12/14 추가
-      				alert('인증번호를 입력하세요');
-      				authCodePass = false;
-      			} else {
-      				alert('인증에 실패했습니다.');
-      				authCodePass = false;
-      			}
-      			
-      		}); // end click
-      	}         
- /* ************************************************************************************ */
-         
-     
-          // 핸드폰
-      function	fnPhoneCheck() {
-           $('#phone').on('blur', function(){
-               if( regPhone.test( $('#phone').val())){    
-                   $('#phone_check').text('');
-                   $('#phone_check').removeClass('error_msg');
-                   phone_result = true;
-               } else if ($('#phone').val() == '' ){
-                   $('#phone_check').text('핸드폰번호는 필수입니다.');
-                   $('#phone_check').addClass('error_msg');
-                   phone_result = false;
-               } else {
-                   $('#phone_check').text('잘못된 형식입니다.');
-                   $('#phone_check').addClass('error_msg');
-                   phone_result = false;
-               }
-               return phone_result;
-           });
-    }  // fnPhone
-    
-  
-    
-  // reset_btn 클릭시 msg 없애기
-  function fnResetBtn(){
-    $('#reset_btn').on('click',function(){
-    	$('#id_check').text('');
-    	$('#pw_check').text('');
-    	$('#pw_double_check').text('');
-    	$('#name_check').text('');
-    	$('#email_check').text('');
-    	$('#authCode').text('');
-    	$('#phone_check').text('');
-    })
-   }
 </script>
-<style type="text/css">
-   .error_msg {
-   	font-size:13px;
-   	color:red;
-   }
-   .pass_msg {
-   	font-size:13px;
-   	color:grey;
-   }
-
-</style>
 </head>
 <body>
+
  <!-- 레이아웃 header 삽입하기 -->
  
+    <div class="container">
+    	<p id='user_name_area'>${loginUser.name}님 페이지</p>
+    	<div id="profile_area">
+			<div id="profile_result">
+				<div id="p_img" style="width:100%;height:100%;">
+					<img src='/nearby/${map.path}/ ${map.profile.pSaved}'>
+				</div>
+			</div>
+			<form id="profile_form">
+				<input type="hidden" id="id" value="${loginUser.id}">
+				<input type="file" id="file">
+				<textarea rows="3" cols="25" placeholder="자신을 맘껏 표현해보세요" id="content" name="content"></textarea>
+			</form>
+			<input type="button" value='사진변경' id="insert_btn" class="p_btn btns"> / 
+			<input type="button" value='사진삭제' id="delete_btn" class="p_btn btns">
+    	</div>
  
-   <h2>회원가입 페이지</h2>
-	<form action="/nearby/member/insertMember" method="post" id="join_form">
-	<div>
-		<label for="id">아이디</label><input type="text" id="id" name="id">
-		<span id="id_check"></span>
-	</div>
-	<div>
-		<label for="pw">비밀번호</label><input type="text" id="pw" name="pw">
-		<span id="pw_check"></span>
-	</div>
-	<div>
-		<label for="pw">비밀번호 재확인</label><input type="text" id="pwCheck" >
-		<span id="pw_doubleCheck"></span>
-	</div>
-	<div>
-		<label for="name">이름</label><input type="text" id="name" name="name">
-		<span id="name_check"></span>
-	</div>
-	<div>
-		<label for="email">이메일</label><input type="text" id="email" name="email" >
-		<input type="button" value="인증번호받기" id="authCode_btn"><br>
-		<span id="email_check"></span><br>
-		<input type="text" name="authCode" id="authCode">
-		<input type="button" value="인증하기" id="verify_btn">
-	</div>
-	<div>
-		<label for="phone">번호</label><input type="text" id="phone" name="phone" placeholder=" -표시 없이 입력해주세요">
-		<span id="phone_check"></span>
-	</div>
-	<div>
-		<label for="birthday">생년월일</label>
-		 <select id="birthday" name="year">
-		 	
-		 </select>
-		  <select id="month" name="month">
-		 	<option value="월"></option>
-		 </select>
-		  <select id="day" name="day">
-		 	<option value="일"></option>
-		 </select>
-	</div>
-		<div>		
-		 <p id="gender_box">성별</p>
-		  <input type="radio" name="gender" value="f" id="female" checked>
-                        <label id="f" for="female">여성</label>
-          <input type="radio" name="gender" value="m" id="male">
-                        <label id="m"  for="male">남성</label>
-          <input type="radio" name="gender" value="n" id="n">
-                        <label id="n"  for="n">선택안함</label>
-        </div>
-        <div id="join_btn_wrap">
-  	      <button class="btn btn-primary">회원가입</button>                 
-       	  <input type="reset" value="다시작성" id="reset" class="reset">                
-        </div>                
-	</form>
+        <div class="join_form">
+            <form action="/nearby/member/insertMember" method="post" id="join_form">
 
+                <!-- 이름 -->
+                <div class="input_box">
+                    <label for="name">이름</label>
+                    <span class="space">
+	                    <input type="text" id="name" name="name">
+                    </span>
+                    <span id="name_check"></span>
+                </div>
+
+                <!-- 번호 -->
+                <div class="tel_box">
+                    <label for="phone">핸드폰 번호</label>
+                    <span class="space">
+	                    <input type="text" id="phone" name="phone" placeholder=" - 표시 없이 입력해주세요">
+                    </span>
+                    <span id="phone_check"></span>
+                </div>
+                
+                <!-- 생년월일 -->
+                <div class="birth_box">
+                    
+                    <!-- 년도 -->
+                    <label for="birthday">생년월일</label>
+                    <select id="birthday" name="year"></select>
+
+                    <!-- 월 -->
+                    <select id="month" name="month">
+                        <option value="월">월</option>
+                    </select>
+
+                    <!-- 일 -->
+                    <select id="day" name="day">
+                        <option value="일"></option>
+                    </select>
+                </div>
+
+                <!-- 성별 -->
+                <div class="gender_box">
+                    <p id="gender_box">성별</p>
+                    <!-- 여성 -->
+                    <input type="radio" name="gender" value="f" id="female" checked>
+                    <label id="f" for="female" class="btns">여성</label>
+
+                    <!-- 남성 -->
+                    <input type="radio" name="gender" value="m" id="male" class="btns">
+                    <label id="m"  for="male" class="btns">남성</label>
+
+                    <!-- 선택 안 함 -->
+                    <input type="radio" name="gender" value="n" id="n" class="btns">
+                    <label id="n"  for="n" class="btns">선택안함</label>
+                </div>
+
+                <!-- 비밀번호 -->
+                <div class="input_box">
+                    <label for="find_pw_btn">비밀번호 수정</label>
+                    <input type="button"  class="btn btns" id="find_pw_btn" value="비밀번호 변경 이동">
+                </div>
+
+                <div class="join_btn_wrap" id="join_btn_wrap">
+                    <button class="btn btn-primary btns">수정완료</button>                 
+                    <input type="reset" value="다시작성" id="reset" class="reset btns">                
+                    <input type="button" value="홈으로" id="home_btn" class="btns">                
+                </div>                
+            </form>
+        </div>
+    </div>
 </body>
 </html>

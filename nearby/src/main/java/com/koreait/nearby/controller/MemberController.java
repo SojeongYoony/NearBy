@@ -42,7 +42,6 @@ public class MemberController {
 	      service.joinMember(request, response);
 	}
 	
-	
     // 아이디 중복확인하기 
 	@ResponseBody
 	@PostMapping(value="idCheck", produces ="application/json; charset=UTF-8" )
@@ -79,6 +78,15 @@ public class MemberController {
 		}
 		return "redirect:/";
 	}
+	
+	
+	// 마이페이지 수정으로 가기
+	@GetMapping("mypage")
+	public String mypage() {
+		return "member/mypage";
+	}
+	
+	
 	
 	
 }

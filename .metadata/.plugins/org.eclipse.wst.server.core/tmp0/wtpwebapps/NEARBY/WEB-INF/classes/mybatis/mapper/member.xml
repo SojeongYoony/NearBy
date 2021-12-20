@@ -14,12 +14,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="PHONE" property="phone" />
 		<result column="GENDER" property="gender" />
 		<result column="STATE" property="state" />
+		<collection property="ProFile" resultMap="ProFileMap" />
+	</resultMap>
+	
+	<resultMap type="ProFile" id="ProFileMap">
+		<result column="ID" property="id" />
+		<result column="CONTENT" property="content" />
+		<result column="P_ORIGIN" property="pOrigin" />
+		<result column="P_SAVED" property="pSaved" />
+		<result column="PATH" property="path" />
 	</resultMap>
 
    <!-- 회원가입 -->
      <insert id="joinMember" parameterType="Member">
+     	<selectKey keyProperty="mNo" order="BEFORE" resultType="Long">
+     		SELECT MEMBER_SEQ.NEXTVAL
+     		  FROM DUAL
+     	</selectKey>
      	INSERT INTO MEMBER 
-     	VALUES ( MEMBER_SEQ.NEXTVAL, #{id}, #{pw}, #{name}, #{email}, #{birthday}, #{phone}, #{gender}, 0)
+     	VALUES ( #{mNo}, #{id}, #{pw}, #{name}, #{email}, #{birthday}, #{phone}, #{gender}, 0)
      </insert>
 
 
@@ -70,6 +83,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 WHERE M_NO = #{mNo}
 	</update>
 	
+	<!-- 회원정보 조회 -->
+	<select id="selectMemberById" parameterType="String" resultType="Map">
+		
+	
+	</select>
 	
 	
 </mapper>

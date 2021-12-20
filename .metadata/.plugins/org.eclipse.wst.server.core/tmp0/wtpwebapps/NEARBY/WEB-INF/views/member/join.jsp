@@ -310,7 +310,9 @@
    	font-size:13px;
    	color:grey;
    }
-
+	#file{
+		display: none;
+	}
 </style>
 </head>
 <body>

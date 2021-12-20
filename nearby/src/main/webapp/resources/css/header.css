@@ -1,0 +1,99 @@
+@charset "UTF-8";
+ *{
+        margin: 0;  padding: 0;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+
+    body{
+        height: 100%;
+        background-color: rgb(240, 242, 245);
+    }
+   .index_header   a{
+      text-decoration: 0;
+      color: black;
+    }
+    .index_header  ul, ol, li {   list-style: none;}
+
+    .header_wrap {
+        border: 1px solid black;
+        display: flex;
+         align-items: flex-start;
+        background-color: white;
+       
+    
+    }
+    .hearder_logo {
+        width: 150px;
+        display: inline-block;
+        margin-left: 20px;
+        margin-right: 80px;
+    }
+    #logo_img {
+    	display:inline-block;
+    	margin-top:20px;
+    	width:130px;
+    }
+   .index_header ul { 
+       margin-left: 50px;
+       display: flex;
+    }
+   .index_header  li {
+        width: 140px;
+        height: 100px; 
+    }
+   .index_header  li a {
+        display: inline-block;
+        width: 150px;
+        height: 100px;
+        text-align: center;
+    }
+   .index_header  li a:hover{
+        color: #fe4662;
+        text-decoration:  #fe4662;
+    }
+  .index_header   li:hover{  border-bottom: 8px solid  #fe4662; }
+  .index_header   li a i {
+        display: inline-block;
+        font-size: 45px;
+        padding-top: 20px;
+        
+    } 
+    
+    .right{    width: 300px;}
+
+    #search_box{
+        display: inline-block;
+        width: 300px; height: 100px;
+    }
+
+    #search{
+        display: inline-block;
+        width: 250px;
+        height: 40px;
+        margin: 25px auto;
+        border: none;
+        border-radius: 10px;
+        background-color: rgb(240, 242, 245);
+        font-size: 20px;
+    }
+
+    #search::placeholder{   padding-left: 20px;  }
+
+    .profile{
+        display: block;
+        width: 100px; height: 100px;
+        margin: 0 30px;
+        background-color: black;
+    }
+
+    .profile a{
+        display: block;
+        width: 80px; height: 80px;
+        margin: 10px auto;
+        background-color: white;
+        background-image: url();
+        background-size: cover;
+        border-radius: 50px;
+        font-size: 0;
+    }

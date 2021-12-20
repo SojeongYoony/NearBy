@@ -4,14 +4,14 @@ public class Member {
 	private Long mNo;
 	private String id, pw, email, birthday, gender, name, phone;
 	private int state;
-	
+	private Profile profile;
+
 	// constructor
 	public Member() {
-
 	}
-	
+
 	public Member(Long mNo, String id, String pw, String email, String birthday, String gender, String name,
-			String phone, int state) {
+			String phone, int state, Profile profile) {
 		super();
 		this.mNo = mNo;
 		this.id = id;
@@ -22,8 +22,10 @@ public class Member {
 		this.name = name;
 		this.phone = phone;
 		this.state = state;
+		this.profile = profile;
 	}
 
+	// getter / setter
 	public Long getmNo() {
 		return mNo;
 	}
@@ -96,11 +98,20 @@ public class Member {
 		this.state = state;
 	}
 
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
+	}
+
 	@Override
 	public String toString() {
 		return "Member [mNo=" + mNo + ", id=" + id + ", pw=" + pw + ", email=" + email + ", birthday=" + birthday
-				+ ", gender=" + gender + ", name=" + name + ", phone=" + phone + ", state=" + state + "]";
+				+ ", gender=" + gender + ", name=" + name + ", phone=" + phone + ", state=" + state + ", profile="
+				+ profile + "]";
 	}
-
+	
 
 }

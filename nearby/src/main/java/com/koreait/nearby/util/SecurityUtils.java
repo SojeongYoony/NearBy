@@ -4,8 +4,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.koreait.nearby.service.MemberServiceImpl;
 
 public class SecurityUtils {
+	
+	// 로그  
+	private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
+	
 	
 	// 크로스 사이트 스크립트(XXS)
 	// 스크립트 코드 입력을 무력화
@@ -58,7 +66,7 @@ public class SecurityUtils {
 				sb.append( (char)((int)(Math.random() * 10) + '0') );
 			}
 		}
-		System.out.println(sb); // 인증번호 확인용
+		logger.info("인증번호 : "+sb.toString()); // 인증번호 확인용
 		return sb.toString();
 	}
 

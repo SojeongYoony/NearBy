@@ -1,6 +1,7 @@
 DROP TABLE PROFILE;
 DROP TABLE FOLLOW;
 DROP TABLE REPLY;
+drop table likes;
 DROP TABLE BOARD;
 DROP TABLE MEMBER;
 
@@ -23,10 +24,12 @@ CREATE TABLE board (
     b_no     NUMBER NOT NULL,
     id       VARCHAR2(32 BYTE) NOT NULL,
     content  VARCHAR2(4000 BYTE),
-    origin   VARCHAR2(100 BYTE),
-    saved    VARCHAR2(100 BYTE),
     ip        varchar2(40 byte),
     location  varchar2(200 byte),
+    origin   VARCHAR2(100 BYTE),
+    saved    VARCHAR2(100 BYTE),
+   
+  
     path     VARCHAR2(200 BYTE),
     likes     NUMBER,
     created  DATE NOT NULL,
@@ -61,15 +64,14 @@ ALTER TABLE member ADD CONSTRAINT member_pk PRIMARY KEY ( m_no );
 ALTER TABLE member ADD CONSTRAINT member__un UNIQUE ( id );
 
 CREATE TABLE profile (
-    p_no     NUMBER NOT NULL,
     id       VARCHAR2(32 BYTE) NOT NULL,
     content  VARCHAR2(1000 BYTE),
     p_origin VARCHAR2(100 BYTE),
     p_saved  VARCHAR2(100 BYTE),
-    path     VARCHAR2(100 BYTE)
+    path     VARCHAR2(200 BYTE)
 );
 
-ALTER TABLE profile ADD CONSTRAINT profile_pk PRIMARY KEY ( p_no );
+ALTER TABLE profile ADD CONSTRAINT profile_pk PRIMARY KEY ( id );
 
 CREATE TABLE reply (
     r_no     NUMBER NOT NULL,
@@ -114,3 +116,35 @@ ALTER TABLE reply
     ADD CONSTRAINT reply_member_fk FOREIGN KEY ( id )
         REFERENCES member ( id )
             ON DELETE CASCADE;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create table likes (
+  like_no   number not null primary key,
+  b_no number,
+  id varchar2(32 byte),
+  like_check number
+);
+
+
+ALTER TABLE likes
+    ADD CONSTRAINT likes_board_fk FOREIGN KEY ( b_no )
+        REFERENCES board ( b_no )
+            ON DELETE CASCADE;
+ALTER TABLE likes
+    ADD CONSTRAINT likes_member_fk FOREIGN KEY ( id )
+        REFERENCES member ( id )
+            ON DELETE CASCADE;            
+        

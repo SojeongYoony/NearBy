@@ -6,8 +6,13 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="NearBy"/>
+		<item key="selection" value="orang"/>
 		<list key="findhistory">
+			<item value="orang"/>
+			<item value="find_pw_btn"/>
+			<item value="btn-primary"/>
+			<item value="verify"/>
+			<item value="fnEmailCheck"/>
 			<item value="Facebook"/>
 		</list>
 		<list key="replacehistory">

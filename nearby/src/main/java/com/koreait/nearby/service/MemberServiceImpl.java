@@ -17,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import com.koreait.nearby.domain.Member;
+import com.koreait.nearby.domain.Profile;
 import com.koreait.nearby.repository.MemberRepository;
+import com.koreait.nearby.repository.ProfileRepository;
 import com.koreait.nearby.util.SecurityUtils;
 
 public class MemberServiceImpl implements MemberService {
@@ -33,8 +35,9 @@ public class MemberServiceImpl implements MemberService {
 	// birthday 파라미터 세개 더해야 돼서 request로 받음.. 
 	@Override
 	public void joinMember(HttpServletRequest request, HttpServletResponse response) {
-		 Member member = new Member();
-		 member.setId(request.getParameter("id"));
+		String id = request.getParameter("id"); 
+		Member member = new Member();
+		 member.setId(id);
 		 member.setPw(SecurityUtils.sha256(request.getParameter("pw")));
 		 member.setName(request.getParameter("name"));
 		 member.setEmail(request.getParameter("email"));
@@ -46,7 +49,20 @@ public class MemberServiceImpl implements MemberService {
 		MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);	
 		int result = memberRepository.joinMember(member);
 		
-		message(result, response, "회원가입성공", "회원가입실패", "/nearby/board/boardList");
+		/* 회원가입과 동시에 프로필 테이블에 DATA삽입. */
+		Profile profile = new Profile(); //DTO
+		// DB에 전달 할 data 담기
+		profile.setId(id);
+		profile.setContent("");
+		profile.setPath("");
+		profile.setpOrigin("");
+		profile.setpSaved("");
+		ProfileRepository profileRepository = sqlSession.getMapper(ProfileRepository.class);
+		int profileResult = profileRepository.insertProfile(profile);
+		System.out.println("profileResult 결과 : " + profileResult );
+				
+		
+		message(result, response, "회원가입성공", "회원가입실패", "/nearby");
 		
 	}
 
@@ -98,7 +114,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 
-	// 로그인
+	// 로그인  
 		@Override
 		public void login(HttpServletRequest request, HttpServletResponse response) {
 			Member member = new Member();
