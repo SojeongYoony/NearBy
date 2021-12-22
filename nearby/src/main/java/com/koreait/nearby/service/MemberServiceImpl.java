@@ -10,6 +10,8 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ibatis.exceptions.PersistenceException;
+import org.mybatis.spring.MyBatisSystemException;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -115,13 +117,14 @@ public class MemberServiceImpl implements MemberService {
 
 
 	// 로그인  
-		@Override
-		public void login(HttpServletRequest request, HttpServletResponse response) {
+	@Override
+	public void login(HttpServletRequest request, HttpServletResponse response) {
 			Member member = new Member();
 			member.setId(request.getParameter("id"));
 			member.setPw(SecurityUtils.sha256(request.getParameter("pw")));
 			MemberRepository repository = sqlSession.getMapper(MemberRepository.class);
 			Member loginUser = repository.login(member);
+			System.out.println("loginUser information : " + loginUser);
 			if (loginUser != null) {
 				request.getSession().setAttribute("loginUser", loginUser);
 				logger.info(loginUser.toString());
@@ -150,6 +153,84 @@ public class MemberServiceImpl implements MemberService {
 			
 		}
 
+	// 회원정보 확인
+	@Override
+	public Map<String, Object> memberInfo(HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			// 세션에 저장된 loginUser정보 받아오기.
+			Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+			if (loginUser == null) throw new NullPointerException("다시 로그인을 진행해주세요.");
+			// DB로 보낼 Bean 생성
+			Member member = new Member();
+			member.setId(loginUser.getId());
+			member.setPw(loginUser.getPw()); // 수정
+			MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
+			Member selectResult = memberRepository.selectMemberById(member);
+			if (selectResult == null ) throw new PersistenceException("일치하는 회원정보가 없습니다.");
+			map.put("member", member);
+			map.put("result", selectResult);
+		} catch(PersistenceException e) {
+			map.put("updateErrorMsg", e.getMessage());
+		} catch(NullPointerException e) {
+			map.put("loginErrorMsg", e.getMessage());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("DB갔다온 Map : " + map.toString());
+		
+		return map;
+	}
+	
+	// 회원정보 수정  // 받아올 파라미터 이름/핸드폰번호/생년월일/성별 
+	@Override
+	public Map<String, Object> modifyMember(Member m, HttpServletRequest request) {
+		// 보낼 map 생성
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			// 세션에 저장된 loginUser정보 받아오기.
+			Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+			// 파라미터 처리
+			Long mNo = m.getmNo();
+			String birthday = m.getBirthday();
+			String name = m.getName();
+			String phone = m.getPhone();
+			String gender = m.getGender();
+			if (birthday.length() != 8) throw new NullPointerException("생일 정보가 없습니다");
+			if (name.isEmpty()) throw new NullPointerException("입력된 이름이 없습니다");
+			if (phone.isEmpty()) throw new NullPointerException("입력된 핸드폰 번호가 없습니다");
+			if (phone.length() != 11 ) throw new NullPointerException("올바른 형식이 아닙니다.");
+			if (gender.isEmpty()) throw new NullPointerException("성별 정보가 없습니다");
+			// DB로 보낼 Bean 생성
+			Member member = new Member();
+			member.setmNo(mNo);
+			member.setId(loginUser.getId());
+			member.setName(name);
+			member.setPw(loginUser.getPw());
+			member.setPhone(phone);
+			member.setBirthday(birthday);
+			member.setGender(gender);
+			MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
+			int updateResult = memberRepository.updateMember(member);
+			if (updateResult < 0 ) throw new PersistenceException("일치하는 회원정보가 없습니다");
+			map.put("member", member);
+			map.put("result", updateResult);
+			// 세션에 올릴 로그인정보 업데이트
+			loginUser = memberRepository.login(member);
+			if (loginUser != null ) {
+				request.getSession().invalidate();
+				request.getSession().setAttribute("loginUser", loginUser);
+			}
+			
+		} catch(NullPointerException e) {
+			map.put("nullErrorMsg", e.getMessage());
+		} catch(PersistenceException e) {
+			map.put("updateErrorMsg", e.getMessage());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
 	
 	
 }

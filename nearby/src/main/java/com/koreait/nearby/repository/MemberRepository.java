@@ -15,17 +15,22 @@ public interface MemberRepository {
 	// 이메일중복 + 아이디 찾기 
 	public Member selectByEmail(String email);
 	
-	// 로그인 
+	// 로그인
 	public Member login(Member member);
+	
+	// 회원정보 받아오기 
+	public Member selectMemberById(Member member);
 	
 	// 비밀번호수정 
 	public int updatePw(Member member);
-	
 	
 	// 정보수정(이름, 생일, 성별, 폰)
 	public int updateMember(Member member);
 	
 	// 회원탈퇴(DB삭제x)
 	public int leaveMember(Long no);
+
 	
+	
+
 }

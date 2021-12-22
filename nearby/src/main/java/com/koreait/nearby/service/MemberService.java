@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.koreait.nearby.domain.Member;
+
 public interface MemberService {
    
 	// 회원가입
@@ -17,14 +19,21 @@ public interface MemberService {
 	// 회원가입시 이메일 중복 체크 + 아이디 찾기
 	public Map<String, Object> selectByEmail(String email);
 	
-	
 	// 회원가입 이메일 인증
 	public Map<String, Object> sendAuthCode(String email);
 
 	// 로그인
 	public void login(HttpServletRequest request, HttpServletResponse response);
-	
    
+	// 회원 조회
+	public Map<String, Object> memberInfo(HttpServletRequest request);	
+	
+	// 회원정보 수정
+	public Map<String, Object> modifyMember(Member member,HttpServletRequest request);
+	
+	
+	
+	
 	// default method
 	 	public default void message(int result, HttpServletResponse response, 
 	 			String success, String fail, String path) {

@@ -23,14 +23,13 @@ public class ProfileController {
 		this.profileservice = profileservice;
 	}
 
-
-
-
 	@PostMapping(value="profilePic", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public Map<String, Object> profilePic(MultipartHttpServletRequest multipartRequest) {
 		Map<String, Object> map = profileservice.updateProfile(multipartRequest);
 		return map;
 	}
+	
+	
 	
 }

@@ -281,23 +281,18 @@
      $('.login_btn').click( function() {
         $('#login_form').addClass('see').removeClass('no');
         $('.main').addClass('blur');
-        
-   
       });
-     
-
    }
+     
+     
     // close_login_btn 눌렀을 때 로그인 창 사라지기 / 배경 흐림효과 삭제
     function fnCloseLoginBtn() {
      $('#close_login_btn').click( function() {
         $('#login_form').addClass('no').removeClass('see');
         $('.main').removeClass('blur');
       });
-     
-
    }
    
-    
     
      // login 서브밋
    function fnLogin() {
@@ -387,7 +382,7 @@
                <div class="input_wrap">
                   <p>비밀번호<p>
                   <div class="input_box">
-                     <input type="password" name="pw" id="pw">
+                     <input type="text" name="pw" id="pw">
                   </div>
                   
                </div>            

@@ -13,4 +13,7 @@ public interface ProfileRepository {
 	// 프로필 수정
 	public int updateProfile(Profile profile);
 	
+	// 프로필 정보
+	public Profile selectProfile(String id);
+	
 }
