@@ -12,17 +12,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	
-	<!-- 프로필 수정 -->
+	<!-- 프로필 사진 수정 -->
 	<update id="updateProfile" parameterType="Profile">
 		UPDATE PROFILE
-		   SET CONTENT = #{content},
-		       P_ORIGIN = #{pOrigin},
+		   SET P_ORIGIN = #{pOrigin},
 		       P_SAVED = #{pSaved},
 		       PATH = #{path}
 		 WHERE ID = #{id}
 	</update>
-
 	
+	<!-- 프로필 컨텐트만 수정 -->
+	<update id="updateContent" parameterType="Profile">
+		UPDATE PROFILE
+		   SET CONTENT = #{content}
+		 WHERE ID = #{id}
+	</update>
+	
+	<!-- 프로필만 가져오기 -->
+	<select id="selectProfile" parameterType="String" resultType="Profile">
+		SELECT P_ORIGIN, P_SAVED, PATH, CONTENT
+		  FROM PROFILE
+		 WHERE ID = #{id}
+	</select>
 
 	
 </mapper>

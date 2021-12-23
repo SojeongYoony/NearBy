@@ -32,16 +32,12 @@ public class ProfileServiceImpl implements ProfileService {
 	// profile 사진 수정
 	@Override
 	public Map<String, Object> updateProfile(MultipartHttpServletRequest multipartRequest) {
-		Profile profile = new Profile();
 		Map<String, Object> map = new HashMap<String, Object>();
-		ProfileRepository profileRepository = sqlSession.getMapper(ProfileRepository.class);
 		try {
 				// 파라미터 처리
 				Member loginUser = (Member)multipartRequest.getSession().getAttribute("loginUser");
 				System.out.println("loginUser info before update : " + loginUser);
 				String id = loginUser.getId();
-				String content = multipartRequest.getParameter("content");
-				
 				
 				// 첨부 파일 저장 결과 변수 선언
 				int insertResult = 0;
@@ -58,12 +54,13 @@ public class ProfileServiceImpl implements ProfileService {
 				
 				// 서버에 파일 저장
 				MultipartFile file = multipartRequest.getFile("file");
+				ProfileRepository profileRepository = sqlSession.getMapper(ProfileRepository.class);
+				Profile profile = new Profile();
 				Profile originProfile = profileRepository.selectProfile(id);
 					if(file == null) {
 						profile.setPath(originProfile.getPath());
 						profile.setpOrigin(originProfile.getpOrigin());
 						profile.setpSaved(originProfile.getpSaved());
-						profile.setContent(content);
 						profile.setId(id);
 					} else if (file != null && file.isEmpty() == false) {
 						String pOrigin = file.getOriginalFilename();
@@ -73,7 +70,6 @@ public class ProfileServiceImpl implements ProfileService {
 						File uploadFile = new File(realPath, pSaved);
 						file.transferTo(uploadFile);
 					
-						profile.setContent(content);
 						profile.setpOrigin(pOrigin);
 						profile.setpSaved(pSaved);
 						profile.setPath(path);
@@ -101,8 +97,7 @@ public class ProfileServiceImpl implements ProfileService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		return map; // 2021-12-21 session loginUser 정보 업데이트로 변경
+		return map; 
 	}
 }
 

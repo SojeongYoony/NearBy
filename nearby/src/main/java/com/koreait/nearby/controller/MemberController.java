@@ -89,8 +89,10 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping(value="modifyMember", produces ="application/json; charset=UTF-8")
 	public Map<String, Object> modifyMember(@RequestBody Member member, HttpServletRequest request) {
+		System.out.println(member);
 		return service.modifyMember(member, request);
 	}
+	
 	
 	
 	// 회원정보 select  /nearby/member/memberInfo'

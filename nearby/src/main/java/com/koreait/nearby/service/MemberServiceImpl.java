@@ -196,11 +196,22 @@ public class MemberServiceImpl implements MemberService {
 			String name = m.getName();
 			String phone = m.getPhone();
 			String gender = m.getGender();
+			String content = m.getProfile().getContent();
+			System.out.println("parameter로 받아온 content Info : " + content);
 			if (birthday.length() != 8) throw new NullPointerException("생일 정보가 없습니다");
 			if (name.isEmpty()) throw new NullPointerException("입력된 이름이 없습니다");
 			if (phone.isEmpty()) throw new NullPointerException("입력된 핸드폰 번호가 없습니다");
 			if (phone.length() != 11 ) throw new NullPointerException("올바른 형식이 아닙니다.");
-			if (gender.isEmpty()) throw new NullPointerException("성별 정보가 없습니다");
+			
+			// Profile DB로 보낼 Bean 
+			Profile profile = new Profile();
+			profile.setContent(content);
+			profile.setId(loginUser.getId());
+			ProfileRepository profileRepository = sqlSession.getMapper(ProfileRepository.class);
+			profileRepository.updateContent(profile);
+			map.put("profile", profile);
+			System.out.println("DB 다녀온 profile Info : " + profile);
+
 			// DB로 보낼 Bean 생성
 			Member member = new Member();
 			member.setmNo(mNo);
@@ -221,14 +232,16 @@ public class MemberServiceImpl implements MemberService {
 				request.getSession().invalidate();
 				request.getSession().setAttribute("loginUser", loginUser);
 			}
-			
 		} catch(NullPointerException e) {
 			map.put("nullErrorMsg", e.getMessage());
+		} catch(NumberFormatException e) {
+			map.put("formatErrorMsg", e.getMessage());
 		} catch(PersistenceException e) {
 			map.put("updateErrorMsg", e.getMessage());
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("return 직전 map : " + map);
 		return map;
 	}
 	

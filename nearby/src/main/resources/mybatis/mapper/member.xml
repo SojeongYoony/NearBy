@@ -84,6 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		      , phone = #{phone}
 		 WHERE M_NO = #{mNo} AND Id = #{id}
 	</update>
+
 	
 	<!-- 회원탈퇴 -->
 	<update id="leaveMember" parameterType="Long">

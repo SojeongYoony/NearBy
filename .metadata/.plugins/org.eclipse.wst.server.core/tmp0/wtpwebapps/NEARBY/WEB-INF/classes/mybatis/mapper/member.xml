@@ -59,6 +59,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	     WHERE M.ID(+) = P.ID
 	       AND M.ID = #{id} AND M.PW = #{pw} AND M.STATE = 0
 	 </select>
+	 
+	<!-- 회원정보 조회용 -->
+	<select id="selectMemberById" parameterType="Member" resultMap="MemberMap">
+		SELECT M.M_NO, M.ID, M.NAME, M.EMAIL, M.BIRTHDAY, M.PHONE, M.GENDER, M.STATE, P.CONTENT, P.P_ORIGIN, P.P_SAVED, P.PATH
+		  FROM MEMBER M, PROFILE P
+	     WHERE M.ID(+) = P.ID
+	       AND M.ID = #{id} AND M.STATE = 0
+	 </select>
 	
 	<!-- 비밀번호 수정  -->
 	<update id="updatePw" parameterType="Member">
@@ -76,6 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		      , phone = #{phone}
 		 WHERE M_NO = #{mNo} AND Id = #{id}
 	</update>
+
 	
 	<!-- 회원탈퇴 -->
 	<update id="leaveMember" parameterType="Long">
