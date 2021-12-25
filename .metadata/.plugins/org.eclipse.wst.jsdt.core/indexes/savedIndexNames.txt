@@ -1,9 +1,7 @@
 INDEX VERSION 1.4+D:\SmartWeb0809\springstudy\nearby\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-3109563606.index
 1076945353.index
 1297667889.index
 1037614170.index
 3827210092.index
 509357207.index
-3109563606.index
 2128416045.index

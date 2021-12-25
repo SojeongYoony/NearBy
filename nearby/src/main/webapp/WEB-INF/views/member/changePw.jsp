@@ -6,27 +6,19 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <style>
-	*{
-	    margin: 0; padding: 0;
-	    box-sizing: border-box;
-	    font-size: 14px;
-	    font-weight: 600;
-	}
+
+
+	/* 초기화 */
+	*{ margin: 0; padding: 0; box-sizing: border-box; font-size: 14px; font-weight: 600; }
 	
-	html{
-	    background-color: rgb(240, 242, 245);
-	}
+	html{ background-color: rgb(240, 242, 245); }
 	
-	a{
-	    text-decoration: 0;
-	    color: black;
-	}
-	
-	ul, ol{
-	    list-style-type: none;
-	}
+	a{ text-decoration: 0; color: black; }
+	ul, ol{ list-style-type: none; }
 	
 	label{
 	    display: block;
@@ -36,7 +28,7 @@
 	}
 	
 	input{
-	    background-color: aliceblue;
+		background-color: aliceblue;
 	    border: 2px solid rgb(0, 0, 0, 0);
 	}
 	
@@ -68,18 +60,16 @@
 	    background-repeat: no-repeat;
 	}
 	
-	.join_form{
+	.pw_change_box{
 	    width: 600px;
 	    margin: 0 auto;
 	}
 	
-	/* 
-	    아이디, 비밀번호, 비밀번호 재확인, 이름
-	*/
+	/* 비밀번호 : 현재 비밀번호 / 새 비밀번호 / 새 비밀번호 확인 */
 	.input_box{
 	    width: 450px;
-	    margin: 35px auto;
-	
+	    height: 80px;
+	    margin: 35px auto 20px; 	
 	}
 	
 	.input_box input{
@@ -110,66 +100,10 @@
 	    background-color: #ff3268;
 	}
 	
-	/* 번호 */
-	.tel_box{
-	    width: 450px; height: 100%;
-	    margin: 35px auto;
-	
-	}
-	
-	.tel_box > span > input{
-	    width: 450px; height: 45px;
-	    border-radius: 10px;
-	}
-	
-	/* 생년월일 */
-	.birth_box{
-	    width: 450px;
-	    margin: 35px auto;
-	}
-	
-	.birth_box > select, option{
-	    width: 135px; height: 45px;
-	    text-align: center;
-	    margin: 0 5px 0 5px;
-	    font-size: 18px;
-	}
-	
-	/* 성별 */
-	.gender_box{
-	    width: 450px;
-	    margin: 35px auto;
-	}
-	
-	.gender_box > p{
-	    font-size: 18px;
-	    padding-bottom: 5px;
-	}
-	
-	.gender_box > label{
-	    display: inline-block;
-	    padding-bottom: 5px;
-	    margin: 0 40px 0 40px;
-	}
 	
 	/* input tag 공백 */
 	.space input[type=text] {
 		padding-left:15px;
-	}
-	
-	/* 회원가입 버튼 */
-	.join_btn_wrap{
-	    width: 450px;
-	    margin: 35px auto;
-	}
-	
-	.join_btn_wrap input, button{
-		color:white;
-	    width: 220px; height: 50px;
-	    background: linear-gradient(#ff6e56,#ff3268);
-	    border-radius: 10px;
-	    margin-bottom: 40px;
-		border: none; 
 	}
 	
 	/* 정규식 메세지 */
@@ -182,10 +116,31 @@
 	    color:grey;
 	}
 	
-	.btns:hover {
+	
+	/* btn */
+	.btn_wrap{
+	    width: 450px;
+	    margin: 35px auto;
+	}
+	.btn_wrap input{
+		color:white;
+	    width: 220px; height: 50px;
+	    background: linear-gradient(#ff6e56,#ff3268);
+	    border-radius: 10px;
+	    margin-bottom: 40px;
+		border: none; 
+	}
+	
+	/* 포인터 */
+	.pointer:hover {
 		cursor: pointer;
 	}
-
+	
+	/* 안내메세지 박스 */
+	.msg_box {
+		padding: 5px;
+	} 
+	
 </style>
 
 <script type="text/javascript">
@@ -194,31 +149,26 @@
 
 	$(document).ready(function(){
 		fnCheckSubmit();             // 모든 함수 확인 후 서브밋넘기기
-		fnbirth();                     // 생년월일 삽입
-		fnIdCheck();				 
+		fnCurrentPwCheck();
+		fnNewPwCheck(); // 새 비밀번호 정규식
 		fnPwCheck();				   
 		fnPwDoubleCheck();
-		fnNameCheck();
-		fnPhoneCheck();
-		fnResetBtn();
+		fnHomeBtn(); // 홈으로 가기
 	}); 
 	
 	// 서브밋
 	 function fnCheckSubmit(){
-	    $('#join_form').on('submit',function(event){
-	      if( confirm('가입하시겠습니까?') == false){
+	    $('#pw_change_form').on('submit', function(event){
+	      if( confirm('변경하시겠습니까?') == false){
 				event.preventDefault(); 
 	          return false;
-			} else if (  id_result == false ) {
-	            event.preventDefault();  
-	            return false;    
 			} else if ( pw_result == false ) {
                 event.preventDefault(); 
                 return false;  
-            } else if ( pw_double_result == false ) {
+            } else if ( new_pw_result == false ) {
                 event.preventDefault();  
                 return false;  
-            } else if ( name_result == false ) {
+            } else if ( pw_double_result == false ) {
                 event.preventDefault();  
                 return false;  
             } else if ( email_result == false ) {
@@ -237,30 +187,6 @@
 	    } //   function fnCheckSubmit()
 	    
 	
-	// 생년월일 삽입
-	function fnbirth(){
-		let year = '';
-		year +=  '<option value="year">년도</option>';
-		for(let i=2007; i>=1907; i--){
-		    year += '<option value="'+i+'">'+i+'</option>';
-		}
-		 $('#birthday').html(year);
-		
-		let month = '';
-		month +=  '<option value="month">월</option>';
-		for(let i=1; i<=12; i++){
-		    month += '<option value="'+i+'">'+i+'</option>';
-		}
-		 $('#month').html(month);
-		 
-		 let day ='';
-		 day += '<option value="day">일</option>';
-		 for(let i=1; i<=31; i++){
-		     day += '<option value="'+i+'">'+i+'</option>';
-		 }
-		  $('#day').html(day);	 
-	}
- 
     // 아이디
 	let regId = /^[a-zA-Z0-9_-]{4,}$/;
     // 비밀번호
@@ -271,52 +197,13 @@
 	let regEmail = /^[0-9a-zA-Z-_]+@[a-zA-Z0-9]+([.][a-zA-Z]{2,}){1,2}/;
     // 핸드폰 번호
 	let regPhone = /^((01[1|6|7|8|9])[1-9]+[0-9]{6,7})|(010[1-9][0-9]{7})$/;
-	let id_result = false;
 	let pw_result = false;
+	let new_pw_result = false;
 	let pw_double_result = false;
-	let name_result = false;
-	let email_result = false;
 	let authCodePass = false;
-	let phone_result = false; 
-   
       
-      function fnIdCheck(){   
-            
-            $("#id").on('keyup blur',function(){
-            	if ( regId.test($(this).val()) == false ) {
-    				$('#id_check').text("아이디는 소문자/숫자 4자 이상 사용 가능합니다.").addClass('error_msg').removeClass('pass_msg');
-    				id_result = false;
-    				return;
-    			  }
-				$.ajax({
-					url : '/nearby/member/idCheck',
-					type : 'post',
-					data : 'id=' + $('#id').val(),
-					dataType: 'json',               // 받아올 데이터 타입
-					success : function(resData){
-						 if( resData.result == null){
-							 $('#id_check').text('사용 가능한 아이디').addClass("pass_msg").removeClass('error_msg');
-							 id_result = true;
-						 } else if($('#id').val() == '' ){
-							 $('#id_check').text('입력 필수입니다.').addClass('error_msg').removeClass('pass_msg');;
-			                    id_result = false;
-			             } else if(resData.result != null) {
-							 $('#id_check').text('이미 사용중인 아이디').addClass('error_msg').removeClass('pass_msg');;
-							 id_result = false;
-						 }
-					},
-					error : function(xhr, ajaxOptions, thrownError) {
-				       alert(xhr.responseText);
-				//		console.log(xhr.status);
-				  //      console.log(thrownError);
-					}
-					
-				}) // ajax
-				 console.log("id: "+id_result);
-				  return id_result;	 
-			}); // id
-    } // fnId
-        
+
+/* -------------------------------------------------------------- fnPwCheck() ------------------------------------------------ */
       // 비밀번호 정규식 
       function fnPwCheck(){
          
@@ -328,7 +215,7 @@
                 $("#pw_check").text('입력은 필수입니다.').addClass('error_msg').removeClass('pass_msg');
                 pw_result = false;
             }    else {
-                $("#pw_check").text("비밀번호는 8~20자의 영문 대/소문자, 숫자, 특수문자 등 3종류 이상으로 조합해주세요.").addClass('error_msg').removeClass('pass_msg');
+                $("#pw_check").text("비밀번호는 8~20자의 영문 대/소문자, 숫자, 특수문자 등 3종류 이상입니다.").addClass('error_msg').removeClass('pass_msg');
                 pw_result = false;
             }
          console.log("pw: "+pw_result);
@@ -336,7 +223,28 @@
          }); 
       
       } // fnPwCheck
+/* -------------------------------------------------------------- fnNewPwCheck() ------------------------------------------------ */
+      // 새 비밀번호 정규식 
+      function fnNewPwCheck(){
+         
+         $('#newPw').on('blur keyup', function(){
+            if( regPwd.test( $("#newPw").val())){    
+                $("#new_pw_check").text("사용가능한 비밀번호입니다.").addClass("pass_msg").removeClass('error_msg');
+                new_pw_result = true;
+            } else if (    $('#newPw').val() == '' ){
+                $("#new_pw_check").text('입력은 필수입니다.').addClass('error_msg').removeClass('pass_msg');
+                new_pw_result = false;
+            }    else {
+                $("#new_pw_check").text("비밀번호는 8~20자의 영문 대/소문자, 숫자, 특수문자 등 3종류 이상으로 조합해주세요.").addClass('error_msg').removeClass('pass_msg');
+                new_pw_result = false;
+            }
+         console.log("newPw: "+pw_result);
+            return new_pw_result;
+         }); 
       
+      } // fnPwCheck
+      
+/* -------------------------------------------------------------- fnPwDoubleCheck() ------------------------------------------------ */
    // 비밀번호 재확인 일치 
          function fnPwDoubleCheck(){
           
@@ -352,63 +260,8 @@
           return pw_double_result;
             });
       }
-          
-      // 이름 정규식
-        function fnNameCheck() {  
-           $('#name').on('blur', function(){
-               if( regName.test( $(this).val())){    
-                 $('#name_check').text('');
-                 $('#name_check').removeClass('error_msg');
-                 name_result = true;
-               } else if ( $('#name').val() == '' ){
-                   $('#name_check').text('이름은 필수입니다.').addClass('error_msg').removeClass('pass_msg');
-                   name_result = false;
-               }  else if( regName.test( $(this).val()) == false){    
-                   $('#name_check').text('잘못된 이름 형식입니다.').addClass('error_msg').removeClass('pass_msg'); 
-                   name_result = false;
-               }
-           console.log(name_result);
-               return name_result;
-           });
-         
-          } // fnName
-          
-    /*     // 이메일    
-      function  fnEmailCheck(){
-         $('#email').on('blur', function(){
-                  if( regEmail.test( $('#email').val())){    
-                    
-                      $.ajax({
-      					url : '/nearby/member/selectByEmail',
-      					type : 'post',
-      					data : 'email=' + $('#email').val(),
-      					dataType: 'json',               // 받아올 데이터 타입
-      					success : function(resData){
-      					 if(resData.result == null) {
-      						  $('#email_check').text('사용 가능한 이메일입니다.').addClass('pass_msg').removeClass('error_msg');
-                        	   email_result = true;
-                        	   fnSendAuthCode();
-                        	   return;
-      					 } else if(resData.result != null) {
-      			            	 $('#email_check').text('이미 사용중인 이메일입니다.').addClass('error_msg').removeClass('pass_msg');
-      							 email_result = false;
-      						 }
-      					},
-      					error : function(xhr, ajaxOptions, thrownError) {
-      				       alert(xhr.responseText);
-      					}
-      				}) // ajax
-                   
-                   } else if( $('#email').val() ==''  ) {
-                	   $('#email_check').text('이메일은 필수입니다.').addClass('error_msg').removeClass('pass_msg');
-                   } else{
-                       $('#email_check').text('잘못된 이메일 형식입니다.').addClass('error_msg').removeClass('pass_msg');
-                       email_result = false;
-                  }
-                  return email_result;
-           });
-         } // fnEmail
-         
+
+/* -------------------------------------------------------------- fnSendAuthCode() ------------------------------------------------ */
          function fnSendAuthCode(){
          	
          	$('#authCode_btn').click(function(){
@@ -420,7 +273,6 @@
          			success : function(map) {
          				alert('인증코드가 발송되었습니다.');
          				fnVerifyAuthcode(map.authCode); // 12/13추가
-         			//	alert(map.authCode);   ==> SecurityUtils에 authCode 확인용 sysout 추가
          			},
          			error: function() {
      					alert('인증코드 전송 실패');
@@ -428,7 +280,7 @@
          		});	 // ajax
          	});
          	return;
-         } */
+         } 
 /* ******************* 12/14 수정 ************* fnVerifyAuthcode() ********************* */
       	// 인증코드 검증 변수와 함수
       	function fnVerifyAuthcode(authCode){
@@ -448,43 +300,71 @@
       	}         
  /* ************************************************************************************ */
          
-     
-          // 핸드폰
-      function	fnPhoneCheck() {
-           $('#phone').on('blur', function(){
-               if( regPhone.test( $('#phone').val())){    
-                   $('#phone_check').text('');
-                   $('#phone_check').removeClass('error_msg');
-                   phone_result = true;
-               } else if ($('#phone').val() == '' ){
-                   $('#phone_check').text('핸드폰번호는 필수입니다.');
-                   $('#phone_check').addClass('error_msg');
-                   phone_result = false;
-               } else {
-                   $('#phone_check').text('잘못된 형식입니다.');
-                   $('#phone_check').addClass('error_msg');
-                   phone_result = false;
-               }
-               return phone_result;
-           });
-    }  // fnPhone
-    
-  
-    
-  // reset_btn 클릭시 msg 없애기
-  function fnResetBtn(){
-    $('#reset_btn').on('click',function(){
-    	$('#id_check').text('');
-    	$('#pw_check').text('');
-    	$('#pw_double_check').text('');
-    	$('#name_check').text('');
-    	$('#email_check').text('');
-    	$('#authCode').text('');
-    	$('#phone_check').text('');
-    })
-   }
 </script>
 
+<script>
+// 비밀번호 찾기 process 
+// 가입당시 비밀번호는 ajax 처리하여 pass true - false 매김 -- DB 에서 비밀번호 일치하는지 확인 필요.
+// 변경할 비밀번호와 비밀번호 재확인을 통해 비밀번호를 확인하고 -- pass true / false
+// 이후 통과되면 가입당시 입력한 이메일을 작성 -> 인증번호받고 인증하기 -- pass true / false
+// 다 끝난 뒤에 수정완료 버튼을 누르면 page이동 : 페이지는 내 정보 변경 mypage
+// 보낼 파라미터 새로운 pw / email
+
+
+/* ------------------------------------------------------------- fnCurrentPwCheck() ------------------------------------------------- */	
+	// 현재 비밀번호 확인 함수
+	function fnCurrentPwCheck() {  // checkPassword
+	    $('#pw').on('keyup blur',function(){ // TODO ajax로 select 결과 받아서 처리하기해야함.
+	    	if ( regPwd.test($(this).val()) == false ) {
+				$('#id_check').text("아이디는 소문자/숫자 4자 이상 사용 가능합니다.").addClass('error_msg').removeClass('pass_msg');
+				id_result = false;
+				return;
+			  }
+			$.ajax({
+				url : '/nearby/member/idCheck',
+				type : 'post',
+				data : 'id=' + $('#id').val(),
+				dataType: 'json',               // 받아올 데이터 타입
+				success : function(resData){
+					 if( resData.result == null){
+						 $('#id_check').text('사용 가능한 아이디').addClass("pass_msg").removeClass('error_msg');
+						 id_result = true;
+					 } else if($('#id').val() == '' ){
+						 $('#id_check').text('입력 필수입니다.').addClass('error_msg').removeClass('pass_msg');;
+		                    id_result = false;
+		             } else if(resData.result != null) {
+						 $('#id_check').text('이미 사용중인 아이디').addClass('error_msg').removeClass('pass_msg');;
+						 id_result = false;
+					 }
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+			       alert(xhr.responseText);
+			//		console.log(xhr.status);
+			  //      console.log(thrownError);
+				}
+				
+			}) // ajax
+			 console.log("id: "+id_result);
+			  return id_result;	 
+		}); // id
+	} // End fnCurrentPwCheck
+
+
+
+</script>	
+
+
+<script>
+/* ---------------------------------------	fnHomeBtn()	------------------------------------------- */
+// 홈으로 가기
+function fnHomeBtn() {
+	$('#home_btn').on('click', function(){
+		if(confirm('홈으로 이동하시겠습니까?')) {
+			location.href='/nearby/board/updateProfilePicture';
+		}
+	}) // End home_btn click event
+} // End fnHomeBtn
+</script>
 </head>
 <body>
 
@@ -496,43 +376,34 @@
             <h1 class="title"><a href="#">NearBy</a></h1>
         </div>
  
-        <div class="join_form">
+        <div class="pw_change_box">
     
-            <form action="/nearby/member/insertMember" method="post" id="join_form">
-                <!-- 아이디 -->
-                <div class="input_box">
-                    <label for="id">아이디</label>
-                    <span class="space">
-                 	   <input type="text" id="id" name="id">
-                    </span>
-                    <span id="id_check"></span>
-                </div>
+            <form action="/nearby/member/changePassword" method="post" id="pw_change_form">
 
                 <!-- 비밀번호 -->
                 <div class="input_box">
-                    <label for="pw">비밀번호</label>
+                    <label for="pw">현재 비밀번호</label>
                     <span class="space">
                   	  <input type="text" id="pw" name="pw">
                     </span>
-                    <span id="pw_check"></span>
+                    <p id="pw_check" class="msg_box"></p>
+                </div>
+                
+                <div class="input_box">
+                    <label for="newPw">새 비밀번호</label>
+                    <span class="space">
+                  	  <input type="text" id="newPw" name="newPw">
+                    </span>
+                    <p id="new_pw_check" class="msg_box"></p>
                 </div>
 
                 <!-- 비밀번호 확인 -->
                 <div class="input_box">
-                    <label for="pw">비밀번호 재확인</label>
+                    <label for="pw">새 비밀번호 확인</label>
                     <span class="space">
 	                    <input type="text" id="pwCheck" >
                     </span>
-                    <span id="pw_doubleCheck"></span>
-                </div>
-                
-                <!-- 이름 -->
-                <div class="input_box">
-                    <label for="name">이름</label>
-                    <span class="space">
-	                    <input type="text" id="name" name="name">
-                    </span>
-                    <span id="name_check"></span>
+                    <p id="pw_doubleCheck" class="msg_box"></p>
                 </div>
 
                 <!-- 이메일 -->
@@ -557,54 +428,12 @@
                     <input type="button" value="인증하기" id="verify_btn" class="btns">
                 </div>
 
-                <!-- 번호 -->
-                <div class="tel_box">
-                    <label for="phone">번호</label>
-                    <span class="space">
-	                    <input type="text" id="phone" name="phone" placeholder=" - 표시 없이 입력해주세요">
-                    </span>
-                    <span id="phone_check"></span>
-                </div>
-
-                <!-- 생년월일 -->
-                <div class="birth_box">
-                    
-                    <!-- 년도 -->
-                    <label for="birthday">생년월일</label>
-                    <select id="birthday" name="year"></select>
-
-                    <!-- 월 -->
-                    <select id="month" name="month">
-                        <option value="월">월</option>
-                    </select>
-
-                    <!-- 일 -->
-                    <select id="day" name="day">
-                        <option value="일"></option>
-                    </select>
-                </div>
-
-                <!-- 성별 -->
-                <div class="gender_box">
-                    <p id="gender_box">성별</p>
-                    <!-- 여성 -->
-                    <input type="radio" name="gender" value="f" id="female" checked>
-                    <label id="f" for="female">여성</label>
-
-                    <!-- 남성 -->
-                    <input type="radio" name="gender" value="m" id="male">
-                    <label id="m"  for="male">남성</label>
-
-                    <!-- 선택 안 함 -->
-                    <input type="radio" name="gender" value="n" id="n">
-                    <label id="n"  for="n">선택안함</label>
-                </div>
-
-                <div class="join_btn_wrap" id="join_btn_wrap">
-                    <button class="btn btn-primary btns">회원가입</button>                 
-                    <input type="reset" value="다시작성" id="reset" class="reset btns">                
-                </div>                
+               <div class="btn_wrap">
+                   <input type="button" id="modify_btn" class="btn btn-primary pointer" value="수정완료">                
+                   <input type="button" value="홈으로" id="home_btn" class="pointer">                
+               </div>                    
             </form>
+            
         </div>
    
     </div>

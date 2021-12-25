@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	
-	<!-- 프로필 사진 수정 -->
+	<!-- 프로필 사진 수정 + 삭제 -->
 	<update id="updateProfile" parameterType="Profile">
 		UPDATE PROFILE
 		   SET P_ORIGIN = #{pOrigin},

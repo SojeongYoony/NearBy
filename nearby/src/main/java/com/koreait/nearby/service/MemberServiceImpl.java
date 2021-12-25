@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.exceptions.PersistenceException;
-import org.mybatis.spring.MyBatisSystemException;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +61,6 @@ public class MemberServiceImpl implements MemberService {
 		ProfileRepository profileRepository = sqlSession.getMapper(ProfileRepository.class);
 		int profileResult = profileRepository.insertProfile(profile);
 		System.out.println("profileResult 결과 : " + profileResult );
-				
 		
 		message(result, response, "회원가입성공", "회원가입실패", "/nearby");
 		
@@ -85,7 +83,6 @@ public class MemberServiceImpl implements MemberService {
 		map.put("result", memberRepository.selectByEmail(email));
 		return map;
 	}
-	
 	
 	// 이메일 인증
 	@Override
@@ -114,7 +111,6 @@ public class MemberServiceImpl implements MemberService {
 		return map;
 		
 	}
-
 
 	// 로그인  
 	@Override
@@ -197,7 +193,6 @@ public class MemberServiceImpl implements MemberService {
 			String phone = m.getPhone();
 			String gender = m.getGender();
 			String content = m.getProfile().getContent();
-			System.out.println("parameter로 받아온 content Info : " + content);
 			if (birthday.length() != 8) throw new NullPointerException("생일 정보가 없습니다");
 			if (name.isEmpty()) throw new NullPointerException("입력된 이름이 없습니다");
 			if (phone.isEmpty()) throw new NullPointerException("입력된 핸드폰 번호가 없습니다");
@@ -210,7 +205,6 @@ public class MemberServiceImpl implements MemberService {
 			ProfileRepository profileRepository = sqlSession.getMapper(ProfileRepository.class);
 			profileRepository.updateContent(profile);
 			map.put("profile", profile);
-			System.out.println("DB 다녀온 profile Info : " + profile);
 
 			// DB로 보낼 Bean 생성
 			Member member = new Member();
@@ -241,9 +235,40 @@ public class MemberServiceImpl implements MemberService {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("return 직전 map : " + map);
 		return map;
 	}
 	
+	// 회원 탈퇴 // 받아올 파라미터 mNo
+	public void leaveMember(Long mNo) {
+		// 파라미터 받기
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
+		int result = memberRepository.leaveMember(mNo);
+		map.put("result", result);
+	}
+	
+	@Override
+	public Map<String, Object> checkPassword(HttpServletRequest request) {
+		// 가입당시 비밀번호는 ajax 처리하여 pass true - false 매김 -- DB 에서 비밀번호 일치하는지 확인 필요.
+		Map<String, Object> map = new HashMap<String, Object>();	
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+		MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
+		int selectResult = memberRepository.selectPwById(loginUser.getId());
+		map.put("selectResult", selectResult);
+		return map;
+	}
+	
+	
+	// 회원비밀번호 변경
+	@Override
+	public void changePassword(HttpServletRequest request, Member member) {
+		// 비밀번호 찾기 process 
+		// 변경할 비밀번호와 비밀번호 재확인을 통해 비밀번호를 확인하고 -- pass true / false
+		// 이후 통과되면 가입당시 입력한 이메일을 작성 -> 인증번호받고 인증하기 -- pass true / false
+		// 다 끝난 뒤에 수정완료 버튼을 누르면 page이동 : 페이지는 내 정보 변경 mypage
+		// 보낼 파라미터 새로운 pw / email
+		
+		return;
+	}
 	
 }

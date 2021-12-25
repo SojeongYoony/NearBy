@@ -57,22 +57,28 @@
 	// 생년월일 삽입
 	function fnbirth(){
 		let year = '';
-		year +=  '<option value="year">년도</option>';
+		year +=  '<option>년도</option>';
 		for(let i=2007; i>=1907; i--){
 		    year += '<option value="'+i+'">'+i+'</option>';
 		}
 		 $('#birthday').html(year);
 		
 		let month = '';
-		month +=  '<option value="month">월</option>';
-		for(let i=1; i<=12; i++){
+		month +=  '<option>월</option>';
+		for(let i=1; i<=9; i++){
+		    month += '<option value="'+'0'+i+'">'+'0'+i+'</option>';
+		}
+		for(let i=10; i<=12; i++){
 		    month += '<option value="'+i+'">'+i+'</option>';
 		}
 		 $('#month').html(month);
 		 
 		 let day ='';
-		 day += '<option value="day">일</option>';
-		 for(let i=1; i<=31; i++){
+		 day += '<option>일</option>';
+		 for(let i=1; i<=9; i++){
+		     day += '<option value="'+'0'+i+'">'+'0'+i+'</option>';
+		 }
+		 for(let i=10; i<=31; i++){
 		     day += '<option value="'+i+'">'+i+'</option>';
 		 }
 		  $('#day').html(day);	 

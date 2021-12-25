@@ -31,6 +31,15 @@ public interface MemberService {
 	// 회원정보 수정
 	public Map<String, Object> modifyMember(Member member,HttpServletRequest request);
 	
+	// 회원 탈퇴
+	public void leaveMember(Long mNo);
+	
+	// 비밀번호 확인
+	public Map<String, Object> checkPassword(HttpServletRequest request);
+	
+	// 비밀번호 변경
+	public void changePassword(HttpServletRequest request, Member member);
+	
 	
 	
 	

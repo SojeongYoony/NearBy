@@ -63,7 +63,15 @@
 	}
 	/* 탈퇴버튼 */
 	#leave_btn {
-		
+		float: right;
+		margin: 20px 20px 0 0;
+		background-color: white;
+		font-weight: 400;
+		color: lightgray;
+		font-size: 10px;
+	}
+	#leave_btn:hover {
+		text-decoration: underline;
 	}
 	/* profile area */
 	#user_img:hover{
@@ -79,6 +87,10 @@
 		width: 100%;
 		height: 100%;
 		border-radius: 100%;
+	}
+	.defaultImg{
+		background-image: url(../image/profile_default.png);
+		background-size: 100px 100px;
 	}
 	
 	.content_box {
@@ -121,7 +133,7 @@
 		z-index: 3;
 	}
 	#file {
-		margin:32px;
+		margin:32px auto 20px;
 		width: 200px;
 		background-color: white;
 		border-radius: 10px;
@@ -144,7 +156,7 @@
 	}
 		/* profile area / file box / btns */
 	.delete_update_form{
-		width: 134px;
+		width: 148px;
 		border-radius: 10px;
 		border : 1px solid rgba(50,50,50,0.3);
 		margin: 0 auto;
@@ -180,7 +192,6 @@
 	.input_box{
 	    width: 450px;
 	    margin: 35px auto;
-	
 	}
 	
 	.input_box input{
@@ -240,10 +251,10 @@
 	    width: 450px;
 	    margin: 35px auto;
 	}
-	#find_pw_btn {
+	#change_pw_btn {
 		background-color: pink;
 	}
-	#find_pw_btn:hover {
+	#change_pw_btn:hover {
 		background-color: #ff6e56;
 	}
 	
@@ -273,7 +284,10 @@
 		fnFileCheck();
 		fnHomeBtn();
 		fnProfilePic(); // 프로필 사진 등록
+		fnDeleteProfilePic(); // 프로필 사진 초기화
 		fnModifyMemberInfo();
+		fnLeave();	// 회원탈퇴
+		fnChangeBtn(); // 비밀번호 변경페이지 이동
 	}); 
  
     // 아이디
@@ -306,6 +320,7 @@
 					})
 				} else if (map.member != null) { 
 				let birthday = map.result.birthday;
+				console.log(birthday);
 				let year = birthday.substring(0,4);
 				let month = birthday.substring(4,6);
 				let day = birthday.substring(6,8);
@@ -313,12 +328,15 @@
 					$('#mNo').val(map.result.mNo); 
 					$('#phone').val(map.result.phone);
 					$('#content').val(map.result.profile.content);
-					console.log(map.result.profile.content);
 					$('#name').val(map.result.name);
 					$('#birthday').val(year);
 					$('#month').val(month);
 					$('#day').val(day);
-					$('#user_img').attr('src', '/nearby/' + map.result.profile.path + '/' + map.result.profile.pSaved);
+					if (map.result.profile.pOrigin != null) {
+						$('#user_img').attr('src', '/nearby/' + map.result.profile.path + '/' + map.result.profile.pSaved);
+					} else {
+						$('#user_img').attr('src', '${pageContext.request.contextPath}/resources/image/profile_default.png');
+					}
 					$('input:radio[name="gender"][value="'+map.result.gender+'"]').prop('checked', true); // prop는 객체에 저장 된 값이므로 true or false가 된다
 				} else {
 					Swal.fire({
@@ -371,14 +389,6 @@
 	// 프로필 사진 변경
 	function fnProfilePic(){
 		$('#insert_btn').on('click', function(){
-
-/* 			if($('#file').val() == '') {
-				Swal.fire({
-					icon: 'warning',
-					title: '등록된 사진이 없습니다'
-				});
-				return;
-			} // End if */
 			
 			let formData = new FormData();
 				let file = $('#file')[0].files[0];
@@ -405,6 +415,13 @@
 						$('.file_box').removeClass('show');
 	/* 					fnShowAttachedFile(map); */
 						fnFindMemberInfo();
+					} else if (map.nullMsg != null) {
+						console.log(map.nullMsg);
+						Swal.fire({
+							icon: 'error',
+							title: '사진의 변경사항 없음',
+							text: name + '님의 프로필 사진등록을 실패했습니다.',
+						})
 					} else {
 						Swal.fire({
 							icon: 'error',
@@ -418,6 +435,38 @@
 		}) // End insert_btn click event
 	} // fnProfilePic
 
+/* ------------------------------------------------------------ fnProfilePic() ------------------------------------------------------------ */
+	// 사진 삭제
+	function fnDeleteProfilePic(){
+		$('#delete_btn').on('click', function(){
+
+			$.ajax({
+			url: '/nearby/profile/profilePicDelete',
+			type: 'post',
+			dataType: 'json',
+			success: function(map){
+				let name = '${loginUser.name}';
+				if(map.deleteResult && map.deleteResult != null) {
+					Swal.fire({
+						icon: 'success',
+						title: '사진초기화완료',
+						text: name + '님의 프로필이 초기화되었습니다.',
+					})
+					$('#file').val('');
+					$('.file_box').removeClass('show');
+					fnFindMemberInfo();
+				} else {
+					Swal.fire({
+						icon: 'error',
+						title: '사진초기화실패',
+						text: name + '님의 프로필이 초기화되지 않았습니다.',
+					})
+				}
+				} // success
+			}) // End ajax
+		}) // End deleteBtn Click Event
+	} //  End fnDeleteProfilePic
+	
 	
 /* ------------------------------------------------------------ fnShowAttachedFile() ------------------------------------------------------------ */
 	// 첨부된 파일 확인 함수
@@ -442,8 +491,6 @@
 				birthday: $('#birthday').val() + $('#month').val() + $('#day').val(),
 				gender: $('input:radio[name="gender"]:checked').val()
 			}); 
-			
-				console.log(member);
 			
 			$.ajax({
 				url: '/nearby/member/modifyMember',
@@ -483,6 +530,24 @@
 		}) // End modify_btn click event
 	} // End fnModifyMemberInfo
 	
+/* ---------------------------------------------------------- fnLeave() ------------------------------ */
+	// 회원 탈퇴
+	function fnLeave() {
+		$('#leave_btn').on('click', function(){
+			if(confirm('정말 탈퇴하시겠습니까?') == false) {
+				return;
+			} else {
+				Swal.fire({
+		            icon: 'error',
+		            title: '탈퇴되었습니다.',
+		            text: 'NearBy를 이용해주셔서 감사합니다.',
+		        });
+				$('#form').attr('action', '/nearby/member/leaveMember/');
+				$('#form').submit();
+			}
+
+		}) // End click event
+	} // End fnLeave
 	
 </script>
 	    
@@ -503,17 +568,18 @@
 			}
 		}) // End home_btn click event
 	} // End fnHomeBtn
+	
+/* ---------------------------------------	fnHomeBtn()	------------------------------------------- */
+	// 비번 바꾸기
+	function fnChangeBtn() {
+		$('#change_pw_btn').on('click', function(){
+			if(confirm('비밀번호 변경 화면으로 이동하시겠습니까?')) {
+				location.href='/nearby/member/changePasswordPage';
+			}
+		}) // End find_pw_btn 
+	} // End 
 
 
-/* ---------------------------------------	fnResetBtn() ------------------------------------------- */
-  // reset_btn 클릭시 msg 없애기
-  function fnResetBtn(){
-    $('#reset_btn').on('click',function(){
-    	$('#id_check').text('');
-    	$('#name_check').text('');
-    	$('#phone_check').text('');
-    })
-   }
 	// 생년월일 삽입
 	function fnBirth(){
 		let year = '';
@@ -549,97 +615,104 @@
 
  <!-- 레이아웃 header 삽입하기 -->
     <div class="container">
-    	<input type="button" id="leave_btn" class="btn pointer" value="회원탈퇴">
-    	<p id='user_name_area'></p>
-    	<div id="profile_area">
-			<div id="profile_result">
-				<div id="p_img" style="width:100%;height:100%;" data-msg="이미지를 더블클릭하여 프로필 사진을 변경하세요">
-<%-- 					<c:if test="${empty loginUser.profile.path}">
-					
-					</c:if> --%>
-					<c:if test="${not empty loginUser.profile.path}">
-						<img id="user_img" src="/nearby/${loginUser.profile.path}/${loginUser.profile.pSaved}" onclick="fnShowBtnBox()" class="pointer">
-					</c:if>
+    	<c:if test="${loginUser.state == -1}">
+    		<h1>탈퇴된 회원의 페이지 입니다.</h1>
+    	</c:if>
+    	<c:if test="${loginUser.state == 0}">
+	    	<input type="button" id="leave_btn" class="btn pointer" value="회원탈퇴하기">
+	    	<p id='user_name_area'></p>
+	    	<div id="profile_area">
+				<div id="profile_result">
+					<div id="p_img" style="width:100%;height:100%;" data-msg="이미지를 더블클릭하여 프로필 사진을 변경하세요">
+						<c:if test="${empty loginUser.profile.pSaved}">
+							<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" onclick="fnShowBtnBox()" class="pointer defaultImg">
+						</c:if>
+						<c:if test="${not empty loginUser.profile.pSaved}">
+							<img id="user_img" src="/nearby/${loginUser.profile.path}/${loginUser.profile.pSaved}" onclick="fnShowBtnBox()" class="pointer">
+						</c:if>
+					</div>
 				</div>
-			</div>
-			<div class="content_box">
-				<textarea rows="5" cols="25" placeholder="자신을 맘껏 표현해보세요" id="content" name="content">${loginUser.profile.content}</textarea>
-			</div>
-			<!-- 첨부박스 -->
-			<div class="file_box">
-				<input type="file" id="file" class="pointer">
-				<ul class="delete_update_form">
-					<li><input type="button" value='사진변경' id="insert_btn"  class="pointer"></li>
-					<li><input type="button" value='사진삭제' id="delete_btn"  class="pointer"></li>
-				</ul>
-			</div>
-    	</div>
- 
-        <div class="join_form">
-			<input type="hidden" value="${loginUser.mNo}" id="mNo" name="mNo">
-               <!-- 이름 -->
-               <div class="input_box">
-                   <label for="name">이름</label>
-                   <span class="space">
-                    <input type="text" id="name" name="name">
-                   </span>
-                   <span id="name_check"></span>
-               </div>
-
-               <!-- 번호 -->
-               <div class="tel_box">
-                   <label for="phone">핸드폰 번호</label>
-                   <span class="space">
-                    <input type="text" id="phone" name="phone" placeholder=" - 표시 없이 입력해주세요">
-                   </span>
-                   <span id="phone_check"></span>
-               </div>
-               
-               <!-- 생년월일 -->
-               <div class="birth_box">
-                   
-                   <!-- 년도 -->
-                   <label for="birthday">생년월일</label>
-                   <select id="birthday" name="year"  class="pointer"></select>
-
-                   <!-- 월 -->
-                   <select id="month" name="month"  class="pointer">
-                       <option>월</option>
-                   </select>
-
-                   <!-- 일 -->
-                   <select id="day" name="day"  class="pointer">
-                       <option>일</option>
-                   </select>
-               </div>
-
-               <!-- 성별 -->
-               <div class="gender_box">
-                   <p id="gender_box">성별</p>
-                   <!-- 여성 -->
-                   <input type="radio" name="gender" value="f" id="female" checked>
-                   <label id="f" for="female" class="pointer">여성</label>
-
-                   <!-- 남성 -->
-                   <input type="radio" name="gender" value="m" id="male" class="btns">
-                   <label id="m"  for="male" class="pointer">남성</label>
-
-                   <!-- 선택 안 함 -->
-                   <input type="radio" name="gender" value="n" id="n" class="btns">
-                   <label id="n"  for="n" class="pointer">선택안함</label>
-               </div>
-
-               <!-- 비밀번호 -->
-               <div class="input_box">
-                   <label for="find_pw_btn">비밀번호 수정</label>
-                   <input type="button"  class="btn pointer" id="find_pw_btn" value="비밀번호 변경 이동">
-               </div>
-
-               <div class="btn_wrap">
-                   <input type="button" id="modify_btn" class="btn btn-primary pointer" value="수정완료">                
-                   <input type="button" value="홈으로" id="home_btn" class="pointer">                
-               </div>                
-        </div>
+				<div class="content_box">
+					<textarea rows="5" cols="25" placeholder="자신을 맘껏 표현해보세요" id="content" name="content"></textarea>
+				</div>
+				<!-- 첨부박스 -->
+				<div class="file_box">
+					<input type="file" id="file" class="pointer">
+					<ul class="delete_update_form">
+						<li><input type="button" value=' 사진변경 ' id="insert_btn"  class="pointer"></li>
+						<li><input type="button" value='사진초기화' id="delete_btn"  class="pointer"></li>
+					</ul>
+				</div>
+	    	</div>
+	 
+	        <div class="join_form">
+	        	<form id="form" method="post">
+					<input type="hidden" value="${loginUser.mNo}" id="mNo" name="mNo">
+	        	</form>
+	               <!-- 이름 -->
+	               <div class="input_box">
+	                   <label for="name">이름</label>
+	                   <span class="space">
+	                    <input type="text" id="name" name="name">
+	                   </span>
+	                   <span id="name_check"></span>
+	               </div>
+	
+	               <!-- 번호 -->
+	               <div class="tel_box">
+	                   <label for="phone">핸드폰 번호</label>
+	                   <span class="space">
+	                    <input type="text" id="phone" name="phone" placeholder=" - 표시 없이 입력해주세요">
+	                   </span>
+	                   <span id="phone_check"></span>
+	               </div>
+	               
+	               <!-- 생년월일 -->
+	               <div class="birth_box">
+	                   
+	                   <!-- 년도 -->
+	                   <label for="birthday">생년월일</label>
+	                   <select id="birthday" name="year"  class="pointer"></select>
+	
+	                   <!-- 월 -->
+	                   <select id="month" name="month"  class="pointer">
+	                       <option>월</option>
+	                   </select>
+	
+	                   <!-- 일 -->
+	                   <select id="day" name="day"  class="pointer">
+	                       <option>일</option>
+	                   </select>
+	               </div>
+	
+	               <!-- 성별 -->
+	               <div class="gender_box">
+	                   <p id="gender_box">성별</p>
+	                   <!-- 여성 -->
+	                   <input type="radio" name="gender" value="f" id="female" checked>
+	                   <label id="f" for="female" class="pointer">여성</label>
+	
+	                   <!-- 남성 -->
+	                   <input type="radio" name="gender" value="m" id="male" class="btns">
+	                   <label id="m"  for="male" class="pointer">남성</label>
+	
+	                   <!-- 선택 안 함 -->
+	                   <input type="radio" name="gender" value="n" id="n" class="btns">
+	                   <label id="n"  for="n" class="pointer">선택안함</label>
+	               </div>
+	
+	               <!-- 비밀번호 -->
+	               <div class="input_box">
+	                   <label for="find_pw_btn">비밀번호 수정</label>
+	                   <input type="button"  class="btn pointer" id="change_pw_btn" value="비밀번호 변경 이동">
+	               </div>
+	
+	               <div class="btn_wrap">
+	                   <input type="button" id="modify_btn" class="btn btn-primary pointer" value="수정완료">                
+	                   <input type="button" value="홈으로" id="home_btn" class="pointer">                
+	               </div>                
+	        </div>
+    	</c:if>
     </div>
 </body>
 </html>

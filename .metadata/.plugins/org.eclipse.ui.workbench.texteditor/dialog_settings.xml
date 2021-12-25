@@ -6,8 +6,9 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="orang"/>
+		<item key="selection" value="fnShowBtnBox"/>
 		<list key="findhistory">
+			<item value="fnShowBtnBox"/>
 			<item value="orang"/>
 			<item value="find_pw_btn"/>
 			<item value="btn-primary"/>

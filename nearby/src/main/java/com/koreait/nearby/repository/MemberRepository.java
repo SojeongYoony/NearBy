@@ -21,6 +21,9 @@ public interface MemberRepository {
 	// 회원정보 받아오기 
 	public Member selectMemberById(Member member);
 	
+	// 비밀번호 일치여부 (조회 성공 : 1 / 조회 실패 : 0)
+	public int selectPwById(String id);
+	
 	// 비밀번호수정 
 	public int updatePw(Member member);
 	
@@ -28,7 +31,7 @@ public interface MemberRepository {
 	public int updateMember(Member member);
 	
 	// 회원탈퇴(DB삭제x)
-	public int leaveMember(Long no);
+	public int leaveMember(Long mNo);
 
 	
 	

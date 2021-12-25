@@ -1,5 +1,6 @@
 package com.koreait.nearby.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -93,13 +94,36 @@ public class MemberController {
 		return service.modifyMember(member, request);
 	}
 	
-	
-	
 	// 회원정보 select  /nearby/member/memberInfo'
 	@PostMapping(value="memberInfo", produces="application/json; charset=UTF-8")   // method 구현해야 함.
 	@ResponseBody
 	public Map<String, Object> memberInfo(HttpServletRequest request) {
 		return service.memberInfo(request);
+	}
+	
+	// 회원 탈퇴
+	@PostMapping(value="leaveMember", produces="application/json; charset=UTF-8")
+	public String leaveMember(@RequestParam("mNo") Long mNo) {
+		service.leaveMember(mNo);
+		return "redirect:/";
+	}
+	
+	// 비밀번호 변경 페이지로 이동
+	@GetMapping(value="changePasswordPage")
+	public String findPasswordPage() {
+		return "member/changePw";
+	}
+	
+	// 비밀번호 확인
+	@PostMapping(value="checkPassword", produces="application/json; charset=UTF-8")
+	public Map<String, Object> checkPassword(HttpServletRequest request){
+		return service.checkPassword(request);
+	}
+	
+	// 찐 비밀번호 변경
+	@PostMapping(value="changePassword")
+	public String changePassword(HttpServletRequest request, Member member) {
+		return "member/mypage";
 	}
 	
 }
