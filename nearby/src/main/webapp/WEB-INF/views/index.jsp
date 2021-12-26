@@ -111,7 +111,6 @@
       font-weight: 500;
    }
 
-   
    #login_btn1 {
       margin: 30px auto;
       margin-right:2%;
@@ -153,7 +152,6 @@
    
     #login_form {    
        box-shadow: 10px 10px 20px rgba(30, 30, 30, 0.5);
-       
        position:fixed;
        top: 140px;
        left: 200px;
@@ -388,11 +386,10 @@
                </div>            
                   <button id="login_submit">로그인</button>
                         <div id="move_area">
-                        <a id="find_btn1" class="join_btn1" href="#"><i class="fas fa-key"></i>아이디/비밀번호 찾기</a><br><br>
+                        <a id="find_btn1" class="join_btn1" href="/nearby/member/findIdPw"><i class="fas fa-key"></i>아이디/비밀번호 찾기</a><br><br>
                         <a id="join_btn1" class="join_btn1" href="/nearby/member/memberJoin"><i class="fas fa-sign-in-alt"></i>회원가입 하러가기</a>
                     </div>
              </form>   
-      
       
         
      <!------------------------------------- footer ---------------------------------------->

@@ -44,8 +44,8 @@ public class ProfileServiceImpl implements ProfileService {
 				// 파일 저장 경로 
 				String sep = Matcher.quoteReplacement(File.separator);
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				String path = "resources" + sep + "upload" + sep + id + sep + "profile" + sep + sdf.format(new Date()).replaceAll("-", sep);
-				String realPath = multipartRequest.getServletContext().getRealPath(path);
+				String pPath = "resources" + sep + "upload" + sep + id + sep + "profile" + sep + sdf.format(new Date()).replaceAll("-", sep);
+				String realPath = multipartRequest.getServletContext().getRealPath(pPath);
 				
 				// 디렉터리 생성 
 				File dir = new File(realPath);
@@ -53,18 +53,19 @@ public class ProfileServiceImpl implements ProfileService {
 				
 				// 서버에서 받아온 파일 저장
 				MultipartFile file = multipartRequest.getFile("file");
-				
+				System.out.println("서버에서 받아온 파일 값 : " +  file);
 				// DB에 저장된 profile info 가져오기
 				Profile profile = new Profile();
 				ProfileRepository profileRepository = sqlSession.getMapper(ProfileRepository.class);
 				Profile originProfile = profileRepository.selectProfile(id);
 					if (file == null && originProfile.getpSaved() == null) { // 첨부된 파일과 DB에 저장된 정보 모두 없을 경우 null값 전달.
-						profile.setPath(path);
+						System.out.println("if로 떨어지는지 확인해보기 ");
+						profile.setpPath(pPath);
 						profile.setpOrigin("");
 						profile.setpSaved("");
 						profile.setId(id);
 					} else if(file == null) { // 첨부된 파일이 없을 경우, 이전 정보를 업데이트할 DTO에 실어준다.
-						profile.setPath(originProfile.getPath());
+						profile.setpPath(originProfile.getpPath());
 						profile.setpOrigin(originProfile.getpOrigin());
 						profile.setpSaved(originProfile.getpSaved());
 						profile.setId(id);
@@ -78,13 +79,13 @@ public class ProfileServiceImpl implements ProfileService {
 					
 						profile.setpOrigin(pOrigin);
 						profile.setpSaved(pSaved);
-						profile.setPath(path);
+						profile.setpPath(pPath);
 						profile.setId(id);
 					} // End if
 				
 			// inf 문의 결과에 따른 profile DTO의 값을 DB에 저장
 			int insertResult = profileRepository.updateProfile(profile);
-			System.out.println("DB 저장 후 profile 값 : " + profile);
+			System.out.println("DB 저장 후 profile 값 : " + profile.toString());
 			// 결과를 map에 실어준다.
 			map.put("insertResult", insertResult);
 			map.put("profile", profile);
@@ -115,7 +116,7 @@ public class ProfileServiceImpl implements ProfileService {
 			Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 			Profile profile = new Profile();
 			profile.setId(loginUser.getId());
-			profile.setPath("");
+			profile.setpPath("");
 			profile.setpOrigin("");
 			profile.setpSaved("");
 			ProfileRepository profileRepository = sqlSession.getMapper(ProfileRepository.class);

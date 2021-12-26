@@ -1,99 +1,155 @@
 @charset "UTF-8";
- *{
-        margin: 0;  padding: 0;
-        box-sizing: border-box;
-        font-size: 16px;
+	
+	*{
+	    margin: 0;  padding: 0;
+	    box-sizing: border-box;
+	}
+	a {
+		text-decoration: none;	
+	}
+	
+	ul li {
+		list-style-type: none;
+	}
+	.container {
+		z-index: 4000;
+		position: fixed;
+		width: 100%;
+		height: 106px;
+		display: flex;
+		background-color: white;
+		border-bottom: 0.5px solid rgba(160, 160, 160, 0.5);
+		box-shadow: 5px 5px 8px rgba(160, 160, 160, 0.3);
+	}
+	
+	.left_box {
+		width: 25%;
+		height: 100%;
+	}
+	
+	.mid_box {
+		width: 50%;
+		height: 100%;
+		display: flex;
+	}
+	
+	.right_box {
+		position: relative;
+		width: 25%;
+		height: 100%;
+		display: flex;
+	}
+	
+	#logo_img {
+		width:  200px;
+		margin-top: 12px;
+		margin-left: 50px;
+	}
+	
+	.btn_box li {
+	    float: left;
+		width: 25%;
+		height: 100%;
+	}
+	
+	.boxes {
+	    margin: 4px auto;
+		width: 208px;
+		height: 89px;
+	}
+	
+	li  a  i {
+		color: #6f7070;
+		text-align: center;
+		margin-top: 20px;
+		font-size: 40px;
+		
+		
+	}
+	a:link { color:red; text-decoration:none}
+	a:visited { color:black; text-decoration: none;}
+	
+    li > a:hover {
+    	color: #fe4662;
     }
-
-    body{
-        height: 100%;
-        background-color: rgb(240, 242, 245);
-    }
-   .index_header   a{
-      text-decoration: 0;
-      color: black;
-    }
-    .index_header  ul, ol, li {   list-style: none;}
-
-    .header_wrap {
-        border: 1px solid black;
-        display: flex;
-         align-items: flex-start;
-        background-color: white;
-       
     
+    .boxes:hover {
+    	background-color: rgba(240,242,245,0.7);
+    	border-radius: 4px;
     }
-    .hearder_logo {
-        width: 150px;
-        display: inline-block;
-        margin-left: 20px;
-        margin-right: 80px;
-    }
-    #logo_img {
-    	display:inline-block;
-    	margin-top:20px;
-    	width:130px;
-    }
-   .index_header ul { 
-       margin-left: 50px;
-       display: flex;
-    }
-   .index_header  li {
-        width: 140px;
-        height: 100px; 
-    }
-   .index_header  li a {
-        display: inline-block;
-        width: 150px;
-        height: 100px;
-        text-align: center;
-    }
-   .index_header  li a:hover{
-        color: #fe4662;
-        text-decoration:  #fe4662;
-    }
-  .index_header   li:hover{  border-bottom: 8px solid  #fe4662; }
-  .index_header   li a i {
-        display: inline-block;
-        font-size: 45px;
-        padding-top: 20px;
-        
-    } 
-    
-    .right{    width: 300px;}
-
-    #search_box{
-        display: inline-block;
-        width: 300px; height: 100px;
-    }
-
-    #search{
-        display: inline-block;
-        width: 250px;
-        height: 40px;
-        margin: 25px auto;
+	.search_box {
+	    display: flex;
+	    border-radius: 10px;
+        margin-lfet: 40px;
+        margin-bottom: 30px;
+        margin-top: 26px;
+        margin-left: 40px;
         border: none;
-        border-radius: 10px;
-        background-color: rgb(240, 242, 245);
-        font-size: 20px;
+        width: 280px;
+        height: 46px;
+        line-height: 20px;
+        background-color: #e8f0fe;
+   }
+    .search_box > input {
+		border: none;
+        outline: none;
+        width: 220px;
+        height: 30px;
+        line-height: 30px;
+        margin-top: 8px;
+        margin-left: 18px;
+        background-color: #e8f0fe;        
+   }
+   
+    #search_icon {
+    	width: 40px;
+    	height: 40px;
+    	text-align: center;
+    	margin-top: 4px;
+    	margin-right: 16px;
+    }
+    
+    #search_icon > i {
+    	color: #6f7070;
+    	width: 36px;
+    	height: 36px;
+    	margin-top: 10px;
     }
 
-    #search::placeholder{   padding-left: 20px;  }
 
-    .profile{
+   
+   #profile_box {
+   		position: absolute;
+   		left : 360px;
+   		top: 20px;
+   		width: 60px;
+   		height: 60px;
+   
+
+   }
+   
+   .profile_menu {
+        display: none;
+        z-index: 6000;
+   		display: inline-block;
+   		position: absolute;
+   		top: 300px;
+   		left: 100px;
+   	    width: 80px;
+   	    height: 100px;
+   	    border: 1px solid black;
+   	    
+   }
+   
+   .profile_menu li {
         display: block;
-        width: 100px; height: 100px;
-        margin: 0 30px;
-        background-color: black;
-    }
-
-    .profile a{
-        display: block;
-        width: 80px; height: 80px;
-        margin: 10px auto;
-        background-color: white;
-        background-image: url();
-        background-size: cover;
-        border-radius: 50px;
-        font-size: 0;
-    }
+		border: 1px solid black;   
+   }
+   
+   .profile_no {
+   		display: none;
+   }
+   .profile_see {
+   		display: block;
+   }
+   

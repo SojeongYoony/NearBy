@@ -38,7 +38,7 @@ public interface MemberService {
 	public Map<String, Object> checkPassword(HttpServletRequest request);
 	
 	// 비밀번호 변경
-	public void changePassword(HttpServletRequest request, Member member);
+	public void changePassword(HttpServletRequest request);
 	
 	
 	

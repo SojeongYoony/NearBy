@@ -327,13 +327,13 @@
 					$('#user_name_area').text(map.result.name + '님 환영합니다.');
 					$('#mNo').val(map.result.mNo); 
 					$('#phone').val(map.result.phone);
-					$('#content').val(map.result.profile.content);
+					$('#content').val(map.result.profile.pContent);
 					$('#name').val(map.result.name);
 					$('#birthday').val(year);
 					$('#month').val(month);
 					$('#day').val(day);
 					if (map.result.profile.pOrigin != null) {
-						$('#user_img').attr('src', '/nearby/' + map.result.profile.path + '/' + map.result.profile.pSaved);
+						$('#user_img').attr('src', '/nearby/' + map.result.profile.pPath + '/' + map.result.profile.pSaved);
 					} else {
 						$('#user_img').attr('src', '${pageContext.request.contextPath}/resources/image/profile_default.png');
 					}
@@ -474,7 +474,7 @@
 		$('#profile_result').empty();
 	
 		$('#profile_result')
-		.append( $('<div id="p_img" style="width:100%;height:100%;">').html( $('<img>').attr('src', '/nearby/' + map.profile.path + '/' + map.profile.pSaved) ) );
+		.append( $('<div id="p_img" style="width:100%;height:100%;">').html( $('<img>').attr('src', '/nearby/' + map.profile.pPath + '/' + map.profile.pSaved) ) );
 	} 
  */
 
@@ -485,7 +485,7 @@
 	// /nearby/member/modifyMember'
  			let member = JSON.stringify({
 				mNo: $('#mNo').val(),
-				profile : {content : $('#content').val()},
+				profile : {pContent : $('#content').val()},
 				name: $('#name').val(),
 				phone: $('#phone').val(),
 				birthday: $('#birthday').val() + $('#month').val() + $('#day').val(),
@@ -554,9 +554,7 @@
 <script>
 
 	function fnShowBtnBox() {
-		$('#user_img').on('click', function(){
-			$('.file_box').toggleClass('show');
-		})
+		$('.file_box').toggleClass('show');
 	}
 
 /* ---------------------------------------	fnHomeBtn()	------------------------------------------- */
@@ -623,12 +621,12 @@
 	    	<p id='user_name_area'></p>
 	    	<div id="profile_area">
 				<div id="profile_result">
-					<div id="p_img" style="width:100%;height:100%;" data-msg="이미지를 더블클릭하여 프로필 사진을 변경하세요">
+					<div id="p_img" style="width:100%;height:100%;" data-msg="이미지변경">
 						<c:if test="${empty loginUser.profile.pSaved}">
 							<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" onclick="fnShowBtnBox()" class="pointer defaultImg">
 						</c:if>
 						<c:if test="${not empty loginUser.profile.pSaved}">
-							<img id="user_img" src="/nearby/${loginUser.profile.path}/${loginUser.profile.pSaved}" onclick="fnShowBtnBox()" class="pointer">
+							<img id="user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" onclick="fnShowBtnBox()" class="pointer">
 						</c:if>
 					</div>
 				</div>

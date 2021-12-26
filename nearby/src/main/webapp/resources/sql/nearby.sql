@@ -28,8 +28,6 @@ CREATE TABLE board (
     location  varchar2(200 byte),
     origin   VARCHAR2(100 BYTE),
     saved    VARCHAR2(100 BYTE),
-   
-  
     path     VARCHAR2(200 BYTE),
     likes     NUMBER,
     created  DATE NOT NULL,
@@ -64,14 +62,15 @@ ALTER TABLE member ADD CONSTRAINT member_pk PRIMARY KEY ( m_no );
 ALTER TABLE member ADD CONSTRAINT member__un UNIQUE ( id );
 
 CREATE TABLE profile (
-    id       VARCHAR2(32 BYTE) NOT NULL,
-    content  VARCHAR2(1000 BYTE),
-    p_origin VARCHAR2(100 BYTE),
-    p_saved  VARCHAR2(100 BYTE),
-    path     VARCHAR2(200 BYTE)
+    p_no       NUMBER NOT NULL,
+    id         VARCHAR2(32 BYTE) NOT NULL,
+    p_content    VARCHAR2(1000 BYTE),
+    p_origin   VARCHAR2(100 BYTE),
+    p_saved    VARCHAR2(100 BYTE),
+    P_PATH     VARCHAR2(200 BYTE)
 );
 
-ALTER TABLE profile ADD CONSTRAINT profile_pk PRIMARY KEY ( id );
+ALTER TABLE profile ADD CONSTRAINT profile_pk PRIMARY KEY ( p_no );
 
 CREATE TABLE reply (
     r_no     NUMBER NOT NULL,

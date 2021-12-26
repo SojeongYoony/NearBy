@@ -1,6 +1,5 @@
 package com.koreait.nearby.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +41,12 @@ public class MemberController {
 	@PostMapping("insertMember")
 	public void insertMember(HttpServletRequest request, HttpServletResponse response) {
 	      service.joinMember(request, response);
+	}
+	
+	// 아이디 비번 찾으러 가기 
+	@GetMapping("findIdPw")
+	public String findIdPw() {
+		return "member/findIdPw";
 	}
 	
     // 아이디 중복확인하기 
@@ -116,14 +121,18 @@ public class MemberController {
 	
 	// 비밀번호 확인
 	@PostMapping(value="checkPassword", produces="application/json; charset=UTF-8")
+	@ResponseBody
 	public Map<String, Object> checkPassword(HttpServletRequest request){
 		return service.checkPassword(request);
 	}
 	
 	// 찐 비밀번호 변경
 	@PostMapping(value="changePassword")
-	public String changePassword(HttpServletRequest request, Member member) {
-		return "member/mypage";
+	public String changePassword(HttpServletRequest request) {
+		service.changePassword(request);
+		return "redirect:/";
 	}
+	
+	
 	
 }

@@ -228,16 +228,22 @@
 	    
 	    let month = '';
 	    month +=  '<option value="">월</option>';
-	    for(let i=1; i<=12; i++){
-	        month += '<option value="'+i+'">'+i+'</option>';
-	    }
+	    for(let i=1; i<=9; i++){
+		    month += '<option value="'+'0'+i+'">'+'0'+i+'</option>';
+		}
+		for(let i=10; i<=12; i++){
+		    month += '<option value="'+i+'">'+i+'</option>';
+		}
 	     $('#month').html(month);
 	     
 	     let day ='';
 	     day += '<option value="">일</option>';
-	     for(let i=1; i<=31; i++){
-	         day += '<option value="'+i+'">'+i+'</option>';
-	     }
+	      for(let i=1; i<=9; i++){
+		     day += '<option value="'+'0'+i+'">'+'0'+i+'</option>';
+		 }
+		 for(let i=10; i<=31; i++){
+		     day += '<option value="'+i+'">'+i+'</option>';
+		 }
 	      $('#day').html(day);
 		 /*
 		  if(){

@@ -15,8 +15,8 @@ public interface BoardService {
 	public List<Board> selectBoardList();
 	public Board selectBoardByNo(Long no);
     public void insertBoard(MultipartHttpServletRequest multipartRequest, HttpServletResponse response);
-    public int updateBoard(Board board);
-    public int deleteBoard(Long no);
+    public void updateBoard(MultipartHttpServletRequest multipartRequest, HttpServletResponse response);
+    public void deleteBoard(Long bNo, HttpServletResponse response);
     
  // default method
  	public default void message(int result, HttpServletResponse response, 
