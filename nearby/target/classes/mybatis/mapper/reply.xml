@@ -5,15 +5,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.koreait.nearby.repository.ReplyRepository">
 
-	<resultMap type="ProFile" id="ProFileMap">
+	<resultMap type="Reply" id="ReplyMap">
 		<result column="R_NO" property="rNo" />
 		<result column="ID" property="id" />
 		<result column="B_NO" property="bNo" />
-		<result column="LIKES" property="likes" />
-		<result column="CREATED" property="created" />
-		<result column="MODIFIED" property="modified" />
-		<result column="DEPTH" property="depth" />
+		<result column="R_CONTENT" property="rContent" />
+		<result column="R_LIKES" property="rLikes" />
+		<result column="R_CREATED" property="rCreated" />
+		<result column="R_MODIFIED" property="rModified" />
 		<result column="STATE" property="state" />
+ 		<result column="DEPTH" property="depth" />
+ 		<result column="GROUPNO" property="groupNo" />
+ 		<result column="GROUPORD" property="groupOrd" />
 	</resultMap>
 	
 	

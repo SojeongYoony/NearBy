@@ -15,7 +15,7 @@
     <div class="container">
     
         <div class="head">
-            <h1 class="title"><a href="/nearby/">NearBy</a></h1>
+            <h1 class="title"><a href="#">NearBy</a></h1>
         </div>
  
         <div class="join_form">

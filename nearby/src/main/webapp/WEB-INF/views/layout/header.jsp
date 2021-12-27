@@ -11,12 +11,8 @@
 	function fnProfileBtn() {
 		$('#profile_menu').toggleClass('profile_see profile_no');
 	}
-	
-	
-	
-
 </script>
-	
+
    <div class="container">
    
        <div class="left_box">
@@ -37,7 +33,14 @@
    	   				<div id="search_icon"><i class="fas fa-search"></i></div>   	   				
    	   			</div>	   	   				
    	   		</form>
-   	   		<img id="profile_box" onclick="fnProfileBtn()" src="${pageContext.request.contextPath}/resources/image/profile_default.png">
+   	   	  <div id="profile_box">
+   	   	 	<c:if test="${empty loginUser.profile.pSaved}">
+					<img id="profile_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" onclick="fnShowBtnBox()" class="pointer defaultImg">
+			</c:if>
+			<c:if test="${not empty loginUser.profile.pSaved}">
+					<img id="profile_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" onclick="fnShowBtnBox()" class="pointer">
+			</c:if>
+          </div>
    	   		<div id="profile_menu">
    	   			<ul>
    	   				<li><a href="/nearby/member/mypage">개인정보수정</a></li>
@@ -46,8 +49,6 @@
    	   		</div>	
    	   	</div> 
  	</div>
- 	
- 	
  	<!--   <div id="search_submit"><i class="fas fa-search"></i></div>  -->
  	
  

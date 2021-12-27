@@ -62,7 +62,6 @@ public class Profile {
 		return "Profile [id=" + id + ", pContent=" + pContent + ", pOrigin=" + pOrigin + ", pSaved=" + pSaved
 				+ ", pPath=" + pPath + "]";
 	}
-
 	
 	
 	

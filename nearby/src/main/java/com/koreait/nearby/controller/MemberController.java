@@ -1,5 +1,6 @@
 package com.koreait.nearby.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -132,7 +133,5 @@ public class MemberController {
 		service.changePassword(request);
 		return "redirect:/";
 	}
-	
-	
 	
 }

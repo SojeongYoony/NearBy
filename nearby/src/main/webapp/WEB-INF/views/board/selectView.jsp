@@ -46,15 +46,20 @@
 		display: flex;	
 		width: 500px;
 	}
-   .profileImg{
-	   	width : 110px;
-		height : 80px;
-		border : 1px solid silver;
+   #p_img{
+	   	width: 100px;
+		height: 100px;
 	    display: inline-block;
 	    border-radius: 100%;
 		margin-right: 10px;
 		position: relative;
    }
+     #p_img #user_img {
+		width: 100px;
+		height: 100px;
+		border-radius: 100%;
+	}
+   
    .id {
    		width: 430px;
    		height: 80px;
@@ -150,6 +155,9 @@
     	font-weight: bold; 
     	cursor: pointer;
    	 }
+   	 
+   	
+   	 
 </style>
 <script>
 	$(document).ready(function(){
@@ -184,7 +192,14 @@
 	
 	<div class="mainBoardWrap" >
 	    <div class="boardIntro"> 
-	    	<div class="profileImg">(프로필)</div>
+	    	<div class="profileImg" id="p_img">
+	    	  <c:if test="${empty board.profile.pSaved}">
+				<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" onclick="fnShowBtnBox()" class="pointer defaultImg">
+			</c:if>
+		    <c:if test="${board.profile.id == board.id and not empty board.profile.pSaved}" >
+		    		<img id="user_img" src="/nearby/${board.profile.pPath}/${board.profile.pSaved}"  class="pointer">
+		    </c:if>
+	    	</div>
 	    	<input type="hidden" id="bNo" value="${board.bNo}">
 	    	<div class="id">
 	    	   <a href="/nearby/board/selectBoard" id="board_writer">${board.id}</a>

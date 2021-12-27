@@ -122,7 +122,7 @@
 	    width: 450px;
 	    margin: 35px auto;
 	}
-	.btn_wrap input{
+	.btn_wrap input, button{
 		color:white;
 	    width: 220px; height: 50px;
 	    background: linear-gradient(#ff6e56,#ff3268);
@@ -140,6 +140,23 @@
 	.msg_box {
 		padding: 5px;
 	} 
+	
+	/* 현재 비밀번호 */
+	#password_check_btn {
+	    width: 102.5px;
+	    height: 45px;
+	    background-color: pink;
+	    border-radius: 10px;
+	    font-size: 12px;
+	    margin-left: 5px;
+	}
+	#pw {
+		width: 337.5px;
+	}
+	#current_pw_box {
+		display: flex;
+		width:220px;
+	}
 	
 </style>
 
@@ -184,8 +201,9 @@
 				alert('이메일 인증을 진행해주세요'); 
                 console.log('submit authCodePass : ' + authCodePass);
             	return false;
-            } else 
+            } else{
             	return true;
+            }
 	        });
 	    } //   function fnCheckSubmit()
 	    
@@ -325,7 +343,7 @@
 					 console.log(pw_result);
 				}, // End Seuccess function
 				error : function(xhr, ajaxOptions, thrownError) {
-			       alert(xhr.responseText);
+			       console.log(xhr.responseText);
 				} // End Error function
 				
 			}) // End ajax
@@ -445,11 +463,14 @@ function fnHomeBtn() {
                 <!-- 비밀번호 -->
                 <div class="input_box">
                     <label for="pw">현재 비밀번호</label>
-                    <span class="space">
-                  	  <input type="text" id="pw" name="pw">
-                    </span>
-                    <input type="button" value="확인하기" id="password_check_btn" class="btns pointer">
-                    <p id="pw_check" class="msg_box"></p>
+                    <div id="current_pw_box">
+	                    <span class="space">
+	                  	  <input type="text" id="pw" name="pw">
+	                    </span>
+	                    <span>
+		                    <input type="button" value="확인하기" id="password_check_btn" class="pointer">
+	                    </span>
+                    </div>
                 </div>
                 
                 <div class="input_box">
@@ -480,7 +501,7 @@ function fnHomeBtn() {
 
                     <!-- 인증코드 발송 -->
                     <span class="space">
-	                    <input type="button" value="인증번호받기" id="authCode_btn" class="btns pointer">
+	                    <input type="button" value="인증번호받기" id="authCode_btn" class="pointer">
                     </span>
                     <span id="email_check"></span>
 
@@ -488,7 +509,7 @@ function fnHomeBtn() {
                     <span class="space">
 	                    <input type="text" name="authCode" id="authCode">
                     </span>
-                    <input type="button" value="인증하기" id="verify_btn" class="btns pointer">
+                    <input type="button" value="인증하기" id="verify_btn" class="pointer">
                 </div>
 
                <div class="btn_wrap">
