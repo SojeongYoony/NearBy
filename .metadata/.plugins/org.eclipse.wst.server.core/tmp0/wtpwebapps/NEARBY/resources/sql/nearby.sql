@@ -38,7 +38,7 @@ CREATE TABLE board (
     modified DATE NOT NULL,
     state    NUMBER NOT NULL,
     depth    NUMBER(1),
-    groupno	 NUMBER(1),
+    groupno    NUMBER(1),
     groupord NUMBER(1)
 );
 
@@ -61,7 +61,8 @@ CREATE TABLE member (
     birthday VARCHAR2(10 BYTE) NOT NULL,
     phone    VARCHAR2(12 BYTE) NOT NULL,
     gender   VARCHAR2(2 BYTE) NOT NULL,
-    state    NUMBER(1)
+    state    NUMBER(1),
+    m_created date
 );
 
 ALTER TABLE member ADD CONSTRAINT member_pk PRIMARY KEY ( m_no );
@@ -89,7 +90,7 @@ CREATE TABLE reply (
     r_modified DATE,
     state    NUMBER(1),
     depth    NUMBER(1),
-    groupno	 NUMBER(1),
+    groupno    NUMBER(1),
     groupord NUMBER(1)
 );
 

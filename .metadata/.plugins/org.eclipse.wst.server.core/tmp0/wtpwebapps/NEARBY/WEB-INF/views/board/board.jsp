@@ -81,6 +81,23 @@
    		color: pink; cursor: pointer;
    }
  
+ 
+/* ------------------- reply 구역 ----------------- */
+	#reply_table {
+		border-collapse: collapse;
+	}
+	#reply_user_img {
+		width:20px;
+		height: 20px;
+		margin: 5px;
+	}
+	#reply_table td:nth-of-type(2){
+		background-color: orange;
+	}   	
+	#reply_table td:nth-of-type(4){
+		background-color: pink;
+	}   	
+ 
 </style>
 </head>
 <body>
@@ -175,7 +192,24 @@
 		  		
 		  		<!--  댓글 보이기  -->
 		  		<div class="reply_wrap" style="margin: 20px; border:1px solid black; height: 100px; width: 500px; margin:12px auto 5px;">
-		  			소정언니댓글구현
+		  			<table id="reply_table">
+		  				<tr>
+		  					<td>
+		  						<c:if test="${empty board.profile.pSaved}">
+									<img id="reply_user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" onclick="fnShowBtnBox()" class="pointer defaultImg">
+		  						</c:if>
+		  						<c:if test="${board.profile.id == board.id and not empty board.profile.pSaved}">
+						    		<img id="reply_user_img" src="/nearby/${board.profile.pPath}/${board.profile.pSaved}"  class="pointer">
+		  						</c:if>
+		  					</td>
+		  					<td>
+		  						<input type="text" name="rContent" id="rContent">
+		  					</td>
+		  					<td>
+		  						<input type="button" id="insert_reply_btn" class="pointer" value="등록">
+		  					</td>
+		  				</tr>
+		  			</table>
 		  		</div>
 		</div>
 	  </c:forEach>

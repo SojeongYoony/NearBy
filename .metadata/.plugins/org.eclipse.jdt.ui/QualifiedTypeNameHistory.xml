@@ -36,4 +36,5 @@
 <fullyQualifiedTypeName name="com.koreait.nearby.domain.Member"/>
 <fullyQualifiedTypeName name="com.koreait.nearby.util.SecurityUtils"/>
 <fullyQualifiedTypeName name="javax.servlet.http.HttpServletResponse"/>
+<fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonFormat"/>
 </qualifiedTypeNameHistroy>

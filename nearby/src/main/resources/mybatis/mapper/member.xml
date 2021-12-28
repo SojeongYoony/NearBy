@@ -23,6 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="PHONE" property="phone" />
 		<result column="GENDER" property="gender" />
 		<result column="STATE" property="state" />
+		<result column="M_CREATED" property="mCreated" />
 		<collection property="profile" resultMap="ProfileMap" />
 	</resultMap>
 	
@@ -34,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      		  FROM DUAL
      	</selectKey>
      	INSERT INTO MEMBER 
-     	VALUES ( #{mNo}, #{id}, #{pw}, #{name}, #{email}, #{birthday}, #{phone}, #{gender}, 0)
+     	VALUES ( #{mNo}, #{id}, #{pw}, #{name}, #{email}, #{birthday}, #{phone}, #{gender}, 0, SYSDATE)
      </insert>
 
 
