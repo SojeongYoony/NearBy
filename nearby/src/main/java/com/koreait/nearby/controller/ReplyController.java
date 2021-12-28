@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.koreait.nearby.domain.Member;
 import com.koreait.nearby.domain.Reply;
 import com.koreait.nearby.service.ReplyService;
 

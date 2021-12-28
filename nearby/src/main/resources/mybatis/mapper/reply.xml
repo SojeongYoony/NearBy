@@ -37,6 +37,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	       AND R.B_NO = #{bNo}
 	</select>
 	
+	<!-- PAGING 용 SELECT... -->
+	<select id="selectReplyListForPaging" resultType="ReplyMap" parameterType="Map">
+		SELECT B.RN, B.RNO, B.ID, B.BNO, B.CONTENT, B.LIKES, B.CREATED, B.MODIFIED, B.STATE, B.DEPTH, B.GROUPNO, B.GROUPORD, B.ORIGIN, B.SAVED, B.PATH        
+		  FROM (SELECT ROWNUM AS RN, A.RNO, A.ID, A.BNO, A.CONTENT, A.LIKES, A.CREATED, A.MODIFIED, A.STATE, A.DEPTH, A.GROUPNO, A.GROUPORD, A.ORIGIN, A.SAVED, A.PATH
+		          FROM (SELECT R.R_NO AS RNO
+		          			 , R.ID AS ID
+		          			 , R.B_NO AS BNO
+		          			 , R.R_CONTENT AS CONTENT
+		          			 , R.R_LIKES AS LIKES
+		          			 , R.R_CREATED AS CREATED
+		          			 , R.R_MODIFIED AS MODIFIED
+		          			 , R.STATE AS STATE
+		          			 , R.DEPTH AS DEPTH
+		          			 , R.GROUPNO AS GROUPNO
+		          			 , R.GROUPORD AS GROUPORD
+		          			 , P.P_ORIGIN AS ORIGIN
+		          			 , P.P_SAVED AS SAVED
+		          			 , P.P_PATH AS PATH
+		                  FROM PROFILE P, REPLY R
+		                 WHERE P.ID = R.ID(+)
+		                   AND R.B_NO = #{bNo}
+		                 ORDER BY R.GROUPNO DESC, GROUPORD ASC) A) B
+		 WHERE B.RN BETWEEN #{beginRecord} AND #{endRecord}
+	</select>
+	
+	<!-- total 댓글수 per 게시글 -->
+	<select id="selectTotalCountPerBoard" parameterType="Long" resultType="int">
+		SELECT COUNT(*)
+		  FROM REPLY
+		 WHERE B_NO = #{bNo}
+	</select>
+	
+	
 	<!-- 댓글 삽입하기 -->
 	<insert id="insertReply" parameterType="Reply">
 		INSERT INTO REPLY
@@ -49,6 +82,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   SET GROUPORD = GROUPORD + 1
 		 WHERE GROUPNO = #{groupNo}		<!-- 같은    groupNo 인가? -->
 		   AND GROUPORD > #{groupOrd}	<!-- 원글의 groupOrd 보다 큰 댓글인가? -->
+	</update>
+	
+	<!-- 댓글 삭제 업데이트 -->
+	<update id="deleteReply" parameterType="Long">
+		UPDATE REPLY
+		   SET STATE = -1
+		 WHERE R_NO = #{rNo}
 	</update>
 	
 </mapper>
