@@ -15,6 +15,7 @@
 <script type="text/javascript">
 	
 	$(document).ready(function(){
+		fnReplyList();
 		fnLike();
 		var txtArea = $(".content_height");
 	    if (txtArea) {
@@ -71,6 +72,8 @@
 	  			});  // ajax		
 	 	      }
  }	// fnLike
+
+	
 </script>
 <style>
   .board_icon{
@@ -83,21 +86,82 @@
  
  
 /* ------------------- reply 구역 ----------------- */
-	#reply_table {
+/* 	테이블 구역 확인용
+	table {
 		border-collapse: collapse;
 	}
-	#reply_user_img {
+	table tr {
+		border: 1px solid;
+	}
+	table td {
+		border: 1px solid;
+	} */
+	.reply_user_img {
 		width:20px;
 		height: 20px;
 		margin: 5px;
+		border-radius: 100%;
 	}
-	#reply_table td:nth-of-type(2){
-		background-color: orange;
-	}   	
-	#reply_table td:nth-of-type(4){
+	#input_reply_table td:nth-of-type(1){
+		width:20px;
+	}
+	#input_reply_table #reply_user_name_area input[type=text]{
+		width: auto;
+	}
+	#input_reply_table input[type=text]{
+		margin: 5px;
+		width: 378px;
+		height: 22px;
+		font-size: 12px;
+		outline-style: none;
+	}
+	
+	/* 댓글 보여주는 구역 CSS */
+	.output_reply_area {
+		border:1px solid black; 
+		/* height: 100px;  */
+		width: 500px; 
+		margin:10px auto 5px;
+	}
+	.reply_user_image_area{
+		width: 25px;
+	}
+	.reply_user_image_area .reply_user_img{
+		width:25px;
+		height: 25px;
+		margin: 5px;
+	}
+	.output_reply_area .reply_user_name_area{
+		color: black;
+		width: auto;
+	}
+	.like_icon_area {
+		font-size: 16px;
+		padding: 5px;
+	}
+	.output_reply_table input[type=text]{
+		margin: 5px;
+		width: 100%;
+		height: 22px;
+		font-size: 12px;
+		outline-style: none;
+	}
+	.btn_area {
+		width: auto;
+	}
+	.reply_btns{
+		margin-right:5px;
+		width:36px; 
+		font-size: 12px;
+		border: none;
+		padding: 5px 0 5px 0;
 		background-color: pink;
-	}   	
- 
+		border-radius: 5px;
+	}
+   	.pointer {
+   		cursor: pointer;
+   	} 
+
 </style>
 </head>
 <body>
@@ -191,26 +255,75 @@
 		  		</div>
 		  		
 		  		<!--  댓글 보이기  -->
-		  		<div class="reply_wrap" style="margin: 20px; border:1px solid black; height: 100px; width: 500px; margin:12px auto 5px;">
-		  			<table id="reply_table">
+	  			<div class="input_reply_area">
+	  				<!-- 댓글 작성 -->
+		  			<table id="input_reply_table">
 		  				<tr>
-		  					<td>
-		  						<c:if test="${empty board.profile.pSaved}">
-									<img id="reply_user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" onclick="fnShowBtnBox()" class="pointer defaultImg">
+		  				           <!-- user proflie image -->
+		  					<td rowspan="2" class="reply_user_image_area">
+		  						<c:if test="${empty loginUser.profile.pSaved}">
+									<img class="reply_user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" onclick="fnShowBtnBox()" class="pointer defaultImg">
 		  						</c:if>
-		  						<c:if test="${board.profile.id == board.id and not empty board.profile.pSaved}">
-						    		<img id="reply_user_img" src="/nearby/${board.profile.pPath}/${board.profile.pSaved}"  class="pointer">
+		  						<c:if test="${not empty loginUser.profile.pSaved}">
+									<img class="reply_user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" onclick="fnShowBtnBox()" class="pointer">
 		  						</c:if>
+		  					</td>
+		  					<td id="reply_user_name_area">
+		  						${loginUser.id}
 		  					</td>
 		  					<td>
 		  						<input type="text" name="rContent" id="rContent">
 		  					</td>
 		  					<td>
-		  						<input type="button" id="insert_reply_btn" class="pointer" value="등록">
+		  						<input type="button" id="insert_reply_btn" class="pointer reply_btns" value="등록">
 		  					</td>
 		  				</tr>
 		  			</table>
-		  		</div>
+		  			
+			  		<div class="reply_wrap">
+			  			<!-- 댓글 뿌리기 -->
+			  			<div class="output_reply_area">
+				  			<table>
+				  				<tbody id="output_reply_table">
+									<tr>
+				         	           <!-- user proflie image -->
+										<td rowspan="2" class="reply_user_image_area">
+										   <c:if test="${empty board.profile.pSaved}">
+												<img class="reply_user_img pointer" src="${pageContext.request.contextPath}/resources/image/profile_default.png" onclick="fnShowBtnBox()" class="pointer defaultImg">
+											</c:if>
+											<c:if test="${board.profile.id == board.id and not empty board.profile.pSaved}">
+												<img class="reply_user_img pointer" src="/nearby/${board.profile.pPath}/${board.profile.pSaved}"  class="pointer">
+											</c:if>
+										</td>
+										<!-- user name -->
+										<td class="reply_user_name_area">
+										   <a href="#">${loginUser.id}</a>
+										</td>
+										<!-- like icon -->
+										<td class="like_icon_area">
+											<i class="fas fa-thumbs-up pointer" style="color:#fe4662; width: 16px"></i>
+										</td>
+										<!-- update / delete button -->
+										<td class="btn_area">
+										   <input type="button" class="update_reply_btn" class="pointer reply_btns" value="수정">
+										</td>
+										<td class="btn_area">
+										   <input type="button" class="delete_reply_btn" class="pointer reply_btns" value="삭제">
+										</td>
+									</tr>	
+										<!-- reply content -->
+										<tr>
+										   <td colspan="4">
+										      <input type="text" name="rContent" class="outputContent">
+										   </td>
+										</tr>
+				  				</tbody>
+				  			</table>
+			  			</div>
+			  		</div>
+		  			
+	  			</div>
+
 		</div>
 	  </c:forEach>
 	 </c:if> 

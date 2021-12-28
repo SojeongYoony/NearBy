@@ -192,7 +192,7 @@
 	/* 댓글 보여주는 구역 CSS */
 	.output_reply_area {
 		border:1px solid black; 
-		height: 100px; 
+		/* height: 100px;  */
 		width: 500px; 
 		margin:10px auto 5px;
 	}
@@ -214,7 +214,7 @@
 	}
 	.output_reply_table input[type=text]{
 		margin: 5px;
-		width: 370px;
+		width: 100%;
 		height: 22px;
 		font-size: 12px;
 		outline-style: none;
@@ -235,7 +235,8 @@
 </style>
 <script>
 	$(document).ready(function(){
-		fnReplyList();
+		fnReplyList();	 // 게시글 댓글 리스트
+		fnInsertReply(); // 댓글 삽입
 		
 	    var txtArea = $(".content_height");
 	    if (txtArea) {
@@ -264,6 +265,7 @@
 <script>
 /* ----------------------------------------- fnReplyList() --------------------------------  */
 	function fnReplyList(){
+		var page = 1; // 시작은 무조건 1page이니까. 1로 초기화
 		$.ajax({
 			url: '/nearby/reply/replyList',
 			type: 'get',
@@ -279,8 +281,6 @@
 	} // End fnReplyList
 	
 /* ----------------------------------------- fnPrintReplyList() --------------------------------  */
-  
- 
 	function fnPrintReplyList(map){
 		$('#output_reply_table').empty();
 		$.each(map.replyList, function(i, reply){ 
@@ -290,9 +290,9 @@
 			console.log('reply.profile.pPath :' + reply.profile.pPath);
 			let pSaved = reply.profile.pSaved;
 			let pPath = reply.profile.pPath;
-  					$('#output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="/nearby/'+pPath+'/'+pSaved+'" class="pointer"></td>') ) )
+  					$('#output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img pointer" src="/nearby/'+pPath+'/'+pSaved+'"></td>') ) )
  				} else if(reply.profile.pPath == null) {
- 					$('#output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img id="reply_user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" class="pointer defaultImg"></td>') ) )
+ 					$('#output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img pointer" src="${pageContext.request.contextPath}/resources/image/profile_default.png"></td>') ) )
  				} 
 			$('<tr class="reply_show">')
 			.append( $('<td class="reply_user_name_area">').html( $('<a href="#">'+reply.id+'</a>') ) )
@@ -300,11 +300,94 @@
 			.append( $('<td class="btn_area">').html( $('<input type="button" class="update_reply_btn pointer reply_btns" value="수정"></td>') ) )
 			.append( $('<td class="btn_area">').html( $('<input type="button" class="delete_reply_btn pointer reply_btns" value="삭제"></td>') ) )
 			.appendTo( '#output_reply_table' );
-			$('#output_reply_table').append( $('<tr>').html( $('<td colspan="4"><input type="text" name="rContent" class="outputContent" value="'+reply.rContent+'"></td>') ) )
+			$('#output_reply_table').append( $('<tr>').html( $('<td colspan="5"><input type="text" name="rContent" class="outputContent" value="'+reply.rContent+'"></td>') ) )
 			
 		}) // End each
 	} // End fnPringReplyList
 	
+/* ----------------------------------------- fnInsertReply() ----------------------------------------- */
+	function fnInsertReply(){
+		$('#insert_reply_btn').on('click', function(){
+ 			let reply = JSON.stringify({
+				id: '${loginUser.id}',
+				bNo : '${board.bNo}',
+				rContent: $('#rContent').val(),
+				depth: 0,
+				groupNo: 0,
+				groupOrd: 0
+			}); 
+			$.ajax({
+				url: '/nearby/reply/insertReply',
+				type: 'post',
+				data: reply,
+				contentType: 'application/json',
+				dataType: 'json',
+				success: function(map) {
+					if(map.insertResult > 0) {
+						alert('댓글 삽입 완료');
+						fnReplyList();
+						$('#rContent').val('');
+					} else {
+						alert('댓글 삽입 실패');
+					}
+				},
+				error: function(xhr) {
+					console.log(xhr.responseText);
+				}
+			}) // End ajax
+		}) // End click event
+	}  // End fnInsertReply
+ 
+/* ----------------------------------------- fnPrintPaging() ----------------------------------------- */
+	// 페이징 출력 함수
+	function fnPrintPaging(p) {
+		// 페이징 영역 초기화
+		$('#paging').empty();
+		// 1페이지로 이동
+		if (page == 1) {
+			$('<div class="disable_link">&lt;&lt;</div>').appendTo('#paging');
+/* 			$('<div>').addClass('disable_link').html('&lt;&lt;').appendTo('#paging'); */
+		} else {
+			$('<div class="enable_link" data-page="1">&lt;&lt;</div>').appendTo('#paging'); 
+/* 			$('<div>').addClass('enable_link').html('&lt;&lt;').attr('data-page', 1).appendTo('#paging');  */
+		}
+		// 이전 블록으로 이동
+		if (page <= p.pagePerBlock) {
+			$('<div class="disable_link">&lt;</div>').appendTo('#paging');
+		} else {
+			$('<div class="enable_link" data-page="'+(p.beginPage-1)+'">&lt;</div>').appendTo('#paging');
+		}
+		// 페이지 번호
+		for (let i = p.beginPage; i <= p.endPage; i++) {
+			if (i == page) {
+				$('<div class="disable_link now_page">'+ i +'</div>').appendTo('#paging');
+			} else {
+				$('<div class="enable_link" data-page="'+ i +'">'+ i +'</div>').appendTo('#paging');
+			}
+		}
+		// 다음블록으로 이동
+		if (p.endPage == p.totalPage) {
+			$('<div class="disable_link">&gt;</div>').appendTo('#paging');
+		} else {
+			$('<div class="enable_link" data-page="'+(p.endPage+1)+'">&gt;</div>').appendTo('#paging');
+		}
+		
+		// 마지막 페이지로 이동
+		if (page == p.totalPage) {
+			$('<div class="disable_link">&gt;&gt;</div>').appendTo('#paging');
+		} else {
+			$('<div class="enable_link" data-page="'+p.totalPage+'">&gt;&gt;</div>').appendTo('#paging');
+		}
+	} // End fnPrintPaging
+	
+/* ----------------------------------------- fnChangePage() ----------------------------------------- */
+	// 페이징 링크 처리 함수 (전역변수 page의 값을 바꾸고, fnFindAllMember() 함수 호출 ) -- 현재 클릭한 대상의 data속성에서
+	function fnChangePage() {
+		$('body').on('click', '.enable_link', function(){
+			page = $(this).data('page');
+			fnFindAllMember();
+		}) // body click event
+	} // End fnChangePage	
 	
 </script>
 
@@ -409,11 +492,11 @@
 		  			<table id="input_reply_table">
 		  				<tr>
 		  					<td>
-		  						<c:if test="${empty board.profile.pSaved}">
+		  						<c:if test="${empty loginUser.profile.pSaved}">
 									<img class="reply_user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" onclick="fnShowBtnBox()" class="pointer defaultImg">
 		  						</c:if>
-		  						<c:if test="${board.profile.id == board.id and not empty board.profile.pSaved}">
-						    		<img class="reply_user_img" src="/nearby/${board.profile.pPath}/${board.profile.pSaved}"  class="pointer">
+		  						<c:if test="${not empty loginUser.profile.pSaved}">
+									<img class="reply_user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" onclick="fnShowBtnBox()" class="pointer">
 		  						</c:if>
 		  					</td>
 		  					<td id="reply_user_name_area">
@@ -431,7 +514,14 @@
 		  		<div class="reply_wrap">
 		  			<!-- 댓글 뿌리기 -->
 		  			<div class="output_reply_area">
-			  			<table id="output_reply_table"></table>
+			  			<table>
+			  				<tbody id="output_reply_table"></tbody>
+							<tfoot>
+								<tr>
+									<td colspan="5"><div id="paging"></div></td>
+								</tr>
+							</tfoot>
+			  			</table>
 		  			</div>
 		  		</div>
 		</div>

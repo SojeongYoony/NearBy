@@ -2,13 +2,19 @@ package com.koreait.nearby.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.koreait.nearby.domain.Member;
+import com.koreait.nearby.domain.Reply;
 import com.koreait.nearby.service.ReplyService;
 
 @Controller
@@ -29,6 +35,13 @@ public class ReplyController {
 	public Map<String, Object> replyList(@RequestParam("bNo")Long bNo){
 		System.out.println("JSP에서 전달받은 bNo : " + bNo);
 		return service.replyList(bNo);
+	}
+	
+	// 댓글 삽입
+	@PostMapping(value="insertReply", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> insertReply(@RequestBody Reply reply, HttpSession session){
+		return service.insertReply(reply, session);
 	}
 	
 

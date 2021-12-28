@@ -6,8 +6,12 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="pw_result"/>
+		<item key="selection" value="rContent"/>
 		<list key="findhistory">
+			<item value="rContent"/>
+			<item value="height"/>
+			<item value="reply_wrap"/>
+			<item value="defaultImg"/>
 			<item value="pw_result"/>
 			<item value="authCodePass"/>
 			<item value="email_result"/>
