@@ -163,6 +163,81 @@
    	} 
 
 </style>
+
+
+<script>
+	
+	var page = 1; // 시작은 무조건 1page이니까. 1로 초기화
+	function fnReplyList(){
+		let bno = $('#bNo').val();
+		console.log(bno);
+		console.log(page);
+	   $.ajax({
+	      url: '/nearby/reply/replyList',
+	      type: 'get',
+	      data: "bNo=" + bno + "&page=" + page,
+	      dataType: 'json',
+	      success: function(map) {
+				fnPrintReplyList(map);
+				$('.reply_count_per_board').text(map.total);
+	//         fnPrintPaging(map.pageUtils);
+	      },
+	      error: function(xhr) {
+	         console.log(xhr.responseText);
+	      }
+	   }) // End ajax
+	} // End fnReplyList
+
+/* ----------------------------------------- fnPrintReplyList() --------------------------------  */
+
+
+	function fnPrintReplyList(map){
+		 $('#output_reply_table').empty();
+		 
+		 var p = map.pageUtils;
+		 let id = '${loginUser.id}';
+		 
+		 if (p.totalRecord == 0) {
+		    $('<tr>')
+		    .append( $('<td colspan="5">').text('등록된 댓글이 없습니다.') )
+		    .appendTo( '#output_reply_table' );
+		 } else {
+		    
+		    $.each(map.replyList, function(i, reply){
+		         if ( reply.profile.pSaved != null ) { // 댓글 작성자의 프로필 사진이 있을 때 프로필 사진을 보여주고
+		        
+						let pSaved = reply.profile.pSaved;
+						let pPath = reply.profile.pPath;
+		        
+						$('#output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img pointer" src="/nearby/'+pPath+'/'+pSaved+'"></td>') ) );
+		           } else if ( reply.profile.pPath == null ) { // 댓글 작성자의 프로필 사진이 없을 때 디폴트 사진을 보여준다.
+						$('#output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img pointer" src="${pageContext.request.contextPath}/resources/image/profile_default.png"></td>') ) );
+		           } // End if 프사 부분 
+				
+				$('<tr class="reply_show">')
+				.append( $('<td class="reply_user_name_area">').html( $('<a href="#">'+reply.id+'</a>') ) )
+				.append( $('<td class="like_icon_area">').html( $('<i class="fas fa-thumbs-up pointer" style="color:#fe4662; width: 16px"></i>') ) )
+				.append( $('<td class="btn_area">').html( $('<input type="button" class="show_reply_btn pointer disapear reply_btns" data-upno="'+reply.rNo+'" value="수정"></td>') ) )
+				.append( $('<td class="btn_area">').html( $('<input type="button" class="delete_reply_btn pointer disapear reply_btns" data-no="'+ reply.rNo +'" value="삭제"></td>') ) )
+				.appendTo( '#output_reply_table' );
+				$('#output_reply_table').append( $('<tr>').html( $('<td colspan="4"><input type="text" id="updateContent" value="'+reply.rContent+'" readonly></td><td class="btn_area"><input type="button" class="update_reply_btn pointer reply_btns disapear" data-updateno="'+reply.rNo+'" value="완료"></td>') ) );
+		         
+				if ( id == reply.id ) {
+					console.log(id);
+					console.log(reply.id);
+			       	  $('.show_reply_btn').removeClass('disapear');
+			       	  $('.delete_reply_btn').removeClass('disapear');
+		         } 
+				
+		    }) // End each
+		    
+		 } // End if 
+	} // End fnPringReplyList
+
+
+
+</script>
+
 </head>
 <body>
 	<header class="header">
@@ -250,7 +325,7 @@
 			  		</div>
 			  		<div class="countIcon replyCount">
 			  			<i class="fas board_icon fa-comments countIcon replyCount" ></i>
-			  			<span class=""></span>
+			  			<span class="reply_count_per_board"></span>
 			  		</div>
 		  		</div>
 		  		

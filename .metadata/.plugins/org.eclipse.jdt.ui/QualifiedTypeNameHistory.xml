@@ -11,7 +11,6 @@
 <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
 <fullyQualifiedTypeName name="org.mybatis.spring.SqlSessionTemplate"/>
 <fullyQualifiedTypeName name="java.util.Optional"/>
-<fullyQualifiedTypeName name="java.lang.Exception"/>
 <fullyQualifiedTypeName name="com.koreait.nearby.service.ProfileServiceImpl"/>
 <fullyQualifiedTypeName name="org.springframework.web.multipart.MultipartFile"/>
 <fullyQualifiedTypeName name="java.util.UUID"/>
@@ -24,8 +23,6 @@
 <fullyQualifiedTypeName name="com.koreait.nearby.service.ProfileService"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
 <fullyQualifiedTypeName name="com.koreait.nearby.domain.Profile"/>
-<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
-<fullyQualifiedTypeName name="java.lang.NullPointerException"/>
 <fullyQualifiedTypeName name="com.koreait.nearby.repository.MemberRepository"/>
 <fullyQualifiedTypeName name="com.koreait.nearby.domain.Member"/>
 <fullyQualifiedTypeName name="com.koreait.nearby.util.SecurityUtils"/>
@@ -44,4 +41,7 @@
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
 <fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
+<fullyQualifiedTypeName name="java.lang.NullPointerException"/>
+<fullyQualifiedTypeName name="java.lang.Exception"/>
 </qualifiedTypeNameHistroy>

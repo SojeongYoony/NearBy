@@ -39,6 +39,7 @@ public class ReplyServiceImpl implements ReplyService {
 	      List<Reply> replyList = replyRepository.selectReplyListForPaging(mapForDB);
 	      
 	      Map<String, Object> map = new HashMap<String, Object>();
+	      map.put("total", totalRecord);
 	      map.put("pageUtils", pageUtils);
 	      map.put("replyList", replyList);
 	      return map;

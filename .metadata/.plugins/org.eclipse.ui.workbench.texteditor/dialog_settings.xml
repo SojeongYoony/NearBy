@@ -6,8 +6,9 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="rContent"/>
+		<item key="selection" value="reply_count_per_board"/>
 		<list key="findhistory">
+			<item value="reply_count_per_board"/>
 			<item value="rContent"/>
 			<item value="height"/>
 			<item value="reply_wrap"/>
@@ -22,7 +23,6 @@
 			<item value="btn-primary"/>
 			<item value="verify"/>
 			<item value="fnEmailCheck"/>
-			<item value="Facebook"/>
 		</list>
 		<list key="replacehistory">
 			<item value="NearBy"/>

@@ -169,6 +169,9 @@
 	table td {
 		border: 1px solid;
 	} */
+	#reply_count_per_board {
+		margin: 10px;
+	}
 	.reply_user_img {
 		width:20px;
 		height: 20px;
@@ -303,6 +306,7 @@
          success: function(map) {
             fnPrintReplyList(map);
             fnPrintPaging(map.pageUtils);
+            $('#reply_count_per_board').text(map.total);
          },
          error: function(xhr) {
             console.log(xhr.responseText);
@@ -350,7 +354,9 @@
 			       	  $('.show_reply_btn').removeClass('disapear');
 			       	  $('.delete_reply_btn').removeClass('disapear');
 		         } 
+				
 		    }) // End each
+		    
 		 } // End if 
 	} // End fnPringReplyList
       
@@ -584,8 +590,7 @@
 			  				</button>
 			  		</div>
 			  		<div class="countIcon replyCount">
-			  			<i class="fas fa-comments countIcon replyCount" style="color:#fe4662"></i>
-			  			<span class=""></span>
+			  			<i class="fas fa-comments countIcon replyCount" style="color:#fe4662"><span id="reply_count_per_board"></span></i>
 			  		</div>
 		  		</div>
 		  		
