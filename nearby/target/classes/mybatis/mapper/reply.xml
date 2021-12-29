@@ -38,27 +38,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- PAGING 용 SELECT... -->
-	<select id="selectReplyListForPaging" resultType="ReplyMap" parameterType="Map">
-		SELECT B.RN, B.RNO, B.ID, B.BNO, B.CONTENT, B.LIKES, B.CREATED, B.MODIFIED, B.STATE, B.DEPTH, B.GROUPNO, B.GROUPORD, B.ORIGIN, B.SAVED, B.PATH        
-		  FROM (SELECT ROWNUM AS RN, A.RNO, A.ID, A.BNO, A.CONTENT, A.LIKES, A.CREATED, A.MODIFIED, A.STATE, A.DEPTH, A.GROUPNO, A.GROUPORD, A.ORIGIN, A.SAVED, A.PATH
-		          FROM (SELECT R.R_NO AS RNO
-		          			 , R.ID AS ID
-		          			 , R.B_NO AS BNO
-		          			 , R.R_CONTENT AS CONTENT
-		          			 , R.R_LIKES AS LIKES
-		          			 , R.R_CREATED AS CREATED
-		          			 , R.R_MODIFIED AS MODIFIED
-		          			 , R.STATE AS STATE
-		          			 , R.DEPTH AS DEPTH
-		          			 , R.GROUPNO AS GROUPNO
-		          			 , R.GROUPORD AS GROUPORD
-		          			 , P.P_ORIGIN AS ORIGIN
-		          			 , P.P_SAVED AS SAVED
-		          			 , P.P_PATH AS PATH
+	<select id="selectReplyListForPaging" resultMap="ReplyMap" parameterType="Map">
+		SELECT B.RN, B.R_NO, B.ID, B.B_NO, B.R_CONTENT, B.R_LIKES, B.R_CREATED, B.R_MODIFIED, B.STATE, B.DEPTH, B.GROUPNO, B.GROUPORD, B.P_ORIGIN, B.P_SAVED, B.P_PATH
+		  FROM (SELECT ROWNUM AS RN, A.R_NO, A.ID, A.B_NO, A.R_CONTENT, A.R_LIKES, A.R_CREATED, A.R_MODIFIED, A.STATE, A.DEPTH, A.GROUPNO, A.GROUPORD, A.P_ORIGIN, A.P_SAVED, A.P_PATH
+		          FROM (SELECT R.R_NO 
+		          			 , R.ID 
+		          			 , R.B_NO 
+		          			 , R.R_CONTENT 
+		          			 , R.R_LIKES
+		          			 , R.R_CREATED 
+		          			 , R.R_MODIFIED
+		          			 , R.STATE 
+		          			 , R.DEPTH 
+		          			 , R.GROUPNO 
+		          			 , R.GROUPORD 
+		          			 , P.P_ORIGIN 
+		          			 , P.P_SAVED 
+		          			 , P.P_PATH 
 		                  FROM PROFILE P, REPLY R
 		                 WHERE P.ID = R.ID(+)
 		                   AND R.B_NO = #{bNo}
-		                 ORDER BY R.GROUPNO DESC, GROUPORD ASC) A) B
+		                   AND R.STATE = 0
+		                 ORDER BY R.R_CREATED DESC, GROUPORD ASC) A) B
 		 WHERE B.RN BETWEEN #{beginRecord} AND #{endRecord}
 	</select>
 	
@@ -84,11 +85,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   AND GROUPORD > #{groupOrd}	<!-- 원글의 groupOrd 보다 큰 댓글인가? -->
 	</update>
 	
-	<!-- 댓글 삭제 업데이트 -->
+	<!-- 댓글 내용 업데이트 -->
+	<update id="updateReply" parameterType="Reply">
+		UPDATE REPLY
+		   SET R_CONTENT = #{rContent}, R_MODIFIED = SYSDATE
+		 WHERE R_NO = #{rNo}
+	</update>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteReply" parameterType="Long">
+		DELETE FROM REPLY WHERE R_NO = #{rNo}
+	</delete>
+	
+<!-- 
 	<update id="deleteReply" parameterType="Long">
 		UPDATE REPLY
 		   SET STATE = -1
 		 WHERE R_NO = #{rNo}
 	</update>
+ -->	
 	
 </mapper>

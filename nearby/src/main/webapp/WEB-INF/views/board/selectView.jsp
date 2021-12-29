@@ -188,6 +188,9 @@
 		font-size: 12px;
 		outline-style: none;
 	}
+	.disapear{
+		display: none;
+	}
 	
 	/* 댓글 보여주는 구역 CSS */
 	.output_reply_area {
@@ -196,7 +199,7 @@
 		width: 500px; 
 		margin:10px auto 5px;
 	}
-	.reply_user_image_area{
+	.reply_user_image_area {
 		width: 25px;
 	}
 	.reply_user_image_area .reply_user_img{
@@ -231,12 +234,38 @@
 		background-color: pink;
 		border-radius: 5px;
 	}
-   
+
+/* 페이징용 CSS */
+   #paging {
+      display: flex;
+      justify-content: center;
+   }
+   #paging > div {
+      width: 25px;
+      heigth: 20px;
+      text-align: center;
+   }
+   .disable_link {
+      color: lightgray;
+   }
+   .enable_link {
+      cursor: pointer;
+   }
+   .now_page {
+      color: red;
+   }
+
+
+
 </style>
 <script>
 	$(document).ready(function(){
 		fnReplyList();	 // 게시글 댓글 리스트
 		fnInsertReply(); // 댓글 삽입
+		fnChangePage();
+		fnShowUpdateBtn();
+		fnUpdateReply(); // 댓글 수정
+		fnDeleteReply(); // 댓글 삭제
 		
 	    var txtArea = $(".content_height");
 	    if (txtArea) {
@@ -264,105 +293,179 @@
 
 <script>
 /* ----------------------------------------- fnReplyList() --------------------------------  */
-	function fnReplyList(){
-		var page = 1; // 시작은 무조건 1page이니까. 1로 초기화
-		$.ajax({
-			url: '/nearby/reply/replyList',
-			type: 'get',
-			data: 'bNo=${board.bNo}',
-			dataType: 'json',
-			success: function(map) {
-				fnPrintReplyList(map);
-			},
-			error: function(xhr) {
-				console.log(xhr.responseText);
-			}
-		}) // End ajax
-	} // End fnReplyList
-	
+   var page = 1; // 시작은 무조건 1page이니까. 1로 초기화
+   function fnReplyList(){
+      $.ajax({
+         url: '/nearby/reply/replyList',
+         type: 'get',
+         data: "bNo=" + '${board.bNo}' + "&page=" + page,
+         dataType: 'json',
+         success: function(map) {
+            fnPrintReplyList(map);
+            fnPrintPaging(map.pageUtils);
+         },
+         error: function(xhr) {
+            console.log(xhr.responseText);
+         }
+      }) // End ajax
+   } // End fnReplyList
+   
 /* ----------------------------------------- fnPrintReplyList() --------------------------------  */
+
+  
 	function fnPrintReplyList(map){
-		$('#output_reply_table').empty();
-		$.each(map.replyList, function(i, reply){ 
- 		 	if ( reply.profile.pSaved != null ) {
-			console.log('reply.rNo :' + reply.rNo);
-			console.log('reply.profile.pSaved :' + reply.profile.pSaved);
-			console.log('reply.profile.pPath :' + reply.profile.pPath);
-			let pSaved = reply.profile.pSaved;
-			let pPath = reply.profile.pPath;
-  					$('#output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img pointer" src="/nearby/'+pPath+'/'+pSaved+'"></td>') ) )
- 				} else if(reply.profile.pPath == null) {
- 					$('#output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img pointer" src="${pageContext.request.contextPath}/resources/image/profile_default.png"></td>') ) )
- 				} 
-			$('<tr class="reply_show">')
-			.append( $('<td class="reply_user_name_area">').html( $('<a href="#">'+reply.id+'</a>') ) )
-			.append( $('<td class="like_icon_area">').html( $('<i class="fas fa-thumbs-up pointer" style="color:#fe4662; width: 16px"></i>') ) )
-			.append( $('<td class="btn_area">').html( $('<input type="button" class="update_reply_btn pointer reply_btns" value="수정"></td>') ) )
-			.append( $('<td class="btn_area">').html( $('<input type="button" class="delete_reply_btn pointer reply_btns" value="삭제"></td>') ) )
-			.appendTo( '#output_reply_table' );
-			$('#output_reply_table').append( $('<tr>').html( $('<td colspan="5"><input type="text" name="rContent" class="outputContent" value="'+reply.rContent+'"></td>') ) )
-			
-		}) // End each
+		 $('#output_reply_table').empty();
+		 
+		 var p = map.pageUtils;
+		 let id = '${loginUser.id}';
+		 
+		 if (p.totalRecord == 0) {
+		    $('<tr>')
+		    .append( $('<td colspan="5">').text('등록된 댓글이 없습니다.') )
+		    .appendTo( '#output_reply_table' );
+		 } else {
+		    
+		    $.each(map.replyList, function(i, reply){
+		         if ( reply.profile.pSaved != null ) { // 댓글 작성자의 프로필 사진이 있을 때 프로필 사진을 보여주고
+		        
+						let pSaved = reply.profile.pSaved;
+						let pPath = reply.profile.pPath;
+		        
+						$('#output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img pointer" src="/nearby/'+pPath+'/'+pSaved+'"></td>') ) );
+		           } else if(reply.profile.pPath == null) { // 댓글 작성자의 프로필 사진이 없을 때 디폴트 사진을 보여준다.
+						$('#output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img pointer" src="${pageContext.request.contextPath}/resources/image/profile_default.png"></td>') ) );
+		           } // End if 프사 부분 
+				
+				$('<tr class="reply_show">')
+				.append( $('<td class="reply_user_name_area">').html( $('<a href="#">'+reply.id+'</a>') ) )
+				.append( $('<td class="like_icon_area">').html( $('<i class="fas fa-thumbs-up pointer" style="color:#fe4662; width: 16px"></i>') ) )
+				.append( $('<td class="btn_area">').html( $('<input type="button" class="show_reply_btn pointer disapear reply_btns" data-upno="'+reply.rNo+'" value="수정"></td>') ) )
+				.append( $('<td class="btn_area">').html( $('<input type="button" class="delete_reply_btn pointer disapear reply_btns" data-no="'+ reply.rNo +'" value="삭제"></td>') ) )
+				.appendTo( '#output_reply_table' );
+				$('#output_reply_table').append( $('<tr>').html( $('<td colspan="4"><input type="text" id="updateContent" value="'+reply.rContent+'" readonly></td><td class="btn_area"><input type="button" class="update_reply_btn pointer reply_btns disapear" data-updateno="'+reply.rNo+'" value="완료"></td>') ) );
+		         
+				if ( id == reply.id ) {
+					console.log(id);
+					console.log(reply.id);
+			       	  $('.show_reply_btn').removeClass('disapear');
+			       	  $('.delete_reply_btn').removeClass('disapear');
+		         } 
+		    }) // End each
+		 } // End if 
 	} // End fnPringReplyList
-	
+      
 /* ----------------------------------------- fnInsertReply() ----------------------------------------- */
-	function fnInsertReply(){
-		$('#insert_reply_btn').on('click', function(){
- 			let reply = JSON.stringify({
-				id: '${loginUser.id}',
-				bNo : '${board.bNo}',
-				rContent: $('#rContent').val(),
-				depth: 0,
-				groupNo: 0,
-				groupOrd: 0
-			}); 
-			$.ajax({
-				url: '/nearby/reply/insertReply',
-				type: 'post',
-				data: reply,
-				contentType: 'application/json',
-				dataType: 'json',
-				success: function(map) {
-					if(map.insertResult > 0) {
-						alert('댓글 삽입 완료');
+   function fnInsertReply(){
+      $('#insert_reply_btn').on('click', function(){
+          let reply = JSON.stringify({
+            id: '${loginUser.id}',
+            bNo : '${board.bNo}',
+            rContent: $('#rContent').val(),
+            depth: 0,
+            groupNo: 0,
+            groupOrd: 0
+         }); 
+         $.ajax({
+            url: '/nearby/reply/insertReply',
+            type: 'post',
+            data: reply,
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function(map) {
+                  fnReplyList();
+                  $('#rContent').val(''); // 나중에 주석 지워야 할 부분
+            },
+            error: function(xhr) {
+               console.log(xhr.responseText);
+            }
+         }) // End ajax
+      }) // End click event
+   }  // End fnInsertReply
+ 
+/* ----------------------------------------- fnDeleteReply() ----------------------------------------- */
+
+	function fnDeleteReply(){
+		$('body').on('click', '.delete_reply_btn', function(){
+			let deleteNo = $(this).data('no');
+			//console.log(deleteNo);
+			//alert(deleteNo);
+				$.ajax({
+					url: '/nearby/reply/deleteReply',
+					type: 'get',
+					data: 'rNo=' + deleteNo,
+					dataType: 'application/json',
+					success: function(map){
+						//fnReplyList();
+						alert('성공구역입니당');
+					},
+					error: function(xhr){
 						fnReplyList();
-						$('#rContent').val('');
-					} else {
-						alert('댓글 삽입 실패');
+						alert(xhr.responseText);
+						console.log(xhr.responseText);
 					}
-				},
-				error: function(xhr) {
-					console.log(xhr.responseText);
-				}
-			}) // End ajax
-		}) // End click event
-	}  // End fnInsertReply
+				})// end ajax
+		})
+	} // end fnDeleteMember
+/* ----------------------------------------- fnShowUpdateBtn() ----------------------------------------- */
+
+	function fnShowUpdateBtn(){
+		$('body').on('click', '.show_reply_btn', function(){
+			let upNo = $(this).data('upno');
+			$(this).parent().parent().next().children().find('input').removeAttr('readonly');
+			$(this).parent().parent().next().children().next().find('input').removeClass('disapear');
+		}) // fnShowUpdateBtn
+	}
+
+/* ----------------------------------------- fnUpdateReply() ----------------------------------------- */
+		
+	function fnUpdateReply(){
+		$('body').on('click', '.update_reply_btn', function(){
+			let updateNo = $(this).data('updateno');
+			let updateContent = $(this).parent().prev().find('input').val();
+	          let reply = JSON.stringify({
+	              rNo : updateNo,
+	              rContent: updateContent
+	           });
+			 	$.ajax({
+					url: '/nearby/reply/updateReply',
+					type: 'post',
+					contentType: 'application/json',
+					data: reply,
+					dataType: 'json',
+					success: function(map){
+						alert('수정 성공!');
+						fnReplyList();
+					},
+					error: function(){
+						alert('응답 실패');
+					}
+				})// end ajax 
+		})
+	} // end fnDeleteMember
+
  
 /* ----------------------------------------- fnPrintPaging() ----------------------------------------- */
-	// 페이징 출력 함수
+   // 페이징 출력 함수
 	function fnPrintPaging(p) {
-		// 페이징 영역 초기화
 		$('#paging').empty();
-		// 1페이지로 이동
+	   // 1페이지로 이동
 		if (page == 1) {
-			$('<div class="disable_link">&lt;&lt;</div>').appendTo('#paging');
-/* 			$('<div>').addClass('disable_link').html('&lt;&lt;').appendTo('#paging'); */
+			$('<div class="disable_link">PREV</div>').appendTo('#paging');
 		} else {
-			$('<div class="enable_link" data-page="1">&lt;&lt;</div>').appendTo('#paging'); 
-/* 			$('<div>').addClass('enable_link').html('&lt;&lt;').attr('data-page', 1).appendTo('#paging');  */
+			$('<div class="enable_link" data-page="1">PREV</div>').appendTo('#paging'); 
 		}
 		// 이전 블록으로 이동
 		if (page <= p.pagePerBlock) {
-			$('<div class="disable_link">&lt;</div>').appendTo('#paging');
+			$('<div class="disable_link">&nbsp;&nbsp;&nbsp;&lt;</div>').appendTo('#paging');
 		} else {
-			$('<div class="enable_link" data-page="'+(p.beginPage-1)+'">&lt;</div>').appendTo('#paging');
+			$('<div class="enable_link" data-page="'+(p.beginPage-1)+'">&nbsp;&nbsp;&nbsp;&lt;</div>').appendTo('#paging');
 		}
 		// 페이지 번호
 		for (let i = p.beginPage; i <= p.endPage; i++) {
 			if (i == page) {
-				$('<div class="disable_link now_page">'+ i +'</div>').appendTo('#paging');
+			   $('<div class="disable_link now_page">'+ i +'</div>').appendTo('#paging');
 			} else {
-				$('<div class="enable_link" data-page="'+ i +'">'+ i +'</div>').appendTo('#paging');
+			   $('<div class="enable_link" data-page="'+ i +'">'+ i +'</div>').appendTo('#paging');
 			}
 		}
 		// 다음블록으로 이동
@@ -374,21 +477,21 @@
 		
 		// 마지막 페이지로 이동
 		if (page == p.totalPage) {
-			$('<div class="disable_link">&gt;&gt;</div>').appendTo('#paging');
+			$('<div class="disable_link">NEXT</div>').appendTo('#paging');
 		} else {
-			$('<div class="enable_link" data-page="'+p.totalPage+'">&gt;&gt;</div>').appendTo('#paging');
+			$('<div class="enable_link" data-page="'+p.totalPage+'">NEXT</div>').appendTo('#paging');
 		}
 	} // End fnPrintPaging
-	
+   
 /* ----------------------------------------- fnChangePage() ----------------------------------------- */
-	// 페이징 링크 처리 함수 (전역변수 page의 값을 바꾸고, fnFindAllMember() 함수 호출 ) -- 현재 클릭한 대상의 data속성에서
+   // 페이징 링크 처리 함수 (전역변수 page의 값을 바꾸고, fnFindAllMember() 함수 호출 ) -- 현재 클릭한 대상의 data속성에서
 	function fnChangePage() {
 		$('body').on('click', '.enable_link', function(){
 			page = $(this).data('page');
-			fnFindAllMember();
+			fnReplyList();
 		}) // body click event
-	} // End fnChangePage	
-	
+	} // End fnChangePage   
+   
 </script>
 
 
@@ -490,13 +593,13 @@
 	  			<div class="input_reply_area">
 	  				<!-- 댓글 작성 -->
 		  			<table id="input_reply_table">
-		  				<tr>
+ 		  				<tr>
 		  					<td>
 		  						<c:if test="${empty loginUser.profile.pSaved}">
-									<img class="reply_user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" onclick="fnShowBtnBox()" class="pointer defaultImg">
+									<img class="reply_user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" class="pointer defaultImg">
 		  						</c:if>
 		  						<c:if test="${not empty loginUser.profile.pSaved}">
-									<img class="reply_user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" onclick="fnShowBtnBox()" class="pointer">
+									<img class="reply_user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" class="pointer">
 		  						</c:if>
 		  					</td>
 		  					<td id="reply_user_name_area">

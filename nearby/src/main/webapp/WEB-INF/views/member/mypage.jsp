@@ -444,7 +444,7 @@
 			/* 확장자 점검 */
 			let origin = $(this).val(); // 첨부된 파일명
 			let extName = origin.substring(origin.lastIndexOf(".") + 1).toUpperCase(); // 확장자를 대문자로 저장 aaa.aaa.aaa.ccc 일 때, 마지막 마침표 다음 자리부터 끝까지 substring으로 가지고오고 
-			if ( $.inArray(extName, ['JPG', 'JPEG', 'GIF', 'PNG']) == -1 ) {	// 첨부된 파일이 ['JPG', 'JPEG', 'GIF', 'PNG'] 중 하나가 아니면 (-1) :: 확장자 제한 두기
+			if ( $.inArray(extName, ['JPG', 'JPEG', 'GIF', 'PNG', 'JFIF']) == -1 ) {	// 첨부된 파일이 ['JPG', 'JPEG', 'GIF', 'PNG'] 중 하나가 아니면 (-1) :: 확장자 제한 두기
 				Swal.fire({
 					icon: 'warning',
 					title: '확장자를 확인해주세요',

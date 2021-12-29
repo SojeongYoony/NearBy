@@ -2,6 +2,7 @@ package com.koreait.nearby.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,8 @@ public class ReplyController {
 	// 댓글 전체 리스트
 	@GetMapping(value="replyList", produces="application/json; charset=UTF-8")
 	@ResponseBody
-	public Map<String, Object> replyList(@RequestParam("bNo")Long bNo){
-		System.out.println("JSP에서 전달받은 bNo : " + bNo);
-		return service.replyList(bNo);
+	public Map<String, Object> replyList(HttpServletRequest request){
+		return service.replyList(request);
 	}
 	
 	// 댓글 삽입
@@ -41,6 +41,21 @@ public class ReplyController {
 	@ResponseBody
 	public Map<String, Object> insertReply(@RequestBody Reply reply, HttpSession session){
 		return service.insertReply(reply, session);
+	}
+	
+	// 댓글 수정
+	@PostMapping(value="updateReply", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> updateReply(@RequestBody Reply reply) {
+		return service.updateReply(reply);
+	}
+	
+	
+	// 댓글 삭제 (사실은 업데이트)
+	@GetMapping(value="deleteReply", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> deleteReply(@RequestParam("rNo")Long rNo){
+		return service.deleteReply(rNo);
 	}
 	
 

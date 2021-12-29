@@ -4,14 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.koreait.nearby.domain.Member;
 import com.koreait.nearby.domain.Reply;
 import com.koreait.nearby.repository.ReplyRepository;
+import com.koreait.nearby.util.PageUtils;
 
 public class ReplyServiceImpl implements ReplyService {
 
@@ -19,25 +20,78 @@ public class ReplyServiceImpl implements ReplyService {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
+	// 댓글 리스트
 	@Override
-	public Map<String, Object> replyList(Long bNo) {
-		System.out.println("전달받은 파라메터 bNo : " + bNo);
+	   public Map<String, Object> replyList(HttpServletRequest request) {
+		
+	      ReplyRepository replyRepository = sqlSession.getMapper(ReplyRepository.class);
+	      Long bNo = Long.parseLong(request.getParameter("bNo"));
+	      int totalRecord = replyRepository.selectTotalCountPerBoard(bNo);
+	      
+	      Integer page = Integer.parseInt(request.getParameter("page"));
+	      PageUtils pageUtils = new PageUtils();
+	      pageUtils.setPageEntity(totalRecord, page);
+	      
+	      Map<String, Object> mapForDB = new HashMap<String, Object>();
+	      mapForDB.put("beginRecord", pageUtils.getBeginRecord());
+	      mapForDB.put("endRecord", pageUtils.getEndRecord());
+	      mapForDB.put("bNo", bNo);
+	      List<Reply> replyList = replyRepository.selectReplyListForPaging(mapForDB);
+	      
+	      Map<String, Object> map = new HashMap<String, Object>();
+	      map.put("pageUtils", pageUtils);
+	      map.put("replyList", replyList);
+	      return map;
+	   }
+
+	// 댓글 삽입
+	@Override
+	public Map<String, Object> insertReply(Reply r, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ReplyRepository replyRepository = sqlSession.getMapper(ReplyRepository.class);
-		List<Reply> replyList = replyRepository.selectReplyList(bNo);
-		System.out.println("DB의 결과 : " + replyList);
-		map.put("replyList", replyList);
-		System.out.println("반환할 map : " + map);
+		try {
+			
+			if (r.getrContent().isEmpty() || r.getrContent() == null ) throw new NullPointerException();
+			Reply reply = new Reply();
+			reply.setId(r.getId());
+			reply.setbNo(r.getbNo());
+			reply.setrContent(r.getrContent());
+			reply.setDepth(r.getDepth() + 1);
+			reply.setGroupNo(r.getGroupNo());
+			reply.setGroupOrd(r.getGroupOrd() + 1);
+			
+			int insertResult = replyRepository.insertReply(reply);
+			replyRepository.updatePreviousReplyGroupOrd(reply);
+			map.put("insertResult", insertResult);
+		} catch (NullPointerException e) {
+			map.put("errorMsg", e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return map;
 	}
 	
+	// 댓글 수정
 	@Override
-	public Map<String, Object> insertReply(Reply reply, HttpSession session) {
+	public Map<String, Object> updateReply(Reply reply) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ReplyRepository replyRepository = sqlSession.getMapper(ReplyRepository.class);
-		int insertResult = replyRepository.insertReply(reply);
-		map.put("insertResult", insertResult);
+		int updateResult = replyRepository.updateReply(reply);
+		map.put("updateResult", updateResult);
 		return map;
 	}
+	
+	
+	// 댓글 삭제
+	@Override
+	public Map<String, Object> deleteReply(Long rNo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ReplyRepository replyRepository = sqlSession.getMapper(ReplyRepository.class);
+		int deleteResult = replyRepository.deleteReply(rNo);
+		map.put("deleteResult", deleteResult);
+		return map;
+	}
+	
 	
 }

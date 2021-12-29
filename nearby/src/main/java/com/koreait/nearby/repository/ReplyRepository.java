@@ -16,6 +16,7 @@ public interface ReplyRepository {
 	public int selectTotalCountPerBoard(Long bNo);
 	public int insertReply(Reply reply);
 	public int updatePreviousReplyGroupOrd(Reply reply);
-	public int deleteReply(Long bNo);
+	public int updateReply(Reply reply);
+	public int deleteReply(Long rNo);
 	
 }
