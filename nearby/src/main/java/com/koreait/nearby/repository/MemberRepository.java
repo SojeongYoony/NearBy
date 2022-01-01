@@ -1,5 +1,8 @@
 package com.koreait.nearby.repository;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Repository;
 
 import com.koreait.nearby.domain.Member;
@@ -35,5 +38,42 @@ public interface MemberRepository {
 
 	
 	
+	// 좋아요 관련 
+	public List<Member> memberLoginLikes(Member member);
+	
+	
+	// 관리자 관련 /////////
+	// 이용하는 총멤버
+	public List<Member> memberCount();
+	
+	
+    // 남자 유저
+	public List<Member> memberCountMen();
+	
+	// 여자 유저
+	public List<Member> memberCountWomen();
+	
+	// 성별 없음 유저
+	public List<Member> memberCountNoGender();
 
+	//오늘 가입한 유저
+	public List<Member> memberCreatedDay();
+	
+	// 10대  20대 30대 40대 50대~
+	public List<Member> memberAge10();
+	public List<Member> memberAge20();
+	public List<Member> memberAge30();
+	public List<Member> memberAge40();
+	public List<Member> memberAge50();
+	
+	
+	
+	
+	// 관리자의 검색 결과 수 
+	public int selectFindRecordCount(Map<String, Object> map);
+	
+	// 관리자의 검색 결과 리스트 
+	public List<Member> selectFindList(Map<String, Object> map);
+	
+	
 }

@@ -1,10 +1,13 @@
 package com.koreait.nearby.service;
 
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.ui.Model;
 
 import com.koreait.nearby.domain.Member;
 
@@ -32,7 +35,7 @@ public interface MemberService {
 	public Map<String, Object> modifyMember(Member member,HttpServletRequest request);
 	
 	// 회원 탈퇴
-	public void leaveMember(Long mNo);
+	public  Map<String,Object> leaveMember(Long mNo);
 	
 	// 비밀번호 확인
 	public Map<String, Object> checkPassword(HttpServletRequest request);
@@ -40,6 +43,31 @@ public interface MemberService {
 	// 비밀번호 변경
 	public void changePassword(HttpServletRequest request);
 	
+	//  관리자 제외 총 유저
+	public List<Member> selectMemberList();
+	
+	// 남자 유저
+	public List<Member> selectMemberMen();
+	 
+	// 여자 유저
+	public List<Member> selectMemberWomen();
+	
+	// 성별없음 유저
+	public List<Member> selectMemberNoGender();
+	
+	// 오늘 가입한 유저
+	public List<Member> selectMemberCreatedDay();
+	
+	// 멤버 연령대 
+	public List<Member> memberAge10();
+	public List<Member> memberAge20();
+	public List<Member> memberAge30();
+	public List<Member> memberAge40();
+	public List<Member> memberAge50();
+	
+	
+	// 검색(총 수, 리스트)
+	public Map<String, Object> findMember(HttpServletRequest request);
 	
 	
 	

@@ -167,11 +167,12 @@
 		margin-left: 20px;
 	}
 	#content {
-		border-radius: 10px;
-		border: 1px solid rgba(50,50,50,0.3);
-		padding: 10px;
-		resize: none;
-		outline: none;
+	    border-radius: 10px;
+	    padding: 10px;
+	    resize: none;
+	    outline: none;
+	    background: aliceblue;
+	    border-style: none;
 	}
 		/* file box */
 	.file_box{
@@ -315,12 +316,33 @@
 	    padding-bottom: 5px;
 	}
 	
-	.gender_box > label{
+	.gender_box > input[type=radio]{
+	    width: 0; height: 0;
+	    position: absolute;
+	    left: -9999px;
+	}	 
+	 
+	.gender_box > input[type=radio] + label{
 	    display: inline-block;
-	    padding-bottom: 5px;
-	    margin: 0 40px 0 40px;
-	}
-	
+	    position: relative;
+	    justify-content: center;
+	    width: 92px; height: 55px;
+	    margin: 0 27px 0 27px;
+	    line-height: 55px;
+	    border: none;
+	    border-radius: 10px;
+	    background-color: rgb(232, 240, 254);
+	    text-align: center;
+	    cursor: pointer;
+	  }
+	.gender_box > input[type=radio]:checked + label{
+	    background-color: #91c7fa;
+	    color: #FFF;
+	    border: none;
+	    box-shadow: 0 0 10px rgba(102, 179, 251, 0.5);
+	    z-index: 1;
+	  }
+	  
 	/* input tag 공백 */
 	.space input[type=text] {
 		padding-left:15px;
@@ -404,6 +426,7 @@
 						title: '로그인세션만료',
 						text: '로그인을 다시 진행해 주세요.',
 					})
+					location.herf='nearby/member/login';
 				} else if (map.member != null) { 
 				let birthday = map.result.birthday;
 				console.log(birthday);
@@ -448,7 +471,7 @@
 				Swal.fire({
 					icon: 'warning',
 					title: '확장자를 확인해주세요',
-					text: '첨부 가능한 이미지의 확장자는 jpg, jpeg, gif, png 입니다.'
+					text: '첨부 가능한 이미지의 확장자는 jpg, jpeg, gif, png, jfif 입니다.'
 				});
 				$(this).val(''); // 첨부 초기화
 				return;
@@ -731,13 +754,11 @@
 	// 홈으로 가기
 	function fnHomeBtn() {
 		$('#home_btn').on('click', function(){
-			if(confirm('홈으로 이동하시겠습니까?')) {
-				location.href='/nearby/board/updateProfilePicture';
-			}
+			location.href='/nearby/board/updateProfilePicture';
 		}) // End home_btn click event
 	} // End fnHomeBtn
 	
-/* ---------------------------------------	fnHomeBtn()	------------------------------------------- */
+/* ---------------------------------------	fnChangeBtn()	------------------------------------------- */
 	// 비번 바꾸기
 	function fnChangeBtn() {
 		$('#change_pw_btn').on('click', function(){
@@ -823,7 +844,7 @@
 					</div>
 				</div>
 				<div class="content_box">
-					<textarea rows="5" cols="25" placeholder="자신을 맘껏 표현해보세요" id="content" name="content"></textarea>
+					<textarea rows="5" cols="35" placeholder="자신을 맘껏 표현해보세요" id="content" name="content"></textarea>
 				</div>
 				<!-- 첨부박스 -->
 				<div class="file_box">
@@ -881,17 +902,18 @@
 	               <!-- 성별 -->
 	               <div class="gender_box">
 	                   <p id="gender_box">성별</p>
-	                   <!-- 여성 -->
-	                   <input type="radio" name="gender" value="f" id="female" checked>
-	                   <label id="f" for="female" class="pointer">여성</label>
+	                   <!-- 선택 안 함 -->
+	                   <input type="radio" name="gender" value="n" id="n" class="btns" checked>
+	                   <label id="n"  for="n" class="pointer">선택안함</label>
 	
 	                   <!-- 남성 -->
 	                   <input type="radio" name="gender" value="m" id="male" class="btns">
 	                   <label id="m"  for="male" class="pointer">남성</label>
+	                   
+	                   <!-- 여성 -->
+	                   <input type="radio" name="gender" value="f" id="female">
+	                   <label id="f" for="female" class="pointer">여성</label>
 	
-	                   <!-- 선택 안 함 -->
-	                   <input type="radio" name="gender" value="n" id="n" class="btns">
-	                   <label id="n"  for="n" class="pointer">선택안함</label>
 	               </div>
 	
 	               <!-- 비밀번호 -->

@@ -4,27 +4,23 @@
 		padding: 0;
 		margin: 0;
 		box-sizing: border-box;	
-		width: 100%;
 	}
-	.insert_wrap a {
+	a {
 		text-decoration: none;
 		color: black;
 		font-weight: bold;
 	}
-    body{
-  	    width:100%;
- 	    margin: 0 auto;
-  	 }
   	 
-  	 /* header css */
-	.header {
-		width: 100%;
-		height: 106px;
-		background-color: white;
+	#insert_btn {
+		border-bottom: 8px solid #fe4662;
 	}
-	 #insert_btn {    border-bottom: 8px solid  #fe4662;   }
-     #insert_icon {  color:  #fe4662;  }
-	/* End header Css */	
+	
+	#insert_icon {
+		color: #fe4662;
+	}
+	.header {
+		margin-top: 130px;
+	}
   	 
   	 
   	 /* ----------------  insert box ----------------  */
@@ -50,8 +46,8 @@
 	   width: 100px;
    }
        #p_img{
-	   	width: 100px;
-		height: 100px;
+	   	width: 80px;
+		height: 80px;
 	    display: inline-block;
 	    border-radius: 100%;
 		margin-right: 10px;
@@ -59,21 +55,24 @@
 		 vertical-align:top; 
    }
     #p_img #user_img {
-		width: 100px;
-		height: 100px;
+		width: 80px;
+		height: 80px;
 		border-radius: 100%;
 	}
-    .setting { 
-  	    position:absolute;
- 		color: #fe4662; 
- 		font-size:20px;
- 		width:30px;
- 		right: 40px;
-    }
     .fas { cursor: pointer; }
    input::placeholder {  font-size: 6px;	}
    
   /* ----------------  MAP ----------------  */
+   #my_location {
+   	  display: inline-block;
+   	  cursor:pointer; 
+   	  font-size:16px;
+   	  margin-left: 20px;
+   }
+   .fa-map-marker-alt {
+     	color: #fe4662; 
+     	font-size:20px;
+   }
    #map { 
    	 display:none;
    	 margin: 0 auto;
@@ -135,7 +134,7 @@
   		 border:1px solid black;
   		 width:480px; 
   		 height: 320px;
-  	 	 padding:30px; 
+  	 	 padding:15px; 
   	 	 margin:0 auto;
   		 font-size:30px;
   		 background-color: #f0f2f5;
@@ -153,12 +152,23 @@
    		margin: 10px 0;
    		font-size: 13px;
    }
+   #file_label{
+    	width: 100%;
+   		height: 100%;
+    	cursor: pointer;
+    }
    #file_label, #upload {
    		display: inline-block;
    		margin: 30px auto;
    		text-align: center;
    		color: gray;	
    }
+    #upload{ 
+     	color:pink; 
+     	font-size:65px; 
+     	display: block;
+    }
+   
    
    /* ----------  사진 및 비디오 미리보기 -> script에서 처리함 ----------  */
    #previewVideo {
@@ -170,21 +180,30 @@
    }
    /* ----------  내용 ----------  */
    .content_wrap {	 
-    	margin: 30px auto 15px;	  }
+    	margin: 30px auto 15px;	  
+    	width : 480px;
+    	padding-left: 5px;
+    	}
    .content_wrap #content {
-   		height: 40px;
-   		padding-left: 10px;
+        display:inline-block;
+        margin: 0 auto;
+   		width: 480px;
+   		height: 60px;
+   		padding: 10px;
    		background-color:#f0f2f5;
    		border: none;
   		border-radius: 5px;
   		outline: none;
+  		resize: none;
    }
   
   /* ----------  '게시' 버튼  ----------  */
    #insertBtn { 
-   		width: 100%;
-   		height: 30px;
-   		margin-top: 5px; 
+   		display:inline-block;
+        margin-top: 5px;
+        margin-left: 32px;
+   		width: 480px;
+   		height: 30px; 
    		color: white;
    		background-color:  #fe4662; 
    		border: none;

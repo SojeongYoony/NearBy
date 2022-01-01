@@ -1,22 +1,48 @@
 package com.koreait.nearby.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
 import com.koreait.nearby.domain.Board;
+import com.koreait.nearby.domain.Likes;
 
 @Repository
 public interface BoardRepository {
    public List<Board> selectListBoard();
-   public Board selectBoardByNo(Long no);
+   public Board selectBoardByNo(Long bNo);
    public int insertBoard(Board board);
    public int updateBoard(Board board);
-   public int deleteBoard(Long no);
+   public int deleteBoard(Map<String, Object> map);
    
+   // 검색
+   public List<Board> searchListBoard(Map<String, Object> map);
+   
+   /* myHome 및 유저의 게시물 갯수 구하기 */
+   public int selectUserBoardsCount(String id);
    
    // 좋아요 관련 
+   // 1. 좋아요 추가
    public int boardLike(Board board);
+   // 2. 좋아요 삭제
    public int boardLikeCancel(Board board);
+   // 3. 좋아요 총 수
    public Board boardLikesCount(Board board);
+   
+   // 4. 로그인 유저가 각 보드에 좋아요 함 안함
+   public int selectLikePerBoard(Map<String, Object> map);
+   
+   
+   
+   
+   // 좋아요 - 보드 조인 
+   public List<Board> selectListLikeBoard(Map<String, Object> map);
+   
+   // 관리자
+   public List<Board> adminBoardList();
+   // 관리자 글삭제
+   public int adminBoardDelete(Long bNo);
+   
+   
 }

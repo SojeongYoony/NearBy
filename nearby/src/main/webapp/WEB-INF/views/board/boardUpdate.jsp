@@ -32,7 +32,7 @@
 	///////////////////////// file update ///////////////////////////////
  	function readURL(input) {
 		if (input.files && input.files[0]) {
-			let image = ["JPG", "PNG", "JPEG", "GIF",];
+			let image = ["JPG", "PNG", "JPEG", "GIF", "JFIF"];
 			let video = ["MP4", "MPEG", "AVI", "MOV", "M4V"];
 			var reader = new FileReader();
 			reader.onload = function(e) {

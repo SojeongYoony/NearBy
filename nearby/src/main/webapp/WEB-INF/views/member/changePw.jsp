@@ -211,7 +211,7 @@
     // 아이디
 	let regId = /^[a-zA-Z0-9_-]{4,}$/;
     // 비밀번호
-	let regPwd = /^[a-zA-Z0-9!@$%^&*()]{8,20}$/;
+	let regPwd = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
     // 이름
 	let regName = /^[a-zA-Z가-힣]{1,30}$/;
     // 이메일
@@ -290,7 +290,7 @@
       			if ( $('#authCode').val() == authCode ) {
       				alert('인증되었습니다.');
       				authCodePass = true;
-      			} else if ( $('#authCode').val() == '' ) { // 12/14 추가
+      			} else if ( $('#authCode').val() == '' ) {
       				alert('인증번호를 입력하세요');
       				authCodePass = false;
       			} else {
@@ -304,13 +304,6 @@
 </script>
 
 <script>
-// 비밀번호 찾기 process 
-// 가입당시 비밀번호는 ajax 처리하여 pass true - false 매김 -- DB 에서 비밀번호 일치하는지 확인 필요.
-// 변경할 비밀번호와 비밀번호 재확인을 통해 비밀번호를 확인하고 -- pass true / false // 여기까지 되었다.
-// 이후 통과되면 가입당시 입력한 이메일을 작성 -> 인증번호받고 인증하기 -- pass true / false
-// 다 끝난 뒤에 수정완료 버튼을 누르면 page이동 : 페이지는 내 정보 변경 mypage
-// 보낼 파라미터 새로운 pw / email
-
 
 /* ------------------------------------------------------------- fnCurrentPwCheck() ------------------------------------------------- */	
 	// 현재 비밀번호 확인 함수

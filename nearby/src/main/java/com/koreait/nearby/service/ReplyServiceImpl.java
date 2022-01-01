@@ -3,6 +3,7 @@ package com.koreait.nearby.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,7 +11,9 @@ import javax.servlet.http.HttpSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.koreait.nearby.domain.Member;
 import com.koreait.nearby.domain.Reply;
+import com.koreait.nearby.repository.BoardRepository;
 import com.koreait.nearby.repository.ReplyRepository;
 import com.koreait.nearby.util.PageUtils;
 
@@ -24,11 +27,25 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	   public Map<String, Object> replyList(HttpServletRequest request) {
 		
-	      ReplyRepository replyRepository = sqlSession.getMapper(ReplyRepository.class);
-	      Long bNo = Long.parseLong(request.getParameter("bNo"));
-	      int totalRecord = replyRepository.selectTotalCountPerBoard(bNo);
-	      
+		BoardRepository boardRepository = sqlSession.getMapper(BoardRepository.class);	
+	    Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+	    String id = loginUser.getId();
+	    
+	    ReplyRepository replyRepository = sqlSession.getMapper(ReplyRepository.class);
+	    Long bNo = Long.parseLong(request.getParameter("bNo"));
+	    int totalRecord = replyRepository.selectTotalCountPerBoard(bNo);
+	    
+	    
+	    Map<String, Object> dbMap = new HashMap<String, Object>();
+	    dbMap.put("id", id);
+	    dbMap.put("bNo", bNo);
+	    
+	    int count =  boardRepository.selectLikePerBoard(dbMap);
+	   
+	//      Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+	//     int page = Integer.parseInt(opt.orElse("1"));
 	      Integer page = Integer.parseInt(request.getParameter("page"));
+	      
 	      PageUtils pageUtils = new PageUtils();
 	      pageUtils.setPageEntity(totalRecord, page);
 	      
@@ -42,6 +59,9 @@ public class ReplyServiceImpl implements ReplyService {
 	      map.put("total", totalRecord);
 	      map.put("pageUtils", pageUtils);
 	      map.put("replyList", replyList);
+	      map.put("count", count);
+			
+	      System.out.println("반환되는 MAP : "  +  map);
 	      return map;
 	   }
 

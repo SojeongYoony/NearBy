@@ -6,25 +6,26 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="reply_count_per_board"/>
+		<item key="selection" value="loginErrorMsg"/>
 		<list key="findhistory">
+			<item value="loginErrorMsg"/>
+			<item value="insert_reply_btn"/>
+			<item value="show_reply_btn"/>
+			<item value="작성"/>
+			<item value="등록"/>
+			<item value="reply_insert_btns"/>
+			<item value="reply_btns"/>
+			<item value="file"/>
+			<item value="jepg"/>
+			<item value="icon_row"/>
+			<item value="reply_wrap"/>
+			<item value="output_reply_table"/>
+			<item value="output"/>
 			<item value="reply_count_per_board"/>
 			<item value="rContent"/>
-			<item value="height"/>
-			<item value="reply_wrap"/>
-			<item value="defaultImg"/>
-			<item value="pw_result"/>
-			<item value="authCodePass"/>
-			<item value="email_result"/>
-			<item value="path"/>
-			<item value="fnShowBtnBox"/>
-			<item value="orang"/>
-			<item value="find_pw_btn"/>
-			<item value="btn-primary"/>
-			<item value="verify"/>
-			<item value="fnEmailCheck"/>
 		</list>
 		<list key="replacehistory">
+			<item value="등록"/>
 			<item value="NearBy"/>
 		</list>
 	</section>

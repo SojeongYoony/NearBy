@@ -51,10 +51,10 @@ public class ReplyController {
 	}
 	
 	
-	// 댓글 삭제 (사실은 업데이트)
+	// 댓글 삭제
 	@GetMapping(value="deleteReply", produces="application/json; charset=UTF-8")
 	@ResponseBody
-	public Map<String, Object> deleteReply(@RequestParam("rNo")Long rNo){
+	public Map<String, Object> deleteReply(@RequestParam("rNo") Long rNo){
 		return service.deleteReply(rNo);
 	}
 	
