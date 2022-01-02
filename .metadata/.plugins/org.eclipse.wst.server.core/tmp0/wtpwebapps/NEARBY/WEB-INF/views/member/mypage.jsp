@@ -12,10 +12,10 @@
 
 <style>
 	/* 초기화 */
-	@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
 	*{ margin: 0; padding: 0; box-sizing: border-box; font-size: 14px; font-weight: 600; }
-	*{font-family: 'NanumSquare';}
 	html{ background-color: rgb(240, 242, 245); }
+	@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+	*{font-family: 'NanumSquare';}
 	a{ text-decoration: 0; color: black; }
 	ul, ol{ list-style-type: none; }
 	

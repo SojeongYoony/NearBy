@@ -6,8 +6,11 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="loginErrorMsg"/>
+		<item key="selection" value="reply_content"/>
 		<list key="findhistory">
+			<item value="reply_content"/>
+			<item value="authCode_btn"/>
+			<item value="btn"/>
 			<item value="loginErrorMsg"/>
 			<item value="insert_reply_btn"/>
 			<item value="show_reply_btn"/>
@@ -20,9 +23,6 @@
 			<item value="icon_row"/>
 			<item value="reply_wrap"/>
 			<item value="output_reply_table"/>
-			<item value="output"/>
-			<item value="reply_count_per_board"/>
-			<item value="rContent"/>
 		</list>
 		<list key="replacehistory">
 			<item value="등록"/>

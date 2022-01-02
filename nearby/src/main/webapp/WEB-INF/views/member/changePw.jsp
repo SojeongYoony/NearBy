@@ -55,7 +55,7 @@
 	    text-align: center;
 	    font-size: 0;
 	
-	    background-image: url(/NearBy_logo.png);
+   		background-image: url(\nearby\NEARBY\src\main\webapp\resources\image\logo_color.png);
 	    background-size: 200px 130px;
 	    background-repeat: no-repeat;
 	}

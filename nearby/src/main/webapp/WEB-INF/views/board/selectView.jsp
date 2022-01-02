@@ -318,13 +318,25 @@ function fnReplyList(){
       success: function(map) {
          fnPrintReplyList(map);
          fnPrintPaging(map.pageUtils);
-         $('#reply_count_per_board').text(map.total);
+         fnReplyTotalCount(map);
       },
       error: function(xhr) {
          console.log(xhr.responseText);
       }
    }) // End ajax
 } // End fnReplyList
+
+/* ----------------------------------------- fnReplyTotalCount() --------------------------------  */
+	function fnReplyTotalCount(map) {
+		   $('#reply_count_per_board').text(map.total);
+		   console.log('  여기는 함수 내부이다     : '+map.total);
+		   if (map.total > 0 ) {
+			   $('.replyCount').addClass('like').removeClass('unlike');
+		   } else if (map.total == 0) {
+			   $('.replyCount').addClass('unlike').removeClass('like');
+		   }
+}
+
 
 /* ----------------------------------------- fnPrintReplyList() --------------------------------  */
 
@@ -411,7 +423,7 @@ function fnInsertReply(){
 		$('body').on('click', '.delete_reply_btn', function(){
 			let deleteNo = $(this).data('no');
 			//console.log(deleteNo);
-			alert(deleteNo);
+			//alert(deleteNo);
 				$.ajax({
 					url: '/nearby/reply/deleteReply',
 					type: 'get',
@@ -613,7 +625,7 @@ function fnInsertReply(){
   					</span>
 	            </div>
 			  		<div class="countIcon replyCount">
-			  			<i class="fas fa-comments countIcon replyCount" style="color:#fe4662">
+			  			<i class="fas fa-comments countIcon replyCount">
 			  				<span id="reply_count_per_board"></span>
 			  			</i>
 			  		</div>
