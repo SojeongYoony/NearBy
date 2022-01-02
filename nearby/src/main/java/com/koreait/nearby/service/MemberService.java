@@ -22,6 +22,9 @@ public interface MemberService {
 	// 회원가입시 이메일 중복 체크 + 아이디 찾기
 	public Map<String, Object> selectByEmail(String email);
 	
+	/* 비밀번호 찾기/ 임시 비밀번호 전송 */
+	public Map<String, Object> findPw(String email);
+	
 	// 회원가입 이메일 인증
 	public Map<String, Object> sendAuthCode(String email);
 

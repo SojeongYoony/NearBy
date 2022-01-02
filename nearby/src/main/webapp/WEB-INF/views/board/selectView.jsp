@@ -19,7 +19,8 @@
 	   line-height: 32px;
 	   cursor: pointer;
     }
-   .like {	color: #fe4662; cursor: pointer; }
+   .like   { color: #fe4662; cursor: pointer;  }
+   .unlike { color: gray; cursor: pointer;     }
    	.pointer {
    		cursor: pointer;
    	} 
@@ -164,7 +165,7 @@
 </style>
 <script>
 	$(document).ready(function(){
-		
+		fnSendBno();     // 로그인 유저의 게시글 좋아요 한 유무 
 		fnReplyList();	 // 게시글 댓글 리스트
 		fnInsertReply(); // 댓글 삽입
 		fnChangePage();  // 페이징
@@ -220,51 +221,91 @@
 			location.href= '/nearby/board/updateBoardPage?bNo='+${board.bNo};
 	}
 	
+	
+    function fnSendBno(){
+		
+		$.each($('.output_reply_table'), function(i, replyTable) {	
+ 		let bNo = $(replyTable).parent().prev().val();
+ 		$.ajax({
+ 			      url: '/nearby/board/boardBnoList',
+			      type: 'get',
+			      data: "bNo=" + bNo,
+			      dataType: 'json',
+ 			      success: function(map) {
+			    	  console.log('성공했을때');
+			    	  console.log(map.count);
+			    	    if( map.count == 1 ){
+			    	    	// 색 있는 하트
+			    	    	 console.log("색 채우기")
+			    	    	 	$("#like"+bNo).addClass('like');
+			    	    	    
+			    	    	 
+			    	    } else if (map.count == 0) {
+			    	    	// 빈 하트
+			    	    	 console.log("색이 없기")
+			    	    	$("#like"+bNo).removeClass('like');
+			    	    }
+			    	  
+			      },
+			      error: function() {
+ 			      }
+ 			   }) // End ajax			
+		
+ 		}); // each
+ 	} //  fnSendBno()
+	
+	
+	
+	
+	
 	function fnLike(i){
-		   console.log(i)
 	       let likeBtn = $('.like_btn');
 		   $('#'+i).find('i').toggleClass('like');
-	            if(  $('#'+i).find('i').hasClass('like') == true  ) {
-	            	
-		            $.ajax({
-		 				url : '/nearby/board/likes',
-		 				type: 'post',
-						data: "bNo=" + i,
-						dataType: 'json',
-		 				success: function(map){
-		 					if(map.result > 0){
-		 						//likeBtn.find('.like_count').text(map.count);
-		 						$('#'+i).find('.like_count').text(map.count);
-		 					} else {
-		 						alert(map.msg);
-		 					}
-		 				},
-		 				error : function(xhr, error){
-		 					console.log(xhr.status);
-		 					console.log(error)
-		 				}				
-		 			 }); 
-	 		   } // if
+		   
+		   if( $("#"+i).find('i').hasClass('like') == false )  {
+           	$("#"+i).find('i').addClass('like');
+	            $.ajax({
+	 				url : '/nearby/board/likes',
+	 				type: 'post',
+					data: "bNo="+i, 
+					dataType: 'json',
+	 				success: function(board){
+	 					console.log(board);
+	 					console.log("좋아요 누른 카운트"+ board.likes);
+			  			   $( '#like_count'+bNo ).text(board.likes);
+			  			   location.href="/nearby/board/boardList";
+	 					
+	 				},
+	 				error : function(xhr, error){
+	 					console.log(xhr.status);
+	 					console.log(error);
+	 				}				
+	 			 }); 
+	            return
+	   }
 	 		
-	 	   //	console.log($('.like_btn').find('i').hasClass('like'));
-	 		if(  $('#'+i).find('i').hasClass('like') == false ){
-	 			 $.ajax({
-	  				url : '/nearby/board/likesCancel',
-	  				type: 'post',
-	 				data: "bNo=" +i, 
-	 				dataType: 'json',
-	  				success: function(map){
-	  					if(map.result > 0){
-	  						$('#'+i).find('.like_count').text(map.count);
-	  					} else {	alert(map.msg);	}
-	  				},
-	  				error : function(xhr, error){
-	  					console.log(xhr.status);
-	  					console.log(xhr.error)
-	  				}				
-	  			});  // ajax		
-	 	      }
-}	// fnLike
+		    if(  $("#"+i).find('i').hasClass('like') ) {
+		    	$("#"+i).find('i').removeClass('like');
+		    	
+		 		$.ajax({
+		  				url : '/nearby/board/likesCancel',
+		  				type: 'post',
+		  				data: "bNo="+i, 
+		 				dataType: 'json',
+		  				success: function(board){
+		  				   $( '#like_count'+ bNo ).text(board.likes);
+		  				  location.href="/nearby/board/boardList";
+		  				   
+		  				},
+		  				error : function(xhr, error){
+		  					console.log(xhr.status);
+		  					console.log(xhr.error)
+		  				}				
+		  			});  // ajax
+		  			return;
+		      } // if 
+		 }// fnLike 
+
 	
 /* ----------------------------------------- fnReplyList() --------------------------------  */
 var page = 1; // 시작은 무조건 1page이니까. 1로 초기화
@@ -536,7 +577,7 @@ function fnInsertReply(){
 		       		   </div>
 	  		    </div>
 		  </c:if>
-  		<!-------------------- 이미지/비디오 삽입할때ㅐ---------------->		  
+  		<!-------------------- 이미지/비디오 삽입할때 ---------------->		  
 		 <c:if test="${board.saved ne null}">	  
 		      <div class="addressAndImage"  onclick="location.href='/nearby/board/selectBoard?bNo=${board.bNo}';">
 			      <div class="addrAndMap">
@@ -563,32 +604,21 @@ function fnInsertReply(){
 		       		   </div>
 		  		</div>
 		  </c:if>		
-		  		<!--------------  댓글 + 좋아요 수 ----------------------->
-		  		<div class="likesAndReplyCount">
-			  		<div class="countIcon likesCount"> 
-			  			
-						<c:if test="${board.like.likeCheck == 0 || board.like.likeCheck == null}">
-				  				<span class="like_btn" id="${board.bNo}"  data-bno="${board.bNo}" onclick="fnLike(${board.bNo})">
-				  			 	    <i class="fas board_icon fa-thumbs-up"></i>
-					  				<span class="like_count">${board.likes}</span> 
-				  				</span>
-					  	</c:if>
-					  		
-					  			
-					  	<c:if test="${board.like.likeCheck > 0}">	
-					  		   <span class="like_btn" id="${board.bNo}"  data-bno="${board.bNo}" onclick="fnLike(${board.bNo})">
-				  			 	    <i class="fas board_icon fa-thumbs-up like"></i>
-					  				<span class="like_count">${board.likes}</span> 
-				  				</span>
-				  		</c:if>
-		            </div>
-				  		<div class="countIcon replyCount">
-				  			<i class="fas fa-comments countIcon replyCount" style="color:#fe4662">
-				  				<span id="reply_count_per_board"></span>
-				  			</i>
-				  		</div>
+	  		<!--------------  댓글 + 좋아요 수 ----------------------->
+	  		<div class="likesAndReplyCount">
+		  		<div class="countIcon likesCount"> 
+		  			<span class="like_btn" id="${board.bNo}"  data-bno="${board.bNo}" onclick="fnLike(${board.bNo})">
+  			 	    	<i class="fas board_icon fa-thumbs-up" id="like${board.bNo}" > </i>
+	  					<span class="like_count"  id="like_count${board.bNo}">${board.likes}</span> 
+  					</span>
+	            </div>
+			  		<div class="countIcon replyCount">
+			  			<i class="fas fa-comments countIcon replyCount" style="color:#fe4662">
+			  				<span id="reply_count_per_board"></span>
+			  			</i>
 			  		</div>
-		 
+		  		</div>
+	 
 <!--  댓글 보이기  -->
 	<div class="input_reply_area">
 		<!-- 댓글 작성 -->

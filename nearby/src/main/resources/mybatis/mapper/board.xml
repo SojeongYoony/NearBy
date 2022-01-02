@@ -54,18 +54,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    </select>
    
    
-   <select id="selectListLikeBoard" parameterType="Map"  resultMap="BoardMap">
-   	SELECT B.B_NO, B.ID, B.CONTENT, B.IP, B.LOCATION, B.ORIGIN, B.SAVED, B.LIKES, B.CREATED, B.PATH, B.MODIFIED, B.STATE,
-   	       L.LIKE_NO, L.B_NO, L.ID, L.LIKE_CHECK, L.LIKE_DATE
-   	 FROM BOARD B LEFT JOIN  LIKES L
-   	   ON B.ID = L.ID
-     WHERE STATE = 0 
-       AND B.B_NO = L.B_NO 
-       AND B.ID = #{id}
-   </select>
-   
-   
-   
 	
   <!-- 게시판 하나 상세보기 -->
 	<select id="selectBoardByNo" parameterType="Long" resultMap="BoardMap">
@@ -113,7 +101,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	
-	<!--  조하요 -->
+	<!--  좋아요 -->
 	<update id="boardLike" parameterType="Board">
 		UPDATE BOARD 
 		  SET LIKES = LIKES + 1
@@ -149,14 +137,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          AND ID = #{id} and B_NO = #{bNo}
 	 </select>
 	   
+	 	   
 	   
 	   
-	   
-	   
-	   
-	   
-	   
-	   <!-- 관리자를 위한  지역 select문  -->
+    <!-- 관리자를 위한  지역 select문  -->
 	<select id="adminBoardList" resultMap="BoardMap">
         SELECT B.B_NO, B.ID, b.CONTENT, B.IP, B.LOCATION, B.ORIGIN, B.SAVED, B.LIKES, B.CREATED, B.PATH, B.MODIFIED, B.STATE
           FROM BOARD B 
@@ -182,12 +166,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
-	
-	
-	
-	
-	
-
 	
 	
 </mapper>

@@ -12,12 +12,50 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boardView.css">
 <style>
+/* 아이디는 nexon! 정함 */
+@font-face {
+    font-family: 'NEXON Lv2 Gothic Light';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+
+@font-face {
+     font-family: 'S-CoreDream-3Light';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
+}
+/* 후보 1 열린고딕체 */
+@font-face {
+    font-family: 'YeolrinGothic-Light';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/YeolrinGothic-Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
   .board_icon{
   color: gray;
   cursor: pointer;
   }
    .like   { color: #fe4662; cursor: pointer;  }
    .unlike { color: gray; cursor: pointer;     }
+   
+*{font-family: 'NanumSquare';}
+/* ID만  */
+/*  .nexon { 
+ font-family: 'NEXON Lv2 Gothic Light', sans-serif;
+ letter-spacing: 0.8px;
+} */
+.re_content_area {
+ letter-spacing: 0.4px;
+	font-size: 14px;
+}
+.content_height {
+	font-size: 16px;
+
+}
 /* ------------------- reply 구역 ----------------- */
 	.reply_user_img {
 		width:20px;
@@ -85,9 +123,7 @@
 	
 	$(document).ready(function(){
 		fnSendBno();
-		
-		fnCheckLogin();
-		
+	
 		aa();
 		
 		var txtArea = $(".content_height");
@@ -98,19 +134,10 @@
 	    }
 	
 	});
-	
-	function fnCheckLogin(){
-		let userInfo = '${loginUser}';
-		console.log(userInfo);
-		if (userInfo == null ) location.href='nearby/member/login';
-	}
-	
-	
  	function fnSendBno(){
 		
 		$.each($('.output_reply_table'), function(i, replyTable) {	
  		let bNo = $(replyTable).parent().prev().val();
-     //  console.log("bNo" + bNo);
  		$.ajax({
  			      url: '/nearby/board/boardBnoList',
 			      type: 'get',
@@ -144,10 +171,8 @@
 
 
  	function fnLike(i){
-		   console.log("보드 번호 : "+i);
 	       let likeBtn = $('.like_btn');
 	       let bNo = likeBtn.attr('id');
-		//   console.log($("#"+i).find('i').attr('class') === 'fas board_icon fa-thumbs-up');
 	          
 	          if( $("#"+i).find('i').hasClass('like') == false )  {
 	            	$("#"+i).find('i').addClass('like');
@@ -176,7 +201,6 @@
   
 	    if(  $("#"+i).find('i').hasClass('like') ) {
 	    	$("#"+i).find('i').removeClass('like');
-	        alert("좋아요 취소 버튼 눌렀습니다.");
 	    	
 	 		$.ajax({
 	  				url : '/nearby/board/likesCancel',
@@ -184,9 +208,9 @@
 	  				data: "bNo="+i, 
 	 				dataType: 'json',
 	  				success: function(board){
-	  				  console.log("좋아요 취소 카운트" + board.likes);
+	  			//	  console.log("좋아요 취소 카운트" + board.likes);
 	  				   $( '#like_count'+ bNo ).text(board.likes);
-	  				 location.href="/nearby/board/boardList";
+	  			   	 location.href="/nearby/board/boardList";
 	  				   
 	  				},
 	  				error : function(xhr, error){
@@ -277,14 +301,14 @@
 					
 				         let strContent = reply.rContent;
 				         let reply_content = ''; 
-						if (strContent.length > 20) {
-							reply_content = strContent.substring(0, 20) + '...';
+						if (strContent.length > 32) {
+							reply_content = strContent.substring(0, 32) + '...';
 						} else {
 							reply_content = strContent;
 						}
 						$('<tr class="reply_show">')
-						.append( $('<td class="reply_user_name_area">').html( $('<a href="#">'+reply.id+'</a>') ) )
-						.append( $('<td class="like_icon_area">').html( $('<td colspan="4" class="pointer" onclick="fnShowViewPage('+reply.bNo+')">'+reply_content+'</td><td></td>') ) )
+						.append( $('<td class="reply_user_name_area nexon">').html( $('<a href="#">'+reply.id+'</a>') ) )
+						.append( $('<td class="like_icon_area">').html( $('<td colspan="4" class="pointer re_content_area" onclick="fnShowViewPage('+reply.bNo+')">'+reply_content+'</td><td></td>') ) )
 						.appendTo( replyTable );
 					
 						
@@ -354,7 +378,7 @@
 			    	<input type="hidden" id="saved" value="${board.saved}">
 			    	<input type="hidden" id="location" value="${board.location}">
 			    	<div class="id">
-			    	   <a href="/nearby/board/selectBoard" id="board_writer">${board.id}</a>
+			    	   <a href="/nearby/board/selectBoard" class="nexon" id="board_writer">${board.id}</a>
 			    	</div>
 			    
 			    	<!-- 관리자일때만 삭제가능  아이콘 표시 -->
@@ -411,8 +435,6 @@
   			 	    	<i class="fas board_icon fa-thumbs-up" id="like${board.bNo}" > </i>
 	  					<span class="like_count"  id="like_count${board.bNo}">${board.likes}</span> 
   					</span>
-           
-				 
 		      </div>
 				  		<div class="countIcon replyCount">
 			  				<i class="fas board_icon fa-comments countIcon replyCount" onclick="location.href='/nearby/board/selectBoard?bNo=${board.bNo}';"></i>

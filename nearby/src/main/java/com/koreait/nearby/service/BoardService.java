@@ -24,7 +24,7 @@ public interface BoardService {
     public void deleteBoard(HttpServletRequest request, HttpServletResponse response);
     
     
-    // bno list로
+    // 로그인 유저가 각 게시물 좋아요 표시 확인위한 bNo 전달
      public Map<String, Object> boardBnoList(Long bNo,  HttpSession session);
     
     
@@ -40,9 +40,6 @@ public interface BoardService {
     // 좋아요취소
     public Board likesCancel(Likes likes, HttpSession session);
     
-
-    // 게시글 + 좋아요 조인 
-    public List<Board> selectLikeBoard(HttpSession session);
     
     // 관리자 지역별게시글 구분 메서드
     public  Map<String, Object> adminBoardList();

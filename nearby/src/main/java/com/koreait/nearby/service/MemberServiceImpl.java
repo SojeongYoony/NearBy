@@ -88,6 +88,47 @@ public class MemberServiceImpl implements MemberService {
 		return map;
 	}
 	
+	/* 비밀번호 찾기 */
+	@Override
+	public Map<String, Object> findPw(String email) {
+
+		// 임시 비밀번호 생성
+		String pw = "";
+		for (int i = 0; i < 12; i++) {
+			pw += (char) ((Math.random() * 26) + 97);
+		}
+
+		// 이메일로 임시 비밀번호 보내기
+		try {
+			MimeMessage findPwMessage = javaMailSender.createMimeMessage();
+			findPwMessage.setHeader("Content-Type", "text/plain; charset=UTF-8");
+			findPwMessage.setFrom(new InternetAddress("nearby.corp@gmail.com", "NearBy"));
+			findPwMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
+			findPwMessage.setSubject("NearBy 임시 비밀번호 발급");
+			findPwMessage.setText("임시 비밀번호는 " + pw + "입니다.");
+			javaMailSender.send(findPwMessage);
+			System.out.println("MemberServiceImple 이메일로 보낸 임시 비밀번호 : " + pw + "입니다.");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// 임시 비밀번호를 담을 Member 호출
+		Member member = new Member();
+		// 임시 비밀번호를 담음
+		member.setEmail(email);
+		member.setPw(SecurityUtils.sha256((pw)));
+		System.out.println("SecurityUtils 암호화가된 임시 비밀번호 : " + pw + "입니다.");
+
+		MemberRepository memberRepository = sqlSession.getMapper(MemberRepository.class);
+		int result = memberRepository.findPw(member);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("result", result);
+		return map;
+	}
+	
+	
+	
 	// 이메일 인증
 	@Override
 	public Map<String, Object> sendAuthCode(String email) {
@@ -127,13 +168,9 @@ public class MemberServiceImpl implements MemberService {
 			System.out.println("loginUser information : " + loginUser);
 			
 			// 로그인한 유저 보드에 좋아요한 유무 DB에서 갖고와서 세션에 저장하기 
- 			List<Member> listMemberLike = repository.memberLoginLikes(member);
-			//System.out.println("라이크한 멤버 갖고오기2 "+ listMemberLike);
 			if (loginUser != null) {
 				request.getSession().setAttribute("loginUser", loginUser);
-				request.getSession().setAttribute("listMemberLike", listMemberLike);
-			//	logger.info(loginUser.toString());
-			//	logger.info("listMemberLike 한 멤버 세션 보기"+listMemberLike.toString());
+				logger.info(loginUser.toString());
 			}		
 							
 				try {

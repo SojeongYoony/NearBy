@@ -8,6 +8,34 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/join.css">
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="${pageContext.request.contextPath}/resources/js/join.js"></script>
+<style>
+@font-face {
+    font-family: 'NEXON Lv2 Gothic Light';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+/* font-family: 'NanumSquare'; */
+
+@font-face {
+     font-family: 'S-CoreDream-3Light';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
+}
+/* 후보 1 열린고딕체 */
+@font-face {
+    font-family: 'YeolrinGothic-Light';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/YeolrinGothic-Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+*{font-family: 'NanumSquare';}
+
+</style>
 <script type="text/javascript">
 </script>
 </head>
@@ -15,7 +43,7 @@
     <div class="container">
     
         <div class="head">
-            <h1 class="title"><a href="#">NearBy</a></h1>
+            <h1 class="title"><a href="/nearby/">NearBy</a></h1>
         </div>
  
         <div class="join_form">

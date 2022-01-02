@@ -18,6 +18,9 @@ public interface MemberRepository {
 	// 이메일중복 + 아이디 찾기 
 	public Member selectByEmail(String email);
 	
+	/* 비밀번호 찾기/ 임시 비밀번호 전송 */
+	public int findPw(Member member);
+	
 	// 로그인
 	public Member login(Member member);
 	
@@ -36,11 +39,6 @@ public interface MemberRepository {
 	// 회원탈퇴(DB삭제x)
 	public int leaveMember(Long mNo);
 
-	
-	
-	// 좋아요 관련 
-	public List<Member> memberLoginLikes(Member member);
-	
 	
 	// 관리자 관련 /////////
 	// 이용하는 총멤버
@@ -65,8 +63,6 @@ public interface MemberRepository {
 	public List<Member> memberAge30();
 	public List<Member> memberAge40();
 	public List<Member> memberAge50();
-	
-	
 	
 	
 	// 관리자의 검색 결과 수 

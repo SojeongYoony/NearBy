@@ -312,77 +312,8 @@
         					<textarea rows="5" cols="5"  name="content" id="content">${board.content}</textarea>
     				    </div>
 		 </div>
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  
-		  		<!--------------  댓글 + 좋아요 수 ----------------------->
 		  	
-		  		<div class="likesAndReply" style="margin-top: 30px;">
-			  		<div class="countIcon likesCount bothCount"> 
-			  				<button type="button"  class="like_btn"  style="background-color: white; border: none; width:60px; cursor: pointer;">
-			  					<i class="fas fa-thumbs-up" style="color:#fe4662; width: 50px"></i>
-			  					<span class="like_count"></span>
-			  				</button>
-			  		</div>
-			  		<div class="countIcon replyCount">
-			  			<i class="fas fa-comments countIcon replyCount" style="color:#fe4662"></i>
-			  			<span class=""></span>
-			  		</div>
-			  		
-		  		
-		  		</div>
-		  		
-			  		<!--  댓글 보이기  -->
-			  		<div class="reply_wrap" style="margin: 20px; border:1px solid black; height: 100px; width: 500px; margin:12px auto 5px;">
-			  			소정언니댓글구현
-			  		</div>
-		  		
-		  		
 		  		<input type="submit" id="updateBtn" value="수정" >
-		  		
-	
 		</form>
 	
 	

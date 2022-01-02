@@ -30,14 +30,9 @@ public interface BoardRepository {
    // 3. 좋아요 총 수
    public Board boardLikesCount(Board board);
    
-   // 4. 로그인 유저가 각 보드에 좋아요 함 안함
+   // 로그인 유저가 각 게시물 좋아요 표시 확인위한 bNo 전달
    public int selectLikePerBoard(Map<String, Object> map);
    
-   
-   
-   
-   // 좋아요 - 보드 조인 
-   public List<Board> selectListLikeBoard(Map<String, Object> map);
    
    // 관리자
    public List<Board> adminBoardList();

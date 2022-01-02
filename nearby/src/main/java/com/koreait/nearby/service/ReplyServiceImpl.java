@@ -3,7 +3,6 @@ package com.koreait.nearby.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -42,10 +41,7 @@ public class ReplyServiceImpl implements ReplyService {
 	    
 	    int count =  boardRepository.selectLikePerBoard(dbMap);
 	   
-	//      Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
-	//     int page = Integer.parseInt(opt.orElse("1"));
 	      Integer page = Integer.parseInt(request.getParameter("page"));
-	      
 	      PageUtils pageUtils = new PageUtils();
 	      pageUtils.setPageEntity(totalRecord, page);
 	      
@@ -61,7 +57,7 @@ public class ReplyServiceImpl implements ReplyService {
 	      map.put("replyList", replyList);
 	      map.put("count", count);
 			
-	      System.out.println("반환되는 MAP : "  +  map);
+	      //System.out.println("반환되는 MAP : "  +  map);
 	      return map;
 	   }
 

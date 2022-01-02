@@ -37,12 +37,10 @@ public class BoardController {
 	   @GetMapping("boardList")
 	   public String boardList(Model model, HttpSession session) {
 	      model.addAttribute("list", service.selectBoardList());
-	      model.addAttribute("likeList", service.selectLikeBoard(session));
-	      System.out.println(service.selectLikeBoard(session));
 	      return "board/board";
 	   }
 	   
-	   // bno 전달
+	   // 로그인 유저가 각 게시물 좋아요 표시 확인위한 bNo 전달
 	   @GetMapping(value="boardBnoList",  produces ="application/json; charset=UTF-8")
 	   @ResponseBody
 	   public Map<String, Object> boardBnoList(@RequestParam Long bNo, HttpSession session){
@@ -77,7 +75,7 @@ public class BoardController {
 	   public String updateBoardPage(@RequestParam Long bNo, Model model) {
 	      Board board = service.selectBoardByNo(bNo);
 	      model.addAttribute("board", board);
-	      System.out.println("보드 수정하기 : "+board.toString());
+//	      System.out.println("보드 수정하기 : "+board.toString());
 	      return "board/boardUpdate";
 	   }
 	   
@@ -100,7 +98,7 @@ public class BoardController {
 	   @ResponseBody
 	   @PostMapping(value="likes", produces ="application/json; charset=UTF-8" )
 	    public Board likes(@RequestParam Long bNo, HttpSession session) {
-		   System.out.println("controller bNo" + bNo);
+//		   System.out.println("controller bNo" + bNo);
 		   Likes likes = new Likes();
 		   likes.setbNo(bNo); // 좋아요 한 게시글 번호
 		   Member user = (Member)session.getAttribute("loginUser");

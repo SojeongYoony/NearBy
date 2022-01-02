@@ -12,7 +12,9 @@
 
 <style>
 	/* 초기화 */
+	@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
 	*{ margin: 0; padding: 0; box-sizing: border-box; font-size: 14px; font-weight: 600; }
+	*{font-family: 'NanumSquare';}
 	html{ background-color: rgb(240, 242, 245); }
 	a{ text-decoration: 0; color: black; }
 	ul, ol{ list-style-type: none; }
@@ -426,7 +428,6 @@
 						title: '로그인세션만료',
 						text: '로그인을 다시 진행해 주세요.',
 					})
-					location.herf='nearby/member/login';
 				} else if (map.member != null) { 
 				let birthday = map.result.birthday;
 				console.log(birthday);

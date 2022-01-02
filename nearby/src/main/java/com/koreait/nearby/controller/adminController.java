@@ -28,7 +28,6 @@ public class adminController {
 		this.mService = mService;
 	}
 
-
     // 관리자
 	@GetMapping("admin/admin")
 	  public String admin(Model model) {
@@ -44,34 +43,29 @@ public class adminController {
 		   model.addAttribute("memberAge40", mService.memberAge40());
 		   model.addAttribute("memberAge50", mService.memberAge50());
 		   model.addAttribute("adminBoardMap", bService.adminBoardList());
-		  return "admin/admin";
+		   return "admin/admin";
 	  }
 	
 	// 관리자가 전체 유저보는 페이지
 	@GetMapping("admin/memberList")
 	public String memberList(Model model){
-		 model.addAttribute("member", mService.selectMemberList());
+		   model.addAttribute("member", mService.selectMemberList());
 		   model.addAttribute("memberMen", mService.selectMemberMen());
 		   model.addAttribute("memberWomen", mService.selectMemberWomen());
 		   model.addAttribute("memberNoGender", mService.selectMemberNoGender());
 		   model.addAttribute("memberCreatedDay", mService.selectMemberCreatedDay());
-		  return "admin/memberManage";
+		   return "admin/memberManage";
 	}
 	
 	
 	// 검색
 	@GetMapping("admin/findMember")
 	public String findMember(HttpServletRequest request, Model model) {
-		model.addAttribute("request", request);
-		
-		Map<String, Object> map = mService.findMember(request);
-		//mService.findMember(request);
-		
-		model.addAttribute("map", map);
-		
-		System.out.println("map??? " +map);
-		
-		return "admin/memberManage";
+		  model.addAttribute("request", request);
+		  Map<String, Object> map = mService.findMember(request);
+	      model.addAttribute("map", map);
+		  System.out.println("map??? " +map);
+		  return "admin/memberManage";
 	}
 	
 	
@@ -79,11 +73,10 @@ public class adminController {
 	@ResponseBody
 	@GetMapping(value="admin/deleteMember", produces ="application/json; charset=UTF-8" )
 	public Map<String, Object> delteMember(@RequestParam Long mNo) {
-		Map<String, Object> map =  mService.leaveMember(mNo);
-		System.out.println("map입니다 " + map.get("result"));
-		Map<String,Object> m = new HashMap<String, Object>();
-		m.put("result", map);
-		return m;
+		 Map<String, Object> map =  mService.leaveMember(mNo);
+		 Map<String,Object> m = new HashMap<String, Object>();
+	 	 m.put("result", map);
+		 return m;
 	}
 	
 	
@@ -91,9 +84,9 @@ public class adminController {
 	@ResponseBody
 	@GetMapping(value="admin/adminBoardDelete", produces ="application/json; charset=UTF-8" )
 	public Map<String, Object> adminBoardDelete(@RequestParam Long bNo, HttpServletRequest request) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		Map<String, Object> m = bService.adminBoardDelete(bNo, request);
-		map.put("result", m);
-		return map;
+		 Map<String, Object> map = new HashMap<String, Object>();
+		 Map<String, Object> m = bService.adminBoardDelete(bNo, request);
+		 map.put("result", m);
+		 return map;
 	}
 }

@@ -50,6 +50,16 @@ public class MemberController {
 		return "member/findIdPw";
 	}
 	
+	/* 비밀번호 찾기 / 임시 비밀번호 전송 */
+	@PostMapping(value = "findPw", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> findPw(@RequestParam("email") String email) {
+		System.out.println(email.toString());
+		Map<String, Object> map = service.findPw(email);
+		return map;
+	}	
+	
+	
     // 아이디 중복확인하기 
 	@ResponseBody
 	@PostMapping(value="idCheck", produces ="application/json; charset=UTF-8" )

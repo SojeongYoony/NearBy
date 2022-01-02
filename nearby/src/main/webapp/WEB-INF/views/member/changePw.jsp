@@ -387,20 +387,18 @@
 /* ------------------------------------------------------------- fnCurrentEmailCheck() ------------------------------------------------- */	
     function fnSendAuthCode(id){
     	
-   /*  	$('#authCode_btn').click(function(){ */
-    		$.ajax({
-    			url : '/nearby/member/sendAuthCode',
-    			type: 'post',
-    			data: 'email='+ $('#email').val(),
-    			dataType: 'json',
-    			success : function(map) {
-    				fnVerifyAuthcode(map.authCode, id); // 12/13추가
-    			},
-    			error: function() {
-					alert('인증코드 전송 실패');
-				}
-    		});	 // ajax
-/*     	}); */
+   		$.ajax({
+   			url : '/nearby/member/sendAuthCode',
+   			type: 'post',
+   			data: 'email='+ $('#email').val(),
+   			dataType: 'json',
+   			success : function(map) {
+   				fnVerifyAuthcode(map.authCode, id); 
+   			},
+   			error: function() {
+				alert('인증코드 전송 실패');
+			}
+   		});	 // ajax
     	return;
     }
 
@@ -446,7 +444,7 @@ function fnHomeBtn() {
     <div class="container">
     
         <div class="head">
-            <h1 class="title"><a href="/nearby/">NearBy</a></h1>
+            <h1 class="title"><a href="/nearby/board/boardList">NearBy</a></h1>
         </div>
  
         <div class="pw_change_box">
@@ -461,7 +459,7 @@ function fnHomeBtn() {
 	                  	  <input type="text" id="pw" name="pw">
 	                    </span>
 	                    <span>
-		                    <input type="button" value="확인하기" id="password_check_btn" class="pointer">
+		                    <input type="button" value="확인하기" id="password_check_btn" class="pointer btn">
 	                    </span>
                     </div>
                 </div>
@@ -476,7 +474,7 @@ function fnHomeBtn() {
 
                 <!-- 비밀번호 확인 -->
                 <div class="input_box">
-                    <label for="pw">새 비밀번호 확인</label>
+                    <label for="pwCheck">새 비밀번호 확인</label>
                     <span class="space">
 	                    <input type="text" id="pwCheck" >
                     </span>
