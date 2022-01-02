@@ -30,10 +30,6 @@
 		})
 	}
 	
-	
-	
-	
-	
 </script>
 <div class="container">
    <div class="left_box">

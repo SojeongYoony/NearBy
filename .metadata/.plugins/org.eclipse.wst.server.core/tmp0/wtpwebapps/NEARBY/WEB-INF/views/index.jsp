@@ -30,17 +30,17 @@
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroL.woff') format('woff');
     font-weight: normal;
     font-style: normal;
- }
+  }
   /* p 태그 어그로체*/
   .aggroL {
  	font-family:  'SBAggroL';
- }
+  }
  
- @import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+   @import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
   /* 로그인 관련 p태그에 나눔스퀘어적용*/
   .nanum_square {
     font-family: 'NanumSquare';
-  }
+   }
 
    .container {
       width: 100%;

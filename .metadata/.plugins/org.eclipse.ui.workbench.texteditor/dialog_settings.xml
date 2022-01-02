@@ -6,8 +6,9 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="reply_content"/>
+		<item key="selection" value="replyCount"/>
 		<list key="findhistory">
+			<item value="replyCount"/>
 			<item value="reply_content"/>
 			<item value="authCode_btn"/>
 			<item value="btn"/>
@@ -22,7 +23,6 @@
 			<item value="jepg"/>
 			<item value="icon_row"/>
 			<item value="reply_wrap"/>
-			<item value="output_reply_table"/>
 		</list>
 		<list key="replacehistory">
 			<item value="등록"/>

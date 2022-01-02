@@ -12,56 +12,53 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boardView.css">
 <style>
-/* 아이디는 nexon! 정함 */
-@font-face {
-    font-family: 'NEXON Lv2 Gothic Light';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Light.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
-@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
 
-@font-face {
-     font-family: 'S-CoreDream-3Light';
-     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
-     font-weight: normal;
-     font-style: normal;
-}
-/* 후보 1 열린고딕체 */
-@font-face {
-    font-family: 'YeolrinGothic-Light';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/YeolrinGothic-Light.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
+
+
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+	*{font-family: 'NanumSquare';}
+
+/* 폰트 size / spacing */
+	.re_content_area {
+		letter-spacing: 0.4px;
+		font-size: 14px;
+	}
+	.content_height {
+		font-size: 16px;
+	}
+
+
+/* 아이디는 nexon! 정함 */
+	@font-face {
+	    font-family: 'NEXON Lv2 Gothic Light';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Light.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
+	}
+
+	.nexon { 
+		 font-family: 'NEXON Lv2 Gothic Light', sans-serif;
+		 letter-spacing: 0.8px;
+	} 
+
+
+
+
   .board_icon{
   color: gray;
   cursor: pointer;
   }
    .like   { color: #fe4662; cursor: pointer;  }
    .unlike { color: gray; cursor: pointer;     }
-   
-*{font-family: 'NanumSquare';}
-/* ID만  */
-/*  .nexon { 
- font-family: 'NEXON Lv2 Gothic Light', sans-serif;
- letter-spacing: 0.8px;
-} */
-.re_content_area {
- letter-spacing: 0.4px;
-	font-size: 14px;
-}
-.content_height {
-	font-size: 16px;
-
-}
 /* ------------------- reply 구역 ----------------- */
 	.reply_user_img {
 		width:20px;
 		height: 20px;
 		margin: 5px;
 		border-radius: 100%;
+	}
+	.replyCount {
+		margin-left: 100px; 
 	}
 	#input_reply_table td:nth-of-type(1){
 		width:20px;
@@ -144,17 +141,17 @@
 			      data: "bNo=" + bNo,
 			      dataType: 'json',
  			      success: function(map) {
-			    	  console.log('성공했을때');
-			    	  console.log(map.count);
+			    //	  console.log('성공했을때');
+			    //	  console.log(map.count);
 			    	    if( map.count == 1 ){
 			    	    	// 색 있는 하트
-			    	    	 console.log("색 채우기")
+			   // 	    	 console.log("색 채우기")
 			    	    	 	$("#like"+bNo).addClass('like');
 			    	    	    
 			    	    	 
 			    	    } else if (map.count == 0) {
 			    	    	// 빈 하트
-			    	    	 console.log("색이 없기")
+			   // 	    	 console.log("색이 없기")
 			    	    	$("#like"+bNo).removeClass('like');
 			    	    }
 			    	  
@@ -301,25 +298,30 @@
 					
 				         let strContent = reply.rContent;
 				         let reply_content = ''; 
-						if (strContent.length > 32) {
-							reply_content = strContent.substring(0, 32) + '...';
+						if (strContent.length > 34) {
+							reply_content = strContent.substring(0, 34) + '...';
 						} else {
 							reply_content = strContent;
 						}
 						$('<tr class="reply_show">')
-						.append( $('<td class="reply_user_name_area nexon">').html( $('<a href="#">'+reply.id+'</a>') ) )
+						.append( $('<td class="reply_user_name_area">').html( $('<a href="#" class="nexon">'+reply.id+'</a>') ) )
 						.append( $('<td class="like_icon_area">').html( $('<td colspan="4" class="pointer re_content_area" onclick="fnShowViewPage('+reply.bNo+')">'+reply_content+'</td><td></td>') ) )
 						.appendTo( replyTable );
 					
 						
 						
 					}) // End inner each
-					$(".reply_count_per_board[id=\""+bNo+"\"]").text(map.total)
 					
-					 
-	
-					console.log('map.total : ' + map.total);
-						
+					// 게시글당 댓글 수 삽입부
+					$(".reply_count_per_board[id=\""+bNo+"\"]").text(map.total);
+					
+					
+					// 게시글당 댓글 수에 따른 아이콘 색상변경부
+			 		if (map.total > 0 ) {
+						$('.countIcon[id=icon_'+bNo+']').addClass('like').removeClass('unlike');
+					} else if (map.total < 0 ) {
+						$('.countIcon[id=icon_'+bNo+']').addClass('unlike').removeClass('like');
+					}
 					
 				 } // End if 
 
@@ -378,7 +380,7 @@
 			    	<input type="hidden" id="saved" value="${board.saved}">
 			    	<input type="hidden" id="location" value="${board.location}">
 			    	<div class="id">
-			    	   <a href="/nearby/board/selectBoard" class="nexon" id="board_writer">${board.id}</a>
+			    	   <a href="/nearby/board/selectBoard" id="board_writer">${board.id}</a>
 			    	</div>
 			    
 			    	<!-- 관리자일때만 삭제가능  아이콘 표시 -->
@@ -433,11 +435,13 @@
 			  <div class="countIcon likesCount"> 
   					<span class="like_btn" id="${board.bNo}"  data-bno="${board.bNo}" onclick="fnLike(${board.bNo})">
   			 	    	<i class="fas board_icon fa-thumbs-up" id="like${board.bNo}" > </i>
-	  					<span class="like_count"  id="like_count${board.bNo}">${board.likes}</span> 
+	  					<span class="like_count"  id="like_count${board.bNo}">
+	  						${board.likes}
+	  					</span> 
   					</span>
 		      </div>
 				  		<div class="countIcon replyCount">
-			  				<i class="fas board_icon fa-comments countIcon replyCount" onclick="location.href='/nearby/board/selectBoard?bNo=${board.bNo}';"></i>
+			  				<i class="fas board_icon fa-comments countIcon replyCount"  id="icon_${board.bNo}" onclick="location.href='/nearby/board/selectBoard?bNo=${board.bNo}';"></i>
 			  				<span class="reply_count_per_board" id="${board.bNo}">0</span>
 				  		</div>
 			  </div> <!-- End Class likesAndReplyCount DIV tag -->

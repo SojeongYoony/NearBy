@@ -4,6 +4,7 @@
     margin: 0; padding: 0;
     box-sizing: border-box;
     font-size: 14px;
+    font-weight: 600;
 }
 
 html{
@@ -52,6 +53,7 @@ input:focus{
 .container{
     width: 600px;
     margin: 50px auto;
+    padding-bottom: 20px;
     background-color: white;
     border-radius: 30px;
     box-shadow: 10px 10px 20px rgba(30, 30, 30, 0.5);
@@ -91,9 +93,7 @@ input:focus{
     margin: 35px auto;
 
 }
-.input_box label {
-	font-weight: 600;
-}
+
 .input_box input{
     width: 100%; height: 45px;
     border-radius: 10px;
@@ -109,9 +109,6 @@ input:focus{
     width: 450px; height: 45px;
     border-radius: 10px;
     margin-bottom: 5px;
-}
-.email_box label {
-	font-weight: 600;
 }
 
 .email_box > input[type=button]{
@@ -152,10 +149,9 @@ input:focus{
 .tel_box{
     width: 450px; height: 100%;
     margin: 35px auto;
+
 }
-.tel_box label {
-	font-weight: 600;
-}
+
 .tel_box input{
     width: 450px; height: 45px;
     border-radius: 10px;
@@ -166,9 +162,7 @@ input:focus{
     width: 450px;
     margin: 35px auto;
 }
-.birth_box label {
-	font-weight: 600;
-}
+
 .birth_box > select, option{
     width: 135px; height: 45px;
     margin: 0 5px 0 5px;
@@ -189,7 +183,6 @@ input:focus{
 .gender_box > p{
     font-size: 18px;
     padding-bottom: 5px;
-   	font-weight: 600;
 }
 
 .gender_box > input[type=radio]{
@@ -229,13 +222,12 @@ input:focus{
 
 .join_btn_wrap > input, button{
     width: 220px; height: 50px;
-    background: #ff3268;
+    background: linear-gradient(#ff6e56,#ff3268);
     border: none;
     border-radius: 10px;
     margin-bottom: 40px;
     font-weight: 900;
     color: white;
-    font-size: 16px;
 }
 
 /* 대표님의 요청 사항 */

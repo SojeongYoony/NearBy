@@ -64,6 +64,9 @@
 	}
 	
 	/* 댓글 보여주는 구역 CSS */
+	.replyCount {
+		margin-left: 100px; 
+	}
 	.output_reply_area {
 		width: 500px; 
 		margin:10px auto 5px;
@@ -116,6 +119,9 @@
 		border-style: none;
 		background-color: #f0f2f5;
 		border-radius: 20px;
+	}
+	.reply_content {
+		word-break: break-all;
 	}
 	.btn_area {
 		width: auto;
@@ -215,17 +221,15 @@
  		}
 	}
 	
-	
 	function fnUpdate(){
 		if(confirm('게시글을 수정하시겠습니까?') )
 			location.href= '/nearby/board/updateBoardPage?bNo='+${board.bNo};
 	}
 	
-	
     function fnSendBno(){
 		
 		$.each($('.output_reply_table'), function(i, replyTable) {	
- 		let bNo = $(replyTable).parent().prev().val();
+ 		let bNo = '${board.bNo}';
  		$.ajax({
  			      url: '/nearby/board/boardBnoList',
 			      type: 'get',
@@ -256,55 +260,59 @@
 	
 	
 	
-	
-	
 	function fnLike(i){
 	       let likeBtn = $('.like_btn');
-		   $('#'+i).find('i').toggleClass('like');
-		   
-		   if( $("#"+i).find('i').hasClass('like') == false )  {
-           	$("#"+i).find('i').addClass('like');
-	            $.ajax({
-	 				url : '/nearby/board/likes',
-	 				type: 'post',
-					data: "bNo="+i, 
-					dataType: 'json',
-	 				success: function(board){
-	 					console.log(board);
-	 					console.log("좋아요 누른 카운트"+ board.likes);
-			  			   $( '#like_count'+bNo ).text(board.likes);
-			  			   location.href="/nearby/board/boardList";
-	 					
-	 				},
-	 				error : function(xhr, error){
-	 					console.log(xhr.status);
-	 					console.log(error);
-	 				}				
-	 			 }); 
-	            return
-	   }
-	 		
-		    if(  $("#"+i).find('i').hasClass('like') ) {
-		    	$("#"+i).find('i').removeClass('like');
-		    	
-		 		$.ajax({
-		  				url : '/nearby/board/likesCancel',
-		  				type: 'post',
-		  				data: "bNo="+i, 
-		 				dataType: 'json',
-		  				success: function(board){
-		  				   $( '#like_count'+ bNo ).text(board.likes);
-		  				  location.href="/nearby/board/boardList";
-		  				   
-		  				},
-		  				error : function(xhr, error){
-		  					console.log(xhr.status);
-		  					console.log(xhr.error)
-		  				}				
-		  			});  // ajax
-		  			return;
-		      } // if 
-		 }// fnLike 
+	       let bNo = '${board.bNo}';
+	          
+	          if( $("#"+i).find('i').hasClass('like') == false )  {
+	            	$("#"+i).find('i').addClass('like');
+		            $.ajax({
+		 				url : '/nearby/board/likes',
+		 				type: 'post',
+						data: "bNo="+i, 
+						dataType: 'json',
+		 				success: function(board){
+		 					console.log(board);
+		 					console.log("좋아요 누른 카운트"+ board.likes);
+  			  			   $( '#like_count'+bNo ).text(board.likes);
+  			  			   location.href="/nearby/board/selectBoard?bNo="+bNo;
+		 					
+		 				},
+		 				error : function(xhr, error){
+		 					console.log(xhr.status);
+		 					console.log(error);
+		 				}				
+		 			 }); 
+		            return
+		   }
+ 			
+	 	//	  console.log("likehasClass = " + $("#"+i).children('i').hasClass('like') )
+  
+  
+	    if(  $("#"+i).find('i').hasClass('like') ) {
+	    	$("#"+i).find('i').removeClass('like');
+	    	
+	 		$.ajax({
+	  				url : '/nearby/board/likesCancel',
+	  				type: 'post',
+	  				data: "bNo="+i, 
+	 				dataType: 'json',
+	  				success: function(board){
+	  			//	  console.log("좋아요 취소 카운트" + board.likes);
+	  				   $( '#like_count'+ bNo ).text(board.likes);
+	  				 location.href="/nearby/board/selectBoard?bNo="+bNo;
+	  				   
+	  				},
+	  				error : function(xhr, error){
+	  					console.log(xhr.status);
+	  					console.log(xhr.error)
+	  				}				
+	  			});  // ajax
+	  			return;
+	      } // if 
+	    }	 
+ 			
+ 	
 
 	
 /* ----------------------------------------- fnReplyList() --------------------------------  */
@@ -326,15 +334,14 @@ function fnReplyList(){
    }) // End ajax
 } // End fnReplyList
 
-/* ----------------------------------------- fnReplyTotalCount() --------------------------------  */
-	function fnReplyTotalCount(map) {
-		   $('#reply_count_per_board').text(map.total);
-		   console.log('  여기는 함수 내부이다     : '+map.total);
-		   if (map.total > 0 ) {
-			   $('.replyCount').addClass('like').removeClass('unlike');
-		   } else if (map.total == 0) {
-			   $('.replyCount').addClass('unlike').removeClass('like');
-		   }
+   function fnReplyTotalCount(map) {
+         $('#reply_count_per_board').text(map.total);
+         console.log('  여기는 함수 내부이다     : '+map.total);
+         if (map.total > 0 ) {
+            $('.replyCount').addClass('like').removeClass('unlike');
+         } else if (map.total == 0) {
+            $('.replyCount').addClass('unlike').removeClass('like');
+         }
 }
 
 
@@ -348,7 +355,7 @@ function fnReplyList(){
 		 
 		 if (p.totalRecord == 0) {
 		    $('<tr>')
-		    .append( $('<td colspan="5">').text('등록된 댓글이 없습니다.') )
+		    .append( $('<td colspan="5">').text('첫 번째 댓글의 주인공이 되어보세요!') )
 		    .appendTo( '.output_reply_table' );
 		 } else {
 		    
@@ -369,7 +376,7 @@ function fnReplyList(){
 				.append( $('<td class="btn_area">').html( $('<input type="button" class="show_reply_btn pointer disapear reply_btns" data-upno="'+reply.rNo+'" value="수정" data-login="'+id+'" data-writer="'+reply.id+'"></td>') ) )
 				.append( $('<td class="btn_area">').html( $('<input type="button" class="delete_reply_btn pointer disapear reply_btns" data-no="'+ reply.rNo +'" value="삭제" data-login="'+id+'" data-writer="'+reply.id+'" ></td>') ) )
 				.appendTo( '.output_reply_table' );
-				$('.output_reply_table').append( $('<tr class="input_row">').html( $('<td colspan="4"><input type="text" id="updateContent" value="'+reply.rContent+'" readonly></td><td class="btn_area"><input type="button" class="update_reply_btn pointer reply_btns disapear reply_insert_btns" data-updateno="'+reply.rNo+'" value="등록"></td>') ) );
+				$('.output_reply_table').append( $('<tr class="input_row">').html( $('<td colspan="4"><input type="text" class="reply_content" id="updateContent" value="'+reply.rContent+'" readonly></td><td class="btn_area"><input type="button" class="update_reply_btn pointer reply_btns disapear reply_insert_btns" data-updateno="'+reply.rNo+'" value="등록"></td>') ) );
 
 		    }) // End each
 		    
@@ -423,7 +430,7 @@ function fnInsertReply(){
 		$('body').on('click', '.delete_reply_btn', function(){
 			let deleteNo = $(this).data('no');
 			//console.log(deleteNo);
-			//alert(deleteNo);
+			alert(deleteNo);
 				$.ajax({
 					url: '/nearby/reply/deleteReply',
 					type: 'get',

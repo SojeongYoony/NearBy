@@ -14,8 +14,6 @@
 	/* 초기화 */
 	*{ margin: 0; padding: 0; box-sizing: border-box; font-size: 14px; font-weight: 600; }
 	html{ background-color: rgb(240, 242, 245); }
-	@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
-	*{font-family: 'NanumSquare';}
 	a{ text-decoration: 0; color: black; }
 	ul, ol{ list-style-type: none; }
 	
@@ -122,7 +120,7 @@
 	#leave_btn {
 		color:white;
 	    width: 220px; height: 50px;
-	    background: linear-gradient(#ff6e56,#ff3268);
+	    background-color: #ff3268;
 	    border-radius: 10px;
 		border: none;
 		margin: 30px 140px 20px 140px;
@@ -322,6 +320,7 @@
 	    width: 0; height: 0;
 	    position: absolute;
 	    left: -9999px;
+	    font-size: 14px;
 	}	 
 	 
 	.gender_box > input[type=radio] + label{
@@ -336,6 +335,7 @@
 	    background-color: rgb(232, 240, 254);
 	    text-align: center;
 	    cursor: pointer;
+	    font-size: 14px;
 	  }
 	.gender_box > input[type=radio]:checked + label{
 	    background-color: #91c7fa;
@@ -365,7 +365,7 @@
 	.btn_wrap input{
 		color:white;
 	    width: 220px; height: 50px;
-	    background: linear-gradient(#ff6e56,#ff3268);
+	    background-color: #ff3268;
 	    border-radius: 10px;
 	    margin-bottom: 40px;
 		border: none; 
