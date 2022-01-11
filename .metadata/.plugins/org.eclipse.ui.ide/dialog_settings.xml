@@ -109,6 +109,10 @@
 		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="C:\Users\Yoony\Desktop\NEARBY_\2022-01-09\최종합치기\NEARBY"/>
+			<item value="C:\Users\Yoony\Desktop\NEARBY_\2022-01-09\합치기\NEARBY"/>
+			<item value="C:\Users\Yoony\Desktop\NEARBY_\2022-01-09\NEARBY"/>
+			<item value="C:\Users\Yoony\Desktop\NEARBY_\2022-01-06\NEARBY"/>
 			<item value="C:\Users\Yoony\Desktop\NEARBY"/>
 			<item value="C:\Users\Yoony\Desktop\NEARBY_\2021-12-29\새벽추가작업\NEARBY"/>
 			<item value="C:\Users\Yoony\Desktop\NEARBY_\2021-12-27\학원\NEARBY"/>
@@ -132,5 +136,13 @@
 		<item key="SmartImportRootWizardPage.STORE_CLOSE_IMPORTED" value="false"/>
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
+	</section>
+	<section name="ChooseWorkspaceDialogSettings">
+		<item key="DIALOG_X_ORIGIN" value="569"/>
+		<item key="DIALOG_Y_ORIGIN" value="336"/>
+	</section>
+	<section name="WORKBENCH_SETTINGS">
+		<list key="ENABLED_TRANSFERS">
+		</list>
 	</section>
 </section>

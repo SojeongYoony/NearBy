@@ -6,23 +6,23 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="replyCount"/>
+		<item key="selection" value="유저 아이디"/>
 		<list key="findhistory">
-			<item value="replyCount"/>
-			<item value="reply_content"/>
-			<item value="authCode_btn"/>
-			<item value="btn"/>
-			<item value="loginErrorMsg"/>
-			<item value="insert_reply_btn"/>
-			<item value="show_reply_btn"/>
-			<item value="작성"/>
-			<item value="등록"/>
-			<item value="reply_insert_btns"/>
-			<item value="reply_btns"/>
-			<item value="file"/>
-			<item value="jepg"/>
-			<item value="icon_row"/>
-			<item value="reply_wrap"/>
+			<item value="유저 아이디"/>
+			<item value="유저"/>
+			<item value="home_link"/>
+			<item value="val(&apos;&apos;)"/>
+			<item value="val()"/>
+			<item value="console"/>
+			<item value="btn_wra"/>
+			<item value="profile_img"/>
+			<item value="container"/>
+			<item value="profile_box"/>
+			<item value="insert_btn"/>
+			<item value="_btn"/>
+			<item value="insert"/>
+			<item value="user_img"/>
+			<item value="img"/>
 		</list>
 		<list key="replacehistory">
 			<item value="등록"/>

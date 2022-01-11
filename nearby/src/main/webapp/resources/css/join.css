@@ -4,7 +4,6 @@
     margin: 0; padding: 0;
     box-sizing: border-box;
     font-size: 14px;
-    font-weight: 600;
 }
 
 html{
@@ -24,13 +23,14 @@ label{
     display: block;
     text-align: left;
     padding-bottom: 5px;
-    font-size: 18px;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 input{
     background-color: rgb(232, 240, 254);
-    border: 2px solid rgb(0, 0, 0, 0);
     cursor: pointer;
+    border: none;
 }
 
 button{
@@ -42,12 +42,17 @@ input:focus{
     box-shadow: 0 0 10px rgba(102, 179, 251, 0.5);
 }
 
-input::placeholder{
-    padding-left: 20px;
+input[type=text]{
+    padding-left: 15px;
+    font-weight: 300;
 }
 
-input:focus{
-    outline: none;
+.icon {
+    display: inline-block;
+    position: absolute;
+    right: 15px;
+    top: 37px;
+    font-weight: 900;
 }
 
 .container{
@@ -91,7 +96,22 @@ input:focus{
 .input_box{
     width: 450px;
     margin: 35px auto;
+}
 
+.input_box, .email_box, .tel_box{
+	position: relative;
+}
+
+.fa-check{
+	display: none;
+	color: #3348ff;
+    font-size: 18px;
+}
+
+.fa-times{
+	display: none;
+	color: #ff0000;
+	font-size: 18px;
 }
 
 .input_box input{
@@ -114,7 +134,7 @@ input:focus{
 .email_box > input[type=button]{
     display: none;
     width: 23%; height: 45px;
-    background: linear-gradient(#ff6e56,#ff3268);
+    background: #fe585c;
     border-radius: 10px;
     font-size: 12px;
     color: white;
@@ -129,15 +149,11 @@ input:focus{
 
 #authCode_box > input[type=button]{
     width: 23%; height: 45px;
-    background: linear-gradient(#ff6e56,#ff3268);
+    background: #fe585c;
     border-radius: 10px;
     font-size: 12px;
     color: white;
     outline: none;
-}
-
-.email_box > #email_check_box{
-    display: block;
 }
 
 #authCode_box{
@@ -181,8 +197,12 @@ input:focus{
 }
 
 .gender_box > p{
-    font-size: 18px;
+    font-size: 14px;
     padding-bottom: 5px;
+}
+
+.gender_box > label{
+	font-size: 18px;
 }
 
 .gender_box > input[type=radio]{
@@ -195,9 +215,8 @@ input:focus{
     display: inline-block;
     position: relative;
     justify-content: center;
-    width: 92px; height: 55px;
-    margin: 0 27px 0 27px;
-    line-height: 55px;
+    width: 145px; height: 45px;
+    line-height: 45px;
     border: none;
     border-radius: 10px;
     background-color: rgb(232, 240, 254);
@@ -217,27 +236,61 @@ input:focus{
 /* 회원가입 버튼 */
 .join_btn_wrap{
     width: 450px;
-    margin: 35px auto;
+    margin: 60px auto 50px auto;
 }
 
-.join_btn_wrap > input, button{
-    width: 220px; height: 50px;
-    background: linear-gradient(#ff6e56,#ff3268);
+.join_btn_wrap > button{
+	display: block;
+    width: 450px; height: 50px;
+    margin: 0 auto;
+    background: #fe585c;
     border: none;
     border-radius: 10px;
-    margin-bottom: 40px;
+    font-size: 18px;
     font-weight: 900;
     color: white;
 }
 
-/* 대표님의 요청 사항 */
-.space input[type=text]{
-    padding-left: 15px;
+#pol{
+	color: #c6bcbc;
+	font-weight: 100;
+}
+
+#pol:hover{
+	font-weight: 900;
+}
+
+/* sweet alert */
+/* error icon */
+.swal2-icon.swal2-error {color: pink; border-color: pink;}
+.swal2-icon.swal2-error [class^=swal2-x-mark-line] {
+    display: block;
+    position: absolute;
+    top: 2.3125em;
+    width: 2.9375em;
+    height: 0.3125em;
+    border-radius: 0.125em;
+    background-color: #ffc0cb;
+}
+
+/* success icon*/
+.swal2-icon.swal2-success [class^=swal2-success-line] {background-color: #2778c4;}
+.swal2-icon.swal2-success .swal2-success-ring{border: 0.25em solid #2778c4;}
+
+/* button */
+.swal2-confirm {
+    border: 0;
+    border-radius: 0.25em;
+    background: initial;
+    background-color: #ffc1cb;
+    color: #fff;
+    font-size: 1em;
 }
 
 /* 정규식 메세지 */
 .error_msg {
     display: block;
+    margin: 3px;
     font-size:12px;
     color:red;
 }

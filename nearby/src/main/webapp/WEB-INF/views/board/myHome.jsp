@@ -2,6 +2,7 @@
  pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri ="http://java.sun.com/jsp/jstl/functions" prefix="f" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,50 +14,92 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myHome.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/outputReplyOnly.css">
 <script src="${pageContext.request.contextPath}/resources/js/myHome.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<style>
+
+/* ------------------- reply 구역 ----------------- */
+
+	.output_reply_area {
+		margin-left: 20px;
+	}
+	
+	.replyCount {
+      margin-left: 80px;
+      line-height: 37px; 
+	}
+	/* 댓글 없을 때 */
+	.reply_none {
+	    padding: 15px 0 10px 30px;
+	    color: #525252;
+	    font-size: 12px;
+	}
+
+
+/* 폰트 size / spacing */
+	.re_content_area {
+		letter-spacing: 0.4px;
+		font-size: 14px;
+	}
+
+  .board_icon{
+  color: gray;
+  cursor: pointer;
+  }
+   .like   { color: #fe4662; cursor: pointer;  }
+   .unlike { color: gray; cursor: pointer;     }
+
+</style>
 <script>
 $(document).ready(function(){
-	 fnSendBno(); 
+	 fnSendBno();
+	 fnReply();
+	 fnCheckLogin();
  });
-	function fnSendBno(){
-		
-		$.each($('.output_reply_table'), function(i, replyTable) {	
- 		let bNo = $(replyTable).parent().prev().val();
- 		$.ajax({
- 			      url: '/nearby/board/boardBnoList',
-			      type: 'get',
-			      data: "bNo=" + bNo,
-			      dataType: 'json',
- 			      success: function(map) {
-			    	  console.log('성공했을때');
-			    	  console.log(map.count);
-			    	    if( map.count == 1 ){
-			    	    	// 색 있는 하트
-			    	    	 console.log("색 채우기")
-			    	    	 	$("#like"+bNo).addClass('like');
-			    	    	    
-			    	    	 
-			    	    } else if (map.count == 0) {
-			    	    	// 빈 하트
-			    	    	 console.log("색이 없기")
-			    	    	$("#like"+bNo).removeClass('like');
-			    	    }
-			    	  
-			      },
-			      error: function(xhr) {
-			    	  console.log(xhr.responseText);
- 			      }
- 			   }) // End ajax			
-		
- 		}); // each
- 	} //  fnSendBno()
- 
-function fnLike(i){
-    let likeBtn = $('.like_btn');
- 
-       
-       if( $("#"+i).find('i').hasClass('like') == false )  {
-         	$("#"+i).find('i').addClass('like');
+function fnSendBno(){
+	
+	$.each($('.output_reply_table'), function(i, replyTable) {	
+		let bNo = $(replyTable).parent().prev().val();
+		$.ajax({
+			  url: '/nearby/board/boardBnoList',
+		      type: 'get',
+		      data: "bNo=" + bNo,
+		      dataType: 'json',
+			      success: function(map) {
+		    //	  console.log('성공했을때');
+		    //	  console.log(map.count);
+		    	    if( map.count == 1 ){
+		    	    	// 색 있는 하트
+		   // 	    	 console.log("색 채우기")
+		    	    	 	$("#like"+bNo).addClass('like');
+		    	    	    
+		    	    	 
+		    	    } else if (map.count == 0) {
+		    	    	// 빈 하트
+		   // 	    	 console.log("색이 없기")
+		    	    	$("#like"+bNo).removeClass('like');
+		    	    }
+		    	  
+		      },
+		      error: function(xhr) {
+		    	  console.log(xhr.responseText);
+			      }
+			   }) // End ajax			
+	
+		}); // each
+	} //  fnSendBno()
+
+
+
+
+	function fnLike(i){
+       let likeBtn = $('.like_btn');
+       let bNo = likeBtn.attr('id');
+          
+          if( $("#"+i).find('i').hasClass('like') == false )  {
+            	$("#"+i).find('i').addClass('like');
 	            $.ajax({
 	 				url : '/nearby/board/likes',
 	 				type: 'post',
@@ -64,9 +107,9 @@ function fnLike(i){
 					dataType: 'json',
 	 				success: function(board){
 	 					console.log(board);
-	 			//		console.log("좋아요 누른 카운트"+ board.likes);
-		  			   $( '#like_count'+bNo ).text(board.likes);
-		  			   location.href="/nearby/board/selectBoard?bNo="+i;
+	 					console.log("좋아요 누른 카운트"+ board.likes);
+			  			   $( '#like_count'+bNo ).text(board.likes);
+			  			   location.href="/nearby/board/myHome";  
 	 					
 	 				},
 	 				error : function(xhr, error){
@@ -76,34 +119,148 @@ function fnLike(i){
 	 			 }); 
 	            return
 	   }
-		
-	//	  console.log("likehasClass = " + $("#"+i).children('i').hasClass('like') )
+			
+ 	//	  console.log("likehasClass = " + $("#"+i).children('i').hasClass('like') )
 
 
- if(  $("#"+i).find('i').hasClass('like') ) {
- 	$("#"+i).find('i').removeClass('like');
+    if(  $("#"+i).find('i').hasClass('like') ) {
+    	$("#"+i).find('i').removeClass('like');
+    	
+ 		$.ajax({
+  				url : '/nearby/board/likesCancel',
+  				type: 'post',
+  				data: "bNo="+i, 
+ 				dataType: 'json',
+  				success: function(board){
+  			//	  console.log("좋아요 취소 카운트" + board.likes);
+  				   $( '#like_count'+ bNo ).text(board.likes);
+  			   	 location.href="/nearby/board/myHome";
+  				   
+  				},
+  				error : function(xhr, error){
+  					console.log(xhr.status);
+  					console.log(xhr.error)
+  				}				
+  			});  // ajax
+  			return;
+      } // if 
+    }	 
+			
  	
-		$.ajax({
-				url : '/nearby/board/likesCancel',
-				type: 'post',
-				data: "bNo="+i, 
-				dataType: 'json',
-				success: function(board){
-			//	  console.log("좋아요 취소 카운트" + board.likes);
-				   $( '#like_count'+ bNo ).text(board.likes);
-				 location.href="/nearby/board/selectBoard?bNo="+i;
-				   
-				},
-				error : function(xhr, error){
-					console.log(xhr.status);
-					console.log(xhr.error)
-				}				
-			});  // ajax
-			return;
-   } // if 
- }	 
-		
+ 	
+/* 댓글 */
+	function fnReply(){
 
+		$.each($('.output_reply_table'), function(i, replyTable) {
+			let bNo = $(replyTable).parent().prev().val();
+			var page = 1;
+			$.ajax({
+				      url: '/nearby/reply/replyList',
+				      type: 'get',
+				      data: "bNo=" + bNo + "&page=" + page,
+				      dataType: 'json',
+				      success: function(map) {
+							fnPrintReplyList(map);
+				      },
+				      error: function(xhr) {
+				         console.log(xhr.responseText);
+				      }
+				   }) // End ajax			
+		
+			function fnPrintReplyList(map){
+	
+						$(replyTable).empty();
+
+										
+				 var p = map.pageUtils;
+				 let id = '${loginUser.id}';
+			
+				if (p.totalRecord == 0) {
+				    $('<tr>')
+				    .append( $('<td colspan="5" class="reply_none">').text('첫 번째 댓글의 주인공이 되어보세요!') )
+				    .appendTo( replyTable );
+				 } else {
+				    
+					$.each(map.replyList, function(i, reply){
+					    if ( reply.profile.pSaved != null ) { 
+							let pSaved = reply.profile.pSaved;
+							let pPath = reply.profile.pPath;
+							$(replyTable).append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="/nearby/'+pPath+'/'+pSaved+'"></td>') ) );
+					      } else if ( reply.profile.pPath == null ) { 
+							$(replyTable).append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png"></td>') ) );
+					      } // End if 프사 부분 
+					
+				         let strContent = reply.rContent;
+				         let reply_content = ''; 
+						if (strContent.length > 30) {
+							reply_content = strContent.substring(0, 30) + '...';
+						} else {
+							reply_content = strContent;
+						}
+						$('<tr class="reply_show">')
+						.append( $('<td class="reply_user_name_area">').html( $('<a id="link_'+reply.rNo+'" class="user_page_link">'+reply.id+'</a>') ) )
+						.append( $('<td class="like_icon_area">').html( $('<td colspan="4" class="pointer re_content_area" onclick="fnShowViewPage('+reply.bNo+')">'+reply_content+'</td><td></td>') ) )
+						.appendTo( replyTable );
+					
+						// 유저 이름당 href 링크 만들기
+						if (reply.id != id) {
+							$('.user_page_link[id=link_'+reply.rNo+']').attr('href','/nearby/board/selectUserHome?id='+reply.id);
+						} else if(reply.id == id) {
+							$('.user_page_link[id=link_'+reply.rNo+']').attr('href','/nearby/board/myHome');
+						}
+						
+					}) // End inner each
+					
+					// 게시글당 댓글 수 삽입부
+					$(".reply_count_per_board[id=\""+bNo+"\"]").text(map.total);
+					
+					
+					// 게시글당 댓글 수에 따른 아이콘 색상변경부
+			 		if (map.total > 0 ) {
+						$('.countIcon[id=icon_'+bNo+']').addClass('like').removeClass('unlike');
+					} else if (map.total < 0 ) {
+						$('.countIcon[id=icon_'+bNo+']').addClass('unlike').removeClass('like');
+					}
+					
+				 } // End if 
+
+			} // End fnPrintReplyList
+		}); // End outer each
+	} // End aa 
+	
+
+	
+	function fnShowViewPage(bNo) {
+		location.href='/nearby/board/selectBoard?bNo='+bNo;
+	}
+	
+	 /* 게시물 수정 */
+	function fnUpdateBtn(){
+	      if(confirm('게시글을 수정하시겠습니까?') )
+	         location.href= '/nearby/board/updateBoardPage?bNo='+ $('#selectBoardNo').val();
+   }
+ 
+	 
+	/* ----------------------------------------- fnCheckLogin() --------------------------------  */
+ 	function fnCheckLogin(){
+		let loginInfo = '${loginUser.id}';
+		if (loginInfo == '') {
+			
+		 Swal.fire({
+				text: '세션이 만료되었습니다. 로그인 화면으로 이동하시겠습니까?',
+		        icon: 'warning',
+		        showCancelButton: true,
+		        confirmButtonColor: '#D4D4D4',  // confirm
+		        cancelButtonColor: '#D4D4D4',   // cancel
+		        confirmButtonText: '이동',
+		        cancelButtonText: '취소'	
+		     }).then((result) => {
+				if(result.isConfirmed) { // confirm이 false이면 return
+					location.href='/nearby/';
+				}
+		     })
+		}
+	}	 
 </script>
 
 </head>
@@ -114,15 +271,15 @@ function fnLike(i){
      <section class="board">
 
         <!-- 프로필 사진, 이름, 게시물, 팔로워, 팔로잉, 프로필 설정-->
-        <div class="user_box">
-            <div class="user_img_box">
-            	<c:if test="${empty loginUser.profile.pSaved}">
-            		<img id="user_img" src="">
-            	</c:if>
-            	<c:if test="${not empty loginUser.profile.pSaved}">
-            		<img id="user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}">            	
-            	</c:if>
-            </div>
+		<div class="user_box">
+			<div class="user_img_box">
+				<c:if test="${empty loginUser.profile.pSaved}">
+					<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png"  class="pointer defaultImg">
+				</c:if>
+				<c:if test="${not empty loginUser.profile.pSaved}">
+					<img id="user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}">               
+				</c:if>
+			</div>
 
             <div class="user_item_box">
                 <span>${loginUser.id}</span>
@@ -131,11 +288,11 @@ function fnLike(i){
                     <input id="my_border" type="button" value="게시물">
                     <label for="my_border">${userBoardCount}</label>
 
-                    <input id="my_follower" type="button" value="팔로워">
-                    <label for="my_follower">200</label>
+                    <input id="my_follower" type="button" value="팔로워" onclick="location.href='/nearby/follow/followList'">
+                    <label for="my_follower" onclick="location.href='/nearby/follow/followList'">${f:length(followedList)}</label>
 
-                    <input id="my_following" type="button" value="팔로잉">
-                    <label for="my_following">300</label>
+                    <input id="my_following" type="button" value="팔로잉" onclick="location.href='/nearby/follow/followList'">
+                    <label for="my_following" onclick="location.href='/nearby/follow/followList'">${f:length(followingList)}</label>
                 </div>
 
                 <div class="content_box">
@@ -148,7 +305,7 @@ function fnLike(i){
                 <input id="profile_setup" type="button" value="프로필 설정" onclick="fnMyPage()">
             </div>
 
-        </div>
+        </div> <!-- End user_box DIV TAG -->
 
 		<!-- 게시물이 없을 때 -->
 		<c:if test="${empty list}">
@@ -169,25 +326,43 @@ function fnLike(i){
 	            <div class="board_wrap">
 	
 	                <!-- 유저 정보 -->
-	                <div class="board_head">
-	                    <div class="board_intro">		    
-	                    	<img id="user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}">
-	                        <input type="hidden" id="bNo" value="${board.bNo}">
-	                        <input type="hidden" id="origin" value="${board.origin}">
-	                        <input type="hidden" id="saved" value="${board.saved}">
-	                        <input type="hidden" id="location" value="${board.location}">
-	                    </div>
-	
-	                    <!-- 유저 아이디 -->
-	                    <div class="user_id">
-	                        <a href="/nearby/board/selectBoard" id="board_writer">${board.id}</a>
-	                    </div>
-	
-	                    <!-- 버튼(수정) 박스 -->
-	                    <div class=" update_box">
-	                        <a id="update_btn" href=""><i class="fas fa-cog"></i></a>
-	                    </div>
-	                </div>
+					<div class="board_head">
+						<div class="board_intro">
+							<c:if test="${loginUser.id != board.id}">
+								<a class="goHome" href="/nearby/board/selectUserHome?id=${board.id}"></a>                
+							</c:if>
+							<c:if test="${loginUser.id == board.id}">
+								<a class="goHome" href="/nearby/board/myHome"></a>                
+							</c:if>
+							<c:if test="${empty board.profile.pSaved}">
+								<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png">                          
+							</c:if>
+							<c:if test="${not empty board.profile.pSaved}">
+								<img id="user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}">                                                      
+							</c:if> 
+							<input type="hidden" id="bNo" value="${board.bNo}">
+							<input type="hidden" id="origin" value="${board.origin}">
+							<input type="hidden" id="saved" value="${board.saved}">
+							<input type="hidden" id="location" value="${board.location}">
+						</div>
+	                   <!-- 유저 아이디와 날짜 -->
+	                   <div class="idAndDate">
+	                     	
+							<div class="user_id id">
+					    	     <c:if test="${loginUser.id != board.id}">
+		                   			<a href="/nearby/board/selectUserHome?id=${board.id}">${board.id}</a>
+		               			</c:if>
+		               			<c:if test="${loginUser.id == board.id}">
+		                		   <a href="/nearby/board/myHome">${board.id}</a>                
+		              			</c:if>
+							</div>
+							<div class="date">
+					    	    <fmt:formatDate value="${board.created}" pattern="MM월 dd일  a hh:mm" />
+					    	    <i class="fas fa-globe-asia" ></i>
+					    	</div>
+				    	
+				    	</div>
+					</div>
 	
 	                <div class="board_body">
 	                    <!-- 내용만 작성 했을 경우 -->
@@ -200,7 +375,9 @@ function fnLike(i){
 	                            </div>
 	                            <!-- 내용 -->
 	                            <div class="content">
-	                                <textarea readonly="readonly" class="content_height"> ${board.content}</textarea> 
+		                            <div class="content textarea">
+			       		           		 <pre style='white-space:pre-wrap; word_wrap:break-word; word-break: break-all; width:505px;'>${board.content}</pre>
+			       		   		    </div>
 	                            </div>
 	                        </div>
 	                    </c:if>
@@ -238,8 +415,10 @@ function fnLike(i){
 	
 	                        <input type="hidden" name="path" value="${board.path}">
 	                        <div class="content">
-	                                <textarea readonly="readonly" class="content_height"> ${board.content}</textarea> 
-	                            </div>
+                            	<div class="content textarea">
+		       		            	<pre style='white-space:pre-wrap; word_wrap:break-word; word-break: break-all; width:496px;'>${board.content}</pre>
+		       		   			</div>
+                            </div>
 	
 	                    </c:if>
 	                    <!-- 댓글 / 좋아요 버튼 -->
@@ -252,31 +431,33 @@ function fnLike(i){
   					          </span>
 	                        </div>
 	                        <!-- 댓글 수 -->
-	                        <div class="reply_box box">
-	                            <label for="reply_btn"></label>
-	                            <i class="fas fa-comments"></i>
-	                            <input type="button" id="reply_btn">
-	                            <span class="count"></span>
-	                        </div>
-	                    </div>
+  				  		<div class="countIcon replyCount">
+			  				<i class="fas board_icon fa-comments countIcon replyCount"  id="icon_${board.bNo}" onclick="location.href='/nearby/board/selectBoard?bNo=${board.bNo}';"></i>
+			  				<span class="reply_count_per_board" id="${board.bNo}">0</span>
+				  		</div>
 	                </div>
-	                <!-- 댓글 -->
-	                <div class="reply_wrap" style="margin: 20px; border: 1px solid black; height: 100px; width: 500px; margin: 12px auto 5px;">
-	                    	소정언니댓글구현
-	                </div>
-	            </div>
 	
-	        </div>
+	        </div> <!-- End board Body DIV tag -->
+	                <!-- 댓글 -->
+		  			<div class="input_reply_area">	  			
+				  		<div class="reply_wrap">
+				  			<!-- 댓글 뿌리기 -->
+				  			<div class="output_reply_area">
+					  			<form>
+					  				<input type="hidden" name="bNo" value="${board.bNo}">
+						  			<table>
+						  				<tbody class="output_reply_table"></tbody>
+						  			</table>
+					  			</form>
+				  			</div>
+				  		</div>
+		  			</div> <!-- End class input_reply_area DIV tag -->
+	            </div> <!-- board Wrap DIV tag -->
+	            </div>
 	        </c:if>
 	        </c:forEach>
 		</c:if>
     </section>
-    
-    <footer>
-    
-    </footer>
-
-
 
 </body>
 

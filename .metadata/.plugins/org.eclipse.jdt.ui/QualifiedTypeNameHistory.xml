@@ -44,4 +44,5 @@
 <fullyQualifiedTypeName name="java.lang.Exception"/>
 <fullyQualifiedTypeName name="com.koreait.nearby.repository.ReplyRepository"/>
 <fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
+<fullyQualifiedTypeName name="org.apache.ibatis.exceptions.PersistenceException"/>
 </qualifiedTypeNameHistroy>

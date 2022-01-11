@@ -13,19 +13,19 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 public class ErrorController {
 
 	
+	 
+	 @ExceptionHandler(Exception.class)
+	 public String except(Exception e, Model model){ 
+		 model.addAttribute("exception", e);
+		 return "error/500error";
+	 }
 	
 	
-	@ExceptionHandler(Exception.class)
-	public String except(Exception e, Model model){
-		model.addAttribute("exception", e);
-		return "error/500error";
-	}
+	 @ExceptionHandler(NoHandlerFoundException.class)
+	 @ResponseStatus(value = HttpStatus.NOT_FOUND)
+     public String handle404(NoHandlerFoundException ex) { 
+		 return "error/404error"; 
+		 }
 	
-	
-	@ExceptionHandler(NoHandlerFoundException.class)
-	@ResponseStatus(value = HttpStatus.NOT_FOUND)
-	public String handle404(NoHandlerFoundException ex) {
-		return "error/404error";
-	}
 	
 }
