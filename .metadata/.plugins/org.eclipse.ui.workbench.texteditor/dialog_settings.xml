@@ -6,32 +6,34 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="유저 아이디"/>
+		<item key="selection" value="/nearby"/>
 		<list key="findhistory">
-			<item value="유저 아이디"/>
-			<item value="유저"/>
-			<item value="home_link"/>
-			<item value="val(&apos;&apos;)"/>
-			<item value="val()"/>
-			<item value="console"/>
-			<item value="btn_wra"/>
-			<item value="profile_img"/>
-			<item value="container"/>
-			<item value="profile_box"/>
-			<item value="insert_btn"/>
-			<item value="_btn"/>
-			<item value="insert"/>
-			<item value="user_img"/>
-			<item value="img"/>
+			<item value="&lt;%=request.getContextPath()%&gt;"/>
+			<item value="&lt;%"/>
+			<item value="user_item_box"/>
+			<item value="selectBoardList"/>
+			<item value="selectBoard"/>
+			<item value="boardList"/>
+			<item value="board/"/>
+			<item value="fnLogin"/>
+			<item value="login"/>
+			<item value="script"/>
+			<item value="board"/>
+			<item value="/board"/>
+			<item value="게시글"/>
+			<item value="게시글없"/>
+			<item value="게시글 없"/>
 		</list>
 		<list key="replacehistory">
+			<item value="/nearby"/>
+			<item value="/nearby/"/>
 			<item value="등록"/>
 			<item value="NearBy"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="1438"/>
-		<item key="DIALOG_Y_ORIGIN" value="214"/>
+		<item key="DIALOG_X_ORIGIN" value="904"/>
+		<item key="DIALOG_Y_ORIGIN" value="480"/>
 		<item key="DIALOG_WIDTH" value="288"/>
 		<item key="DIALOG_HEIGHT" value="391"/>
 		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>

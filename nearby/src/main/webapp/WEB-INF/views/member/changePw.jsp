@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>비밀번호 변경</title>
+<title>NearBy - 비밀번호 변경</title>
+<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/image/titleImg3.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -17,6 +18,10 @@
  @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 	.notosanskr * { font-family: 'Noto Sans KR', sans-serif; }
 	*{ margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', sans-serif; font-size: 14px; }
+
+	footer {
+		margin-top : 200px;
+	}
 </style>
 
 <script type="text/javascript">
@@ -43,35 +48,30 @@
 					Swal.fire({
 						text: '현재 비밀번호를 확인해주세요'
 					})
-                console.log('submit result : ' + pw_result);
                 return false;  
             } else if ( new_pw_result == false ) {
                 event.preventDefault();  
 					Swal.fire({
 						text: '새 비밀번호를 확인해주세요'
 					})
-                console.log('submit new_pw_result : ' + new_pw_result);
                 return false;  
             } else if ( pw_double_result == false ) {
                 event.preventDefault(); 
 					Swal.fire({
 						text: '새 비밀번호를 확인해주세요'
 					})
-                console.log('submit pw_double_result : ' + pw_double_result);
                 return false;  
             } else if ( email_result == false ) {
 				event.preventDefault();
 	    		  Swal.fire({
 						text: '이메일을 확인해주세요'
 					})
-                console.log('submit email_result : ' + email_result);
                 return false;  
             } else if ( authCodePass == false ) { 
 				event.preventDefault();
 	    		  Swal.fire({
 						text: '이메일 인증을 진행해주세요'
 					})
-                console.log('submit authCodePass : ' + authCodePass);
             	return false;
             } else{
             	return true;
@@ -138,11 +138,12 @@
          	
          	$('#authCode_btn').click(function(){
          		$.ajax({
-         			url : '/nearby/member/sendAuthCode',
+         			url : '<%=request.getContextPath()%>/member/sendAuthCode',
          			type: 'post',
          			data: 'email='+ $('#email').val(),
          			dataType: 'json',
          			success : function(map) {
+         				console.log(map.authCode);
     					Swal.fire({
     						text: '인증코드가 전송되었습니다.'
     					})
@@ -191,12 +192,11 @@
 	    $('#password_check_btn').on('click',function(){ // TODO ajax로 select 결과 받아서 처리하기해야함.
 
 			$.ajax({
-				url : '/nearby/member/checkPassword',
+				url : '<%=request.getContextPath()%>/member/checkPassword',
 				type : 'post',
 				data : 'pw=' + $('#pw').val(),
 				dataType: 'json',               // 받아올 데이터 타입
 				success : function(map){
-					console.log(map);
 					let name = '${loginUser.name}';
 					 if( map.selectResult > 0){
 						Swal.fire({
@@ -213,7 +213,6 @@
 						})
 						 pw_result = false;
 					 }
-					 console.log(pw_result);
 				}, // End Seuccess function
 				error : function(xhr, ajaxOptions, thrownError) {
 			       console.log(xhr.responseText);
@@ -232,12 +231,11 @@
 	    $('#authCode_btn').on('click',function(){ 
 
 			$.ajax({
-				url : '/nearby/member/selectByEmail',
+				url : '<%=request.getContextPath()%>/member/selectByEmail',
 				type : 'post',
 				data : 'email=' + $('#email').val(),
 				dataType: 'json',               // 받아올 데이터 타입
 				success : function(map){
-					console.log(map);
 					let name = '${loginUser.name}';
 					 if( map.result != null){
 						Swal.fire({
@@ -255,7 +253,6 @@
 						})
 						 email_result = false;
 					 }
-					 console.log(email_result);
 				}, // End Seuccess function
 				error : function(xhr, ajaxOptions, thrownError) {
 			       alert(xhr.responseText);
@@ -264,17 +261,18 @@
 			}) // End ajax
 		}); // click event
 	} // End fnCurrentPwCheck
-/* ------------------------------------------------------------- fnCurrentEmailCheck() ------------------------------------------------- */	
+/* ------------------------------------------------------------- fnSendAuthCode() ------------------------------------------------- */	
     function fnSendAuthCode(id){
     	
    /*  	$('#authCode_btn').click(function(){ */
     		$.ajax({
-    			url : '/nearby/member/sendAuthCode',
+    			url : '<%=request.getContextPath()%>/member/sendAuthCode',
     			type: 'post',
     			data: 'email='+ $('#email').val(),
     			dataType: 'json',
     			success : function(map) {
     				fnVerifyAuthcode(map.authCode, id); // 12/13추가
+    				console.log(map.authCode);
     			},
     			error: function() {
 					Swal.fire({
@@ -286,7 +284,7 @@
     	return;
     }
 
-/* ------------------------------------------------------------- fnCurrentEmailCheck() ------------------------------------------------- */	
+/* ------------------------------------------------------------- fnVerifyAuthcode() ------------------------------------------------- */	
 
    	// 인증코드 검증 변수와 함수
    	function fnVerifyAuthcode(authCode){
@@ -326,7 +324,7 @@
 		        cancelButtonText: '취소'	
 		     }).then((result) => {
 				if(result.isConfirmed) { // confirm이 false이면 return
-					location.href='/nearby/';
+					location.href='<%=request.getContextPath()%>/';
 				}
 		     })
 		}
@@ -345,14 +343,14 @@
     <div class="form_container" style="margin-top: 160px;">
         <div class="pw_change_box">
     
-            <form action="/nearby/member/changePassword" method="post" id="pw_change_form">
+            <form action="<%=request.getContextPath()%>/member/changePassword" method="post" id="pw_change_form">
 
                 <!-- 비밀번호 -->
                 <div class="input_box">
                     <label for="pw">현재 비밀번호</label>
                     <div id="current_pw_box">
 	                    <span class="space">
-	                  	  <input type="text" id="pw" name="pw">
+	                  	  <input type="password" id="pw" name="pw">
 	                    </span>
 	                    <span>
 		                    <input type="button" value="확인하기" id="password_check_btn" class="pointer">
@@ -363,7 +361,7 @@
                 <div class="input_box">
                     <label for="newPw">새 비밀번호</label>
                     <span class="space">
-                  	  <input type="text" id="newPw" name="newPw">
+                  	  <input type="password" id="newPw" name="newPw">
                     </span>
                     <p id="new_pw_check" class="msg_box"></p>
                 </div>
@@ -372,7 +370,7 @@
                 <div class="input_box">
                     <label for="pwCheck">새 비밀번호 확인</label>
                     <span class="space">
-	                    <input type="text" id="pwCheck" >
+	                    <input type="password" id="pwCheck" >
                     </span>
                     <p id="pw_doubleCheck" class="msg_box"></p>
                 </div>
@@ -409,11 +407,9 @@
     </div>
     
 
-      <footer class="footer_wrap">
-           <h2>About NearBy</h2><br>
-           <p>로고     히스토리     개인정보처리방침     도움말      제휴      광고      문의/피드백      채용</p>
-           <p>© NearBy Corp. All rights reserved.</p>
-    </footer>
+	  <footer>
+           <jsp:include page="/WEB-INF/views/layout/footer.jsp" flush="true" />
+      </footer>
 
 </body>
 </html>

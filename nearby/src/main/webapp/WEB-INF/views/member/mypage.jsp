@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>개인정보수정</title>
+<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/image/titleImg3.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -45,14 +46,10 @@
 	.pointer:hover {
 		cursor: pointer;
 	}
+	footer {
+		margin-top: 150px;
+	}
 	
-	/*  footer */
-   .footer_wrap {
-	   padding-bottom: 40px;
-	   text-align: center;
-	   color: #6e6e6e;
-   }
-  .footer_wrap  h2 { margin-top:  40px;}
 </style>
 
 <script type="text/javascript">
@@ -109,7 +106,6 @@
 					     })
 				} else if (map.member != null) { 
 				let birthday = map.result.birthday;
-				console.log(birthday);
 				let year = birthday.substring(0,4);
 				let month = birthday.substring(4,6);
 				let day = birthday.substring(6,8);
@@ -122,8 +118,8 @@
 					$('#month').val(month);
 					$('#day').val(day);
 					if (map.result.profile.pOrigin != '') {
-						$('#user_img').attr('src', '/nearby/' + map.result.profile.pPath + '/' + map.result.profile.pSaved);
-						$('#profile_img').attr('src', '/nearby/' + map.result.profile.pPath + '/' + map.result.profile.pSaved);
+						$('#user_img').attr('src', '/' + map.result.profile.pPath + '/' + map.result.profile.pSaved);
+						$('#profile_img').attr('src', '/' + map.result.profile.pPath + '/' + map.result.profile.pSaved);
 					} else {
 						$('#user_img').attr('src', '${pageContext.request.contextPath}/resources/image/profile_default.png');
 						$('#profile_img').attr('src', '${pageContext.request.contextPath}/resources/image/profile_default.png');
@@ -151,20 +147,18 @@
 			let extName = origin.substring(origin.lastIndexOf(".") + 1).toUpperCase(); // 확장자를 대문자로 저장 aaa.aaa.aaa.ccc 일 때, 마지막 마침표 다음 자리부터 끝까지 substring으로 가지고오고 
 			if ( $.inArray(extName, ['JPG', 'JPEG', 'GIF', 'PNG', 'JFIF']) == -1 ) {	// 첨부된 파일이 ['JPG', 'JPEG', 'GIF', 'PNG'] 중 하나가 아니면 (-1) :: 확장자 제한 두기
 				Swal.fire({
-				//	icon: 'warning',
 					title: '확장자를 확인해주세요',
 					text: '첨부 가능한 이미지의 확장자는 jpg, jpeg, gif, png, jfif 입니다.'
 				});
 				$(this).val(''); // 첨부 초기화
 				return;
-			} 		
+			}			
 			
 			/* 파일크기 점검 */
 			let maxSize = 1024 * 1024 * 10;	// 최대 크기 10MB
 			let fileSize = $(this)[0].files[0].size; // 첨부된 파일 크기
 			if (fileSize > maxSize) {
 				Swal.fire({
-				//	icon: 'warning',
 					title: '파일의 크기를 확인해 주세요',
 					text: '10MB 이하의 파일만 사용하실 수 있습니다.'
 				});
@@ -181,11 +175,10 @@
 	// 프로필 사진 변경
 	function fnProfilePic(){
 		$('#profile_insert_btn').on('click', function(){
-				
+			
 			let formData = new FormData();
 				let file = $('#file')[0].files[0];
 				formData.append('file', file); // 첨부를 FormData에 넣기
-				
 				$.ajax({
 				url: '/nearby/profile/profilePic',
 				type: 'post',
@@ -206,7 +199,6 @@
 						fnFindMemberInfo();
 						$('.hidden_box').removeClass('hidden_class');
 					} else if (map.nullMsg != null) {
-						console.log(map.nullMsg);
 						Swal.fire({
 							icon: 'error',
 							text: name + '님의 프로필 사진등록을 실패했습니다.',
@@ -223,7 +215,7 @@
 		}) // End profile_insert_btn click event
 	} // fnProfilePic
 
-/* ------------------------------------------------------------ fnProfilePic() ------------------------------------------------------------ */
+/* ------------------------------------------------------------ fnDeleteProfilePic() ------------------------------------------------------------ */
 	// 사진 삭제
 	function fnDeleteProfilePic(){
 		$('#delete_btn').on('click', function(){
@@ -248,7 +240,7 @@
 						icon: 'error',
 						text: name + '님의 프로필이 초기화되지 않았습니다.',
 					})
-				}
+				 }
 				} // success
 			}) // End ajax
 		}) // End deleteBtn Click Event
@@ -259,29 +251,28 @@
 	function fnModifyMemberInfo() {
 		$('#modify_btn').click(function(){
 			let birthday = $('#birthday').val() + $('#month').val() + $('#day').val();
-			console.log(birthday);
 			if ( $('#content').val().length > 500 ) {
 				Swal.fire({
                     icon: 'error',
-                    text: '자기소개는 500자 이내로 작성해주세요!' ,
+                    text: '자기소개는 500자 이내로 작성해주세요' ,
                 });
 				return;
 			} else if ( $('#name').val().trim() == '' ) {
 				Swal.fire({
                     icon: 'error',
-                    text: '이름을 입력해주세요!' ,
+                    text: '이름을 입력해주세요' ,
                 });
 				return;
 			} else if ( $('#phone').val().trim().length != 11 || $('#phone').val() == '' ) {
 				Swal.fire({
                     icon: 'error',
-                    text: '핸드폰 번호는 11자리 정수입니다!' ,
+                    text: '핸드폰 번호는 11자리 정수입니다' ,
                 });
 				return;
 			} else if ( birthday.length != 8 ) {
 				Swal.fire({
                     icon: 'error',
-                    text: '생일정보를 모두 기입해주세요!!' ,
+                    text: '생일정보를 모두 입력해주세요' ,
                 });
 				return;
 			} else {
@@ -317,11 +308,6 @@
 		                        icon: 'error',
 		                        text: map.nullErrorMsg + ' 내용을 채워주세요.',
 		                    });
-						} else if (map.updateErrorMsg != null){
-							Swal.fire({
-		                        icon: 'error',
-		                        text: map.updateErrorMsg ,
-		                    });
 						} else {
 							Swal.fire({
 					            icon: 'error',
@@ -330,7 +316,7 @@
 						}
 					} // End fn_success
 				}) // End ajax
-			}
+			} // End if
 		}) // End modify_btn click event
 	} // End fnModifyMemberInfo
 
@@ -353,13 +339,12 @@
 			     }).then((result) =>{
 					if(result.isConfirmed) { // confirm이 false이면 return
 						if(pw_result == true) { 
-								$('#form').attr('action', '/nearby/member/leaveMember/');
-								$('#form').submit();
 								Swal.fire({
 						            title: '탈퇴되었습니다.',
 						            text: 'NearBy를 이용해주셔서 감사합니다.',
-						            timer: 300000,
 						        });
+								$('#form').attr('action', '/nearby/member/leaveMember/');
+								$('#form').submit();
 							} else if (pw_result == false || $('#pw').val()=='') { // pw_result == false 이면 return;
 								Swal.fire({
 						            icon: 'error',
@@ -401,7 +386,6 @@
 						})
 						 pw_result = false;
 					 }
-					 console.log(pw_result);
 				}, // End Seuccess function
 				error : function(xhr, ajaxOptions, thrownError) {
 			       alert(xhr.responseText);
@@ -506,130 +490,129 @@
 			<jsp:include page="/WEB-INF/views/layout/header.jsp" flush="true" />
 		</header>
  <!-- 레이아웃 header 삽입하기 -->
-    <div class="profile_container"> <!-- 1 -->
-	<div class="hidden_box"></div> <!-- hidden BOX -->
-    	<c:if test="${loginUser.state == 0}">
-	    	<!-- 회원탈퇴 -->
-	    	<div class="leave_user_wrap">
-	    		<input type="button" id="show_leave_btn_box" class="btn pointer" value="회원탈퇴하기" onclick="fnShowLeaveFormArea()">
-	    			<!-- 탈퇴시, 비밀번호 인증 -->
-                <div class="current_pw_check_box">
-                	<div id="close_leave_btn_area">
-	               		<i id="close_leave_area_icon" class="fas fa-times pointer" onclick="fnCloseBtn()"></i>   
-                	</div>
-                    <label for="pw">현재 비밀번호</label>
-               		
-               		
-                    <div id="current_pw_box">
-	                    <span class="space">
-	                  	  <input type="text" id="pw" name="pw">
-	                    </span>
-	                    <span>
-		                    <input type="button" value="확인하기" id="password_check_btn" class="pointer">
-	                    </span>
-                    </div>
-		    		<input type="button" id="leave_btn" class="btn pointer" value="회원탈퇴하기">
-                </div>
-	    	</div>
-	    	
-	    	<p id='user_name_area'></p>
-	    	<div id="profile_area">
-				<div id="profile_result">
-					<div id="p_img" style="width:100%;height:100%;" data-msg="이미지변경">
-				
-						<c:if test="${empty loginUser.profile.pSaved}">
-							<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" onclick="fnShowBtnBox()" class="pointer defaultImg">
-						</c:if>
-						<c:if test="${not empty loginUser.profile.pSaved}">
-							<img id="user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" onclick="fnShowBtnBox()" class="pointer">
-						</c:if>
-					 
+ 	<main> 	
+	    <div class="profile_container"> <!-- 1 -->
+		<div class="hidden_box"></div> <!-- hidden BOX -->
+	    	<c:if test="${loginUser.state == 0}">
+		    	<!-- 회원탈퇴 -->
+		    	<div class="leave_user_wrap">
+		    		<input type="button" id="show_leave_btn_box" class="btn pointer" value="회원탈퇴하기" onclick="fnShowLeaveFormArea()">
+		    			<!-- 탈퇴시, 비밀번호 인증 -->
+	                <div class="current_pw_check_box">
+	                	<div id="close_leave_btn_area">
+		               		<i id="close_leave_area_icon" class="fas fa-times pointer" onclick="fnCloseBtn()"></i>   
+	                	</div>
+	                    <label for="pw">현재 비밀번호</label>
+	               		
+	               		
+	                    <div id="current_pw_box">
+		                    <span class="space">
+		                  	  <input type="password" id="pw" name="pw">
+		                    </span>
+		                    <span>
+			                    <input type="button" value="확인하기" id="password_check_btn" class="pointer">
+		                    </span>
+	                    </div>
+			    		<input type="button" id="leave_btn" class="btn pointer" value="회원탈퇴하기">
+	                </div>
+		    	</div>
+		    	
+		    	<p id='user_name_area'></p>
+		    	<div id="profile_area">
+					<div id="profile_result">
+						<div id="p_img" style="width:100%;height:100%;" data-msg="이미지변경">
+					
+							<c:if test="${empty loginUser.profile.pSaved}">
+								<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" onclick="fnShowBtnBox()" class="pointer defaultImg">
+							</c:if>
+							<c:if test="${not empty loginUser.profile.pSaved}">
+								<img id="user_img" src="/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" onclick="fnShowBtnBox()" class="pointer">
+							</c:if>
+						 
+						</div>
 					</div>
-				</div>
-				<div class="content_box">
-					<textarea rows="5" cols="35" placeholder="자신을 맘껏 표현해보세요" id="content" name="content"></textarea>
-				</div>
-				<!-- 첨부박스 -->
-				<div class="file_box">
-					<div id="close_file_box_icon_area">
-						<i id="close_file_box_icon" class="fas fa-times pointer" onclick="fnImageClose()"></i>   
+					<div class="content_box">
+						<textarea rows="5" cols="35" placeholder="자신을 맘껏 표현해보세요" id="content" name="content"></textarea>
 					</div>
-					<label id="file_label" for="file"><i class="fas fa-photo-video"></i></label>
-					<input type="file" id="file" class="pointer">
-					<ul class="delete_update_form">
-						<li><input type="button" value=' 사진변경 ' id="profile_insert_btn"  class="pointer"></li>
-						<li><input type="button" value='사진초기화' id="delete_btn"  class="pointer"></li>
-					</ul>
-				</div>
-	    	</div>
-	 
-	        <div class="join_form">
-	        	<form id="form" method="post">
-					<input type="hidden" value="${loginUser.mNo}" id="mNo" name="mNo">
-	        	</form>
-               <!-- 이름 -->
-               <div class="input_box">
-                   <label for="name">이름</label>
-                   <span class="space">
-                    <input type="text" id="name" name="name">
-                   </span>
-                   <span id="name_check"></span>
-               </div>
+					<!-- 첨부박스 -->
+					<div class="file_box">
+						<div id="close_file_box_icon_area">
+							<i id="close_file_box_icon" class="fas fa-times pointer" onclick="fnImageClose()"></i>   
+						</div>
+						<label id="file_label" for="file"><i class="fas fa-photo-video"></i></label>
+						<input type="file" id="file" class="pointer">
+						<ul class="delete_update_form">
+							<li><input type="button" value=' 사진변경 ' id="profile_insert_btn"  class="pointer"></li>
+							<li><input type="button" value='사진초기화' id="delete_btn"  class="pointer"></li>
+						</ul>
+					</div>
+		    	</div>
+		 
+		        <div class="join_form">
+		        	<form id="form" method="post">
+						<input type="hidden" value="${loginUser.mNo}" id="mNo" name="mNo">
+		        	</form>
+	               <!-- 이름 -->
+	               <div class="input_box">
+	                   <label for="name">이름</label>
+	                   <span class="space">
+	                    <input type="text" id="name" name="name">
+	                   </span>
+	                   <span id="name_check"></span>
+	               </div>
+		
+	               <!-- 번호 -->
+	               <div class="tel_box">
+	                   <label for="phone">핸드폰 번호</label>
+	                   <span class="space">
+	                    <input type="text" id="phone" name="phone" placeholder=" - 표시 없이 입력해주세요">
+	                   </span>
+	                   <span id="phone_check"></span>
+	               </div>
+		               
+	               <!-- 생년월일 -->
+	               <div class="birth_box">
+	                   
+	                   <!-- 년도 -->
+	                   <label for="birthday">생년월일</label>
+	                   <select id="birthday" name="year"></select>
 	
-               <!-- 번호 -->
-               <div class="tel_box">
-                   <label for="phone">핸드폰 번호</label>
-                   <span class="space">
-                    <input type="text" id="phone" name="phone" placeholder=" - 표시 없이 입력해주세요">
-                   </span>
-                   <span id="phone_check"></span>
-               </div>
-	               
-               <!-- 생년월일 -->
-               <div class="birth_box">
-                   
-                   <!-- 년도 -->
-                   <label for="birthday">생년월일</label>
-                   <select id="birthday" name="year"></select>
-
-                   <!-- 월 -->
-                   <select id="month" name="month">
-                       <option>월</option>
-                   </select>
-
-                   <!-- 일 -->
-                   <select id="day" name="day">
-                       <option>일</option>
-                   </select>
-               </div>
+	                   <!-- 월 -->
+	                   <select id="month" name="month">
+	                       <option>월</option>
+	                   </select>
 	
-               <!-- 성별 -->
-               <div class="gender_box">
-                   <p id="gender_box">성별</p>
-                   <!-- 선택 안 함 -->
-                   <input type="radio" name="gender" value="n" id="n" class="btns" checked>
-                   <label id="n"  for="n">선택안함</label>
-
-                   <!-- 남성 -->
-                   <input type="radio" name="gender" value="m" id="male" class="btns">
-                   <label id="m"  for="male">남성</label>
-                   
-                   <!-- 여성 -->
-                   <input type="radio" name="gender" value="f" id="female">
-                   <label id="f" for="female">여성</label>
-               </div>
+	                   <!-- 일 -->
+	                   <select id="day" name="day">
+	                       <option>일</option>
+	                   </select>
+	               </div>
+		
+	               <!-- 성별 -->
+	               <div class="gender_box">
+	                   <p id="gender_box">성별</p>
+	                   <!-- 선택 안 함 -->
+	                   <input type="radio" name="gender" value="n" id="n" class="btns" checked>
+	                   <label id="n"  for="n">선택안함</label>
 	
-               <div class="btn_wrap">
-                   <input type="button" id="modify_btn" class="btn btn-primary pointer" value="수정완료">                
-               </div>                
-	        </div>
-    	</c:if>
-    </div> <!-- End profile_container -->
-
-      <footer class="footer_wrap">
-           <h2>About NearBy</h2><br>
-           <p>로고     히스토리     개인정보처리방침     도움말      제휴      광고      문의/피드백      채용</p>
-           <p>© NearBy Corp. All rights reserved.</p>
+	                   <!-- 남성 -->
+	                   <input type="radio" name="gender" value="m" id="male" class="btns">
+	                   <label id="m"  for="male">남성</label>
+	                   
+	                   <!-- 여성 -->
+	                   <input type="radio" name="gender" value="f" id="female">
+	                   <label id="f" for="female">여성</label>
+	               </div>
+		
+	               <div class="btn_wrap">
+	                   <input type="button" id="modify_btn" class="btn btn-primary pointer" value="수정완료">                
+	               </div>                
+		        </div>
+	    	</c:if>
+	    </div> <!-- End profile_container -->
+	</main>
+ 	<footer>
+         <jsp:include page="/WEB-INF/views/layout/footer.jsp" flush="true" />
     </footer>
 
 </body>

@@ -42,7 +42,7 @@ input:focus{
     box-shadow: 0 0 10px rgba(102, 179, 251, 0.5);
 }
 
-input[type=text]{
+input[type=text], input[type=password]{
     padding-left: 15px;
     font-weight: 300;
 }

@@ -7,7 +7,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>NearBy</title>
+<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/image/titleImg3.png">
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
@@ -63,7 +64,7 @@ $(document).ready(function(){
  });
 //fnCheckFollow(); 
 function fnCheckFollow() {
-	let pId = '${user[0].profile.id}';
+	let pId = '${userId}';
 	let follow = JSON.stringify({
   	  profile : {id : pId} 
 	  	});
@@ -74,23 +75,11 @@ function fnCheckFollow() {
   	  	contentType: 'application/json',
   	  	dataType: 'json',
 	    success: function(map) {
-	    	  console.log(map);
 	    	  if(map.result == 1) { 
-		    	  console.log('팔로잉중');
 		    	  $('#profile_setup').val('팔로잉').attr('onclick', 'fnUnfollowing()');
-		    	 
-	    	  	
-	    	  
 	    	  } else if (map.result == 0) {
-	    	 	  console.log('팔로우하기');		  
 	    	 	  $('#profile_setup').val('팔로우').attr('onclick', 'fnFollowing()');
-	    	 	  
-	    	 	  
 	    	  }
-
-	    	 
-	    	  
-	    	  
 	      },
 	     error: function(xhr) {
 	    	  console.log(xhr.responseText);
@@ -102,9 +91,7 @@ function fnCheckFollow() {
 
 //fnFollowing();
 function  fnFollowing() {
-	console.log('Following() 실행');
-	let id = '${user[0].profile.id}';
-	console.log(id);
+	let id = '${userId}';
 	$.ajax({
 	      url: '/nearby/follow/following',
 	      type: 'post',
@@ -114,12 +101,8 @@ function  fnFollowing() {
 	      contentType: 'application/json',
 	      dataType: 'json',
 	      success: function(map) {
-	    	  console.log(map);
 	    	  if(map.result == 1) { 
-	    	  console.log('성공');
 	    	  location.href='/nearby/board/selectUserHome?id=' +id;
-	    	  } else {
-	    	  console.log('실패');		  
 	    	  }
 	    	  
 	      },
@@ -131,9 +114,7 @@ function  fnFollowing() {
 
 //fnUnfollowing();
 function  fnUnfollowing() {
-	console.log('unfollowing() 실행');
-	let id = '${user[0].profile.id}';
-	console.log(id);
+	let id = '${userId}';
 	$.ajax({
 	      url: '/nearby/follow/unfollowing',
 	      type: 'post',
@@ -143,13 +124,9 @@ function  fnUnfollowing() {
 	      contentType: 'application/json',
 	      dataType: 'json',
 	      success: function(map) {
-	    	  console.log(map);
 	    	  if(map.result == 1) { 
-	    	  console.log('성공');
 	    	  location.href='/nearby/board/selectUserHome?id=' +id;
-	    	  } else {
-	    	  console.log('실패');		  
-	    	  }
+	    	  } 
 	    	  
 	      },
 	      error: function(xhr) {
@@ -197,10 +174,7 @@ function fnSendBno(){
 					data: "bNo="+i, 
 					dataType: 'json',
 	 				success: function(board){
-	 					console.log(board);
-	 					console.log("좋아요 누른 카운트"+ board.likes);
 			  			   $( '#like_count'+bNo ).text(board.likes);
-			  			   location.href="/nearby/board/myHome";  
 	 				},
 	 				error : function(xhr, error){
 	 					console.log(xhr.status);
@@ -220,8 +194,6 @@ function fnSendBno(){
  				dataType: 'json',
   				success: function(board){
   				   $( '#like_count'+ bNo ).text(board.likes);
-  			   	 location.href="/nearby/board/myHome";
-  				   
   				},
   				error : function(xhr, error){
   					console.log(xhr.status);
@@ -268,11 +240,11 @@ function fnSendBno(){
 				 } else {
 				    
 					$.each(map.replyList, function(i, reply){
-					    if ( reply.profile.pSaved != null ) { 
+					    if ( reply.profile.pSaved != '' ) { 
 							let pSaved = reply.profile.pSaved;
 							let pPath = reply.profile.pPath;
-							$(replyTable).append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="/nearby/'+pPath+'/'+pSaved+'"></td>') ) );
-					      } else if ( reply.profile.pPath == null ) { 
+							$(replyTable).append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="/'+pPath+'/'+pSaved+'"></td>') ) );
+					      } else if ( reply.profile.pPath == '' ) { 
 							$(replyTable).append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png"></td>') ) );
 					      } // End if 프사 부분 
 					
@@ -329,7 +301,6 @@ function fnSendBno(){
 	 
 	/* ----------------------------------------- fnCheckLogin() --------------------------------  */
  	function fnCheckLogin(){
-		console.log('logincheck');
 		let loginInfo = '${loginUser.id}';
 		if (loginInfo == '') {
 			
@@ -352,17 +323,29 @@ function fnSendBno(){
 </head>
 <body>
 
-    <jsp:include page="/WEB-INF/views/layout/header.jsp" flush="true" />
+    <c:if test="${loginUser.id != 'admin'}"> 
+      <header class="header">
+         <jsp:include page="/WEB-INF/views/layout/header.jsp" flush="true" />
+      </header>
+   </c:if>
+   
+    <c:if test="${loginUser.id == 'admin'}"> 
+      <header class="header">
+         <jsp:include page="/WEB-INF/views/layout/adminHeader.jsp" flush="true" />
+      </header>
+    </c:if>
+    
+       
      <section class="board">
 
         <!-- 프로필 사진, 이름, 게시물, 팔로워, 팔로잉, 프로필 설정-->
         <div class="user_box">
             <div class="user_img_box">
-            	<c:if test="${empty user[0].profile.pSaved}">
+            	<c:if test="${empty userProfile[0].pSaved}">
             		<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png">
             	</c:if>
-            	<c:if test="${not empty user[0].profile.pSaved}">
-            		<img id="user_img" src="/nearby/${user[0].profile.pPath}/${user[0].profile.pSaved}">            	
+            	<c:if test="${not empty userProfile[0].pSaved}">
+            		<img id="user_img" src="/${userProfile[0].pPath}/${userProfile[0].pSaved}">            	
             	</c:if>
             </div>
 
@@ -373,17 +356,21 @@ function fnSendBno(){
                     <input id="my_border" type="button" value="게시물">
                     <label for="my_border">${userBoardCount}</label>
 					
-                    <input id="my_follower" type="button" value="팔로워" onclick="location.href='/nearby/follow/userFollow?id='+ '${user[0].profile.id}'">
-                    <label for="my_follower" onclick="location.href='/nearby/follow/userFollow?id='+ '${user[0].profile.id}'">${f:length(followedList)}</label>
+                    <input id="my_follower" type="button" value="팔로워" onclick="location.href='/nearby/follow/userFollow?id='+ '${userId}'">
+                    <label for="my_follower" onclick="location.href='/nearby/follow/userFollow?id='+ '${userId}'">${f:length(followedList)}</label>
 
-                    <input id="my_following" type="button" value="팔로잉" onclick="location.href='/nearby/follow/userFollow?id='+ '${user[0].profile.id}'">
-                    <label for="my_following" onclick="location.href='/nearby/follow/userFollow?id='+ '${user[0].profile.id}'">${f:length(followingList)}</label>
+                    <input id="my_following" type="button" value="팔로잉" onclick="location.href='/nearby/follow/userFollow?id='+ '${userId}'">
+                    <label for="my_following" onclick="location.href='/nearby/follow/userFollow?id='+ '${userId}'">${f:length(followingList)}</label>
                	
                 </div>
-
+				<!-- 
                 <div class="content_box">
                     <span>${user[0].profile.pContent}</span>
                 </div>
+				 -->
+				 <div class="content_box">
+					 <pre style='white-space:pre-wrap; word_wrap:break-word; word-break: break-all;'>${userProfile[0].pContent}</pre>
+				 </div>
 
             </div>
 
@@ -392,9 +379,12 @@ function fnSendBno(){
             </div>
         </div>
 
-		<c:if test="${empty user}">
-			<h1 style="text-align: center; font-size: 24px;">게시물 없음</h1>	
-		</c:if>   
+      <c:if test="${empty user}">
+           <div class="no_board" style="text-align: center;">
+               <span class="icon"><i style="font-size: 70px; color: gray;" class="far fa-times-circle"></i></span>
+               <p class="no_board">게시물이 없습니다.</p>
+           </div>
+      </c:if>   
    
 		<!-- 게시물이 있을 때 -->
 		<c:if test="${not empty user}">
@@ -419,7 +409,7 @@ function fnSendBno(){
 			                    	<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png">
 			                    </c:if>
 		    					<c:if test="${not empty board.profile.pSaved}">
-			                    	<img id="user_img" id="user_img" src="/nearby/${board.profile.pPath}/${board.profile.pSaved}">    					
+			                    	<img id="user_img" id="user_img" src="/${board.profile.pPath}/${board.profile.pSaved}">    					
 		    					</c:if>
 		                        <input type="hidden" id="bNo" value="${board.bNo}">
 		                        <input type="hidden" id="origin" value="${board.origin}">
@@ -474,7 +464,7 @@ function fnSendBno(){
 		                        <!-- video가 아닌 것을 가져와라 ! -->
 		                        <c:if test="${not f:contains(video, 'video')}">
 		                            <div class="imgSize">
-		                                <img alt="${board.origin}" src="/nearby/${board.path}/${board.saved}" id="image">
+		                                <img alt="${board.origin}" src="/${board.path}/${board.saved}" id="image">
 		                            </div>
 		                        </c:if>
 		
@@ -482,7 +472,7 @@ function fnSendBno(){
 		                        <c:if test="${f:contains(video, 'video')}">
 		                            <div class="imgSize">
 		                                <video autoplay controls loop muted id="video">
-		                                    <source src="/nearby/${board.path}/${board.saved}" type="video/mp4">
+		                                    <source src="/${board.path}/${board.saved}" type="video/mp4">
 		                                </video>
 		                            </div>
 		                        </c:if>

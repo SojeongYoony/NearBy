@@ -39,6 +39,7 @@ public interface BoardService {
 	public int selectUserBoardsCount(HttpServletRequest request);
 	public List<Follow> userFollowingIdById(HttpServletRequest request);
 	public List<Follow> userFollowedIdById(HttpServletRequest request);
+	public List<Board> selectMyHomeBoardList(HttpServletRequest request);
     
     // 좋아요
     public Board likes( Likes likes, HttpSession session);
@@ -54,6 +55,7 @@ public interface BoardService {
     public Map<String, Object> adminBoardDelete(Long bNo, HttpServletRequest request);
   
     /* 해당 유저의 모든 정보 + 해당 유저의 팔로잉 팔로워 정보 */
+	public List<Profile> selectUserProfile(String id);
     public List<Board> selectUserHome(String id);
 	public List<Follow> selectFollowingIdById(String id);
 	public List<Follow> selectFollowedIdById(String id);

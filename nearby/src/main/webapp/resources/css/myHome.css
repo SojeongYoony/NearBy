@@ -81,7 +81,7 @@ body {
    flex-direction: column;
    padding-left: 10px;
    width: 340px;
-   height: 150px;
+ /*  height: 150px;*/
 }
 
 .user_item_box>span {
