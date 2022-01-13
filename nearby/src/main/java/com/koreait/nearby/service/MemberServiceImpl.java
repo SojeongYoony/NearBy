@@ -248,6 +248,7 @@ public class MemberServiceImpl implements MemberService {
 			String phone = m.getPhone();
 			String gender = m.getGender();
 			String content = m.getProfile().getpContent();
+			
 			if (birthday.length() != 8) throw new NullPointerException("생일 정보가 없습니다.");
 			if (name.trim() == null || name.trim().isEmpty()) throw new NullPointerException("입력된 이름이 없습니다.");
 			if (phone.trim() == null || phone.trim().isEmpty()) throw new NullPointerException("입력된 핸드폰 번호가 없습니다.");
