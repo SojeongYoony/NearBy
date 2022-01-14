@@ -73,12 +73,12 @@
 	let regName = /^[a-zA-Z가-힣]{1,30}$/;
     // 핸드폰 번호
 	let regPhone = /^((01[1|6|7|8|9])[1-9]+[0-9]{6,7})|(010[1-9][0-9]{7})$/;
+    
 	let id_result = false;
 	let name_result = false;
 	let phone_result = false;
 	let pw_result = false;
-   
- /* ************************************************************************************ */
+ 
 
 
 /* ------------------------------------------------------------ fnFindMemberInfo() ------------------------------------------------------------ */
@@ -92,13 +92,11 @@
 			success: function(map){
 				if(map.loginErrorMsg != null) {
 					 Swal.fire({
-							text: '세션이 만료되었습니다. 로그인 화면으로 이동하시겠습니까?',
+							text: '세션이 만료되었습니다. 로그인 화면으로 이동합니다.',
 					        icon: 'warning',
-					        showCancelButton: true,
 					        confirmButtonColor: '#D4D4D4',  // confirm
 					        cancelButtonColor: '#D4D4D4',   // cancel
-					        confirmButtonText: '이동',
-					        cancelButtonText: '취소'	
+					        confirmButtonText: '로그인',
 					     }).then((result) =>{
 							if(result.isConfirmed) { // confirm이 false이면 return
 								location.href='/nearby/';
@@ -118,8 +116,8 @@
 					$('#month').val(month);
 					$('#day').val(day);
 					if (map.result.profile.pOrigin != '') {
-						$('#user_img').attr('src', '/' + map.result.profile.pPath + '/' + map.result.profile.pSaved);
-						$('#profile_img').attr('src', '/' + map.result.profile.pPath + '/' + map.result.profile.pSaved);
+						$('#user_img').attr('src', '/nearby/' + map.result.profile.pPath + '/' + map.result.profile.pSaved);
+						$('#profile_img').attr('src', '/nearby/' + map.result.profile.pPath + '/' + map.result.profile.pSaved);
 					} else {
 						$('#user_img').attr('src', '${pageContext.request.contextPath}/resources/image/profile_default.png');
 						$('#profile_img').attr('src', '${pageContext.request.contextPath}/resources/image/profile_default.png');
@@ -263,7 +261,13 @@
                     text: '이름을 입력해주세요' ,
                 });
 				return;
-			} else if ( $('#phone').val().trim().length != 11 || $('#phone').val() == '' ) {
+			} else if ( $('#name').val() > 16 ) {
+				Swal.fire({
+                    icon: 'error',
+                    text: '이름은 16자 이내입니다.' ,
+                });
+				return;
+			} else if ( regPhone.test( $('#phone') .val() ) == false ) {
 				Swal.fire({
                     icon: 'error',
                     text: '핸드폰 번호는 11자리 정수입니다' ,
@@ -342,9 +346,15 @@
 								Swal.fire({
 						            title: '탈퇴되었습니다.',
 						            text: 'NearBy를 이용해주셔서 감사합니다.',
-						        });
-								$('#form').attr('action', '/nearby/member/leaveMember/');
-								$('#form').submit();
+							        confirmButtonColor: '#D4D4D4',  // confirm
+							        cancelButtonColor: '#D4D4D4',   // cancel
+							        confirmButtonText: '메인으로',
+						        }).then((result)=>{
+						        	if(result.isConfirmed) {
+									$('#form').attr('action', '/nearby/member/leaveMember/');
+									$('#form').submit();
+						        	}
+						        })
 							} else if (pw_result == false || $('#pw').val()=='') { // pw_result == false 이면 return;
 								Swal.fire({
 						            icon: 'error',
@@ -526,7 +536,7 @@
 								<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" onclick="fnShowBtnBox()" class="pointer defaultImg">
 							</c:if>
 							<c:if test="${not empty loginUser.profile.pSaved}">
-								<img id="user_img" src="/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" onclick="fnShowBtnBox()" class="pointer">
+								<img id="user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" onclick="fnShowBtnBox()" class="pointer">
 							</c:if>
 						 
 						</div>

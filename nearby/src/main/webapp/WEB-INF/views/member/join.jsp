@@ -69,7 +69,7 @@ $(document).ready(function(){
 	        }
 	        // 중복 체크
 	        $.ajax({
-	            url: '/member/idCheck',
+	            url: '/nearby/member/idCheck',
 	            type: 'post',
 	            data: 'id=' + $(this).val(),
 	            dataType: 'json',
@@ -209,7 +209,7 @@ $(document).ready(function(){
 	    	// 이메일 중복 확인
 	    	$('#emailCheck_btn').click(function(){
 	    		$.ajax({
-	    			url: '/member/selectByEmail',
+	    			url: '/nearby/member/selectByEmail',
 	    			type: 'post',
 	    			data: 'email=' + $('#email').val(),
 	    			dataType: 'json',
@@ -249,7 +249,7 @@ $(document).ready(function(){
 				$('#authCode_btn').css('display', 'none');
 			 	$('#authCode_box').css('display', 'inline-block');
 				$.ajax({
-					url: '/member/sendAuthCode',
+					url: '/nearby/member/sendAuthCode',
 					type: 'post',
 					data: 'email=' + $('#email').val(),
 					dataType: 'json',
@@ -437,11 +437,6 @@ $(document).ready(function(){
 				});
 	            return false;
 	        }else{
-				Swal.fire({
-					icon: 'success',
-					title: '필수 정보 입니다.',
-					text: '생년월일을 입력 해주세요.',
-				});
 	            return true;
 	        }
 	    });
@@ -458,12 +453,12 @@ $(document).ready(function(){
     <div class="container">
     
         <div class="head">
-            <h1 class="title"><a href="<%=request.getContextPath()%>/">NearBy</a></h1>
+            <h1 class="title"><a href="/nearby/">NearBy</a></h1>
         </div>
  
         <div class="join_form">
     
-            <form action="/member/insertMember" method="post" id="join_form">
+            <form action="/nearby/member/insertMember" method="post" id="join_form">
                 
                 <!-- 아이디 --> 
                 <div class="input_box">
@@ -565,7 +560,7 @@ $(document).ready(function(){
         </div>
 
         <div style="text-align: center;">
-           <a href="<%=request.getContextPath()%>/member/serviceTerms" id="pol">NearBy 서비스 이용 약관</a>
+           <a href="/nearby/member/serviceTerms" id="pol">NearBy 서비스 이용 약관</a>
         </div>
     </div>
 </body>

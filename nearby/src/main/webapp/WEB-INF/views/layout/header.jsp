@@ -28,20 +28,18 @@
 		if (loginInfo == '') {
 			
 		 Swal.fire({
-				text: '세션이 만료되었습니다. 로그인 화면으로 이동하시겠습니까?',
+				text: '세션이 만료되었습니다. 로그인 화면으로 이동합니다.',
 		        icon: 'warning',
-		        showCancelButton: true,
 		        confirmButtonColor: '#D4D4D4',  // confirm
 		        cancelButtonColor: '#D4D4D4',   // cancel
-		        confirmButtonText: '이동',
-		        cancelButtonText: '취소'	
+		        confirmButtonText: '메인으로',
 		     }).then((result) => {
 				if(result.isConfirmed) { // confirm이 false이면 return
-					location.href='<%=request.getContextPath()%>/';
+					location.href='/nearby/';
 				}
 		     })
 		}
-	}	 		
+	}	 	
 </script>
 
 <div class="container">
@@ -91,7 +89,7 @@
 					<img id="profile_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" class="pointer defaultImg">
 			</c:if>
 			<c:if test="${not empty loginUser.profile.pSaved}">
-					<img id="profile_img" src="/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" class="pointer">
+					<img id="profile_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" class="pointer">
 			</c:if>
           </div>
 		<div id="profile_menu" class="profile_no">

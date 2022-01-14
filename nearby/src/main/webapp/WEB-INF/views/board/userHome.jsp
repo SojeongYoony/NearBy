@@ -60,7 +60,6 @@ $(document).ready(function(){
 	 fnCheckFollow();	 
 	 fnSendBno();
 	 fnReply();
-	 fnCheckLogin();
  });
 //fnCheckFollow(); 
 function fnCheckFollow() {
@@ -243,7 +242,7 @@ function fnSendBno(){
 					    if ( reply.profile.pSaved != '' ) { 
 							let pSaved = reply.profile.pSaved;
 							let pPath = reply.profile.pPath;
-							$(replyTable).append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="/'+pPath+'/'+pSaved+'"></td>') ) );
+							$(replyTable).append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="/nearby/'+pPath+'/'+pSaved+'"></td>') ) );
 					      } else if ( reply.profile.pPath == '' ) { 
 							$(replyTable).append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png"></td>') ) );
 					      } // End if 프사 부분 
@@ -297,28 +296,7 @@ function fnSendBno(){
 	      if(confirm('게시글을 수정하시겠습니까?') )
 	         location.href= '/nearby/board/updateBoardPage?bNo='+ $('#selectBoardNo').val();
    }
-
 	 
-	/* ----------------------------------------- fnCheckLogin() --------------------------------  */
- 	function fnCheckLogin(){
-		let loginInfo = '${loginUser.id}';
-		if (loginInfo == '') {
-			
-		 Swal.fire({
-				text: '세션이 만료되었습니다. 로그인 화면으로 이동하시겠습니까?',
-		        icon: 'warning',
-		        showCancelButton: true,
-		        confirmButtonColor: '#D4D4D4',  // confirm
-		        cancelButtonColor: '#D4D4D4',   // cancel
-		        confirmButtonText: '이동',
-		        cancelButtonText: '취소'	
-		     }).then((result) => {
-				if(result.isConfirmed) { // confirm이 false이면 return
-					location.href='/nearby/';
-				}
-		     })
-		}
-	}	 	 		 
 </script>
 </head>
 <body>
@@ -345,7 +323,7 @@ function fnSendBno(){
             		<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png">
             	</c:if>
             	<c:if test="${not empty userProfile[0].pSaved}">
-            		<img id="user_img" src="/${userProfile[0].pPath}/${userProfile[0].pSaved}">            	
+            		<img id="user_img" src="/nearby/${userProfile[0].pPath}/${userProfile[0].pSaved}">            	
             	</c:if>
             </div>
 

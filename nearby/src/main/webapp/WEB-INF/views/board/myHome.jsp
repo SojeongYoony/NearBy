@@ -56,7 +56,6 @@
 $(document).ready(function(){
 	 fnSendBno();
 	 fnReply();
-	 fnCheckLogin();
  });
 function fnSendBno(){
 	
@@ -183,7 +182,7 @@ function fnSendBno(){
 					    if ( reply.profile.pSaved != '' ) { 
 							let pSaved = reply.profile.pSaved;
 							let pPath = reply.profile.pPath;
-							$(replyTable).append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="/'+pPath+'/'+pSaved+'"></td>') ) );
+							$(replyTable).append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="/nearby/'+pPath+'/'+pSaved+'"></td>') ) );
 					      } else if ( reply.profile.pPath == '' ) { 
 							$(replyTable).append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png"></td>') ) );
 					      } // End if 프사 부분 
@@ -237,29 +236,7 @@ function fnSendBno(){
 	      if(confirm('게시글을 수정하시겠습니까?') )
 	         location.href= '/nearby/board/updateBoardPage?bNo='+ $('#selectBoardNo').val();
    }
- 
-	 
-	/* ----------------------------------------- fnCheckLogin() --------------------------------  */
- 	function fnCheckLogin(){
-		let loginInfo = '${loginUser.id}';
-		if (loginInfo == '') {
-			
-		 Swal.fire({
-				text: '세션이 만료되었습니다. 로그인 화면으로 이동하시겠습니까?',
-		        icon: 'warning',
-		        showCancelButton: true,
-		        confirmButtonColor: '#D4D4D4',  // confirm
-		        cancelButtonColor: '#D4D4D4',   // cancel
-		        confirmButtonText: '이동',
-		        cancelButtonText: '취소'	
-		     }).then((result) => {
-				if(result.isConfirmed) { // confirm이 false이면 return
-					location.href='/nearby/';
-				}
-		     })
-		}
-	}	 
-	
+
     // 프로필 설정으로 이동
     function fnMyPage(){
         location.href='/nearby/member/mypage';        
@@ -282,7 +259,7 @@ function fnSendBno(){
 					<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png"  class="pointer defaultImg">
 				</c:if>
 				<c:if test="${not empty loginUser.profile.pSaved}">
-					<img id="user_img" src="/${loginUser.profile.pPath}/${loginUser.profile.pSaved}">               
+					<img id="user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}">               
 				</c:if>
 			</div>
 
@@ -344,7 +321,7 @@ function fnSendBno(){
 								<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png">                          
 							</c:if>
 							<c:if test="${not empty board.profile.pSaved}">
-								<img id="user_img" src="/${loginUser.profile.pPath}/${loginUser.profile.pSaved}">                                                      
+								<img id="user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}">                                                      
 							</c:if> 
 							<input type="hidden" id="bNo" value="${board.bNo}">
 							<input type="hidden" id="origin" value="${board.origin}">
@@ -404,7 +381,7 @@ function fnSendBno(){
 	                        <!-- video가 아닌 것을 가져와라 ! -->
 	                        <c:if test="${not f:contains(video, 'video')}">
 	                            <div class="imgSize">
-	                                <img alt="${board.origin}" src="/${board.path}/${board.saved}" id="image">
+	                                <img alt="${board.origin}" src="/nearby/${board.path}/${board.saved}" id="image">
 	                            </div>
 	                        </c:if>
 	
@@ -412,7 +389,7 @@ function fnSendBno(){
 	                        <c:if test="${f:contains(video, 'video')}">
 	                            <div class="imgSize">
 	                                <video autoplay controls loop muted id="video">
-	                                    <source src="/${board.path}/${board.saved}" type="video/mp4">
+	                                    <source src="/nearby/${board.path}/${board.saved}" type="video/mp4">
 	                                </video>
 	                            </div>
 	                        </c:if>

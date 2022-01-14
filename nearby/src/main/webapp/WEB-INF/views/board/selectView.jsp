@@ -62,8 +62,7 @@
 		fnShowUpdateBtn();
 		fnUpdateReply(); // 댓글 수정
 		fnDeleteReply(); // 댓글 삭제
-	    fnCheckLogin();
-		
+
 	    var txtArea = $(".content_height");
 	    if (txtArea) {
 	        txtArea.each(function(){
@@ -90,7 +89,7 @@
 		        cancelButtonText: '취소'	
 		     }).then((result) => {
 	             if (result.isConfirmed) {
-	            		location.href= '<%=request.getContextPath()%>/board/deleteBoard?bNo='+${board.bNo};
+	            		location.href= '/nearby/board/deleteBoard?bNo='+${board.bNo};
 	             }
 		     })    
 	   }
@@ -98,14 +97,14 @@
 	function fnAdminDelete(i){
 		if( confirm('게시글 번호 '+i+'를 삭제하시겠습니까?') ){
  			$.ajax({
- 				url : '<%=request.getContextPath()%>/admin/adminBoardDelete',
+ 				url : '/nearby/admin/adminBoardDelete',
  				type: "get",
  				data : "bNo="+i,
  				dataType: 'json',
  				contentType:'application/json',
  				success: function(map){
  					 if(map.result.result > 0){
- 						location.href= "<%=request.getContextPath()%>/board/boardList";
+ 						location.href= "/nearby/board/boardList";
  					 } else {
  					 }
  					}, 
@@ -130,7 +129,7 @@
 	        cancelButtonText: '취소'	
 	     }).then((result) => {
              if (result.isConfirmed) {
-            	 location.href= '<%=request.getContextPath()%>/board/updateBoardPage?bNo='+${board.bNo}; 
+            	 location.href= '/nearby/board/updateBoardPage?bNo='+${board.bNo}; 
              }
 	     })    
 			
@@ -142,7 +141,7 @@
 		$.each($('.output_reply_table'), function(i, replyTable) {	
  		let bNo = '${board.bNo}';
  		$.ajax({
- 			      url: '<%=request.getContextPath()%>/board/boardBnoList',
+ 			      url: '/nearby/board/boardBnoList',
 			      type: 'get',
 			      data: "bNo=" + bNo,
 			      dataType: 'json',
@@ -169,13 +168,13 @@
 	          if( $("#"+i).find('i').hasClass('like') == false )  {
 	            	$("#"+i).find('i').addClass('like');
 		            $.ajax({
-		 				url : '<%=request.getContextPath()%>/board/likes',
+		 				url : '/nearby/board/likes',
 		 				type: 'post',
 						data: "bNo="+i, 
 						dataType: 'json',
 		 				success: function(board){
   			  			   $( '#like_count'+bNo ).text(board.likes);
-  			  			   location.href="<%=request.getContextPath()%>/board/selectBoard?bNo="+bNo;
+  			  			   location.href="/nearby/board/selectBoard?bNo="+bNo;
 		 					
 		 				},
 		 				error : function(xhr, error){
@@ -191,14 +190,14 @@
 	    	$("#"+i).find('i').removeClass('like');
 	    	
 	 		$.ajax({
-	  				url : '<%=request.getContextPath()%>/board/likesCancel',
+	  				url : '/nearby/board/likesCancel',
 	  				type: 'post',
 	  				data: "bNo="+i, 
 	 				dataType: 'json',
 	  				success: function(board){
 	  			//	  console.log("좋아요 취소 카운트" + board.likes);
 	  				   $( '#like_count'+ bNo ).text(board.likes);
-	  				 location.href="<%=request.getContextPath()%>/board/selectBoard?bNo="+bNo;
+	  				 location.href="/nearby/board/selectBoard?bNo="+bNo;
 	  				   
 	  				},
 	  				error : function(xhr, error){
@@ -216,7 +215,7 @@
 	var page = 1; // 시작은 무조건 1page이니까. 1로 초기화
 	function fnReplyList(){
 	   $.ajax({
-	      url: '<%=request.getContextPath()%>/reply/replyList',
+	      url: '/nearby/reply/replyList',
 	      type: 'get',
 	      data: "bNo=" + '${board.bNo}' + "&page=" + page,
 	      dataType: 'json',
@@ -264,7 +263,7 @@
 							let pSaved = reply.profile.pSaved;
 							let pPath = reply.profile.pPath;
 			        
-							$('.output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="/'+pPath+'/'+pSaved+'"></td>') ) );
+							$('.output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="/nearby/'+pPath+'/'+pSaved+'"></td>') ) );
 			           } else if(reply.profile.pPath == '') { // 댓글 작성자의 프로필 사진이 없을 때 디폴트 사진을 보여준다.
 							$('.output_reply_table').append( $('<tr>').html( $('<td rowspan="2" class="reply_user_image_area"><img class="reply_user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png"></td>') ) );
 			           } // End if 프사 부분 
@@ -280,9 +279,9 @@
 					
 					// 유저 이름당 href 링크 만들기
 					if (reply.id != id) {
-						$('.user_page_link[id=link_'+reply.rNo+']').attr('href','<%=request.getContextPath()%>/board/selectUserHome?id='+reply.id);
+						$('.user_page_link[id=link_'+reply.rNo+']').attr('href','/nearby/board/selectUserHome?id='+reply.id);
 					} else if(reply.id == id) {
-						$('.user_page_link[id=link_'+reply.rNo+']').attr('href','<%=request.getContextPath()%>/board/myHome');
+						$('.user_page_link[id=link_'+reply.rNo+']').attr('href','/nearby/board/myHome');
 					}
 					
 			    }) // End each
@@ -332,7 +331,7 @@
 		         groupOrd: 0
 		      }); 
 		      $.ajax({
-		         url: '<%=request.getContextPath()%>/reply/insertReply',
+		         url: '/nearby/reply/insertReply',
 		         type: 'post',
 		         data: reply,
 		         contentType: 'application/json',
@@ -361,7 +360,7 @@
 		$('body').on('click', '.delete_reply_btn', function(){
 			let deleteNo = $(this).data('no');
 				$.ajax({
-					url: '<%=request.getContextPath()%>/reply/deleteReply',
+					url: '/nearby/reply/deleteReply',
 					type: 'get',
 					data: 'rNo=' + deleteNo,
 					dataType: 'json',
@@ -410,7 +409,7 @@
 	              rContent: updateContent
 	           });
 			 	$.ajax({
-					url: '<%=request.getContextPath()%>/reply/updateReply',
+					url: '/nearby/reply/updateReply',
 					type: 'post',
 					contentType: 'application/json',
 					data: reply,
@@ -479,27 +478,7 @@
 				fnReplyList();
 			}) // body click event
 		} // End fnChangePage   
-		
-		/* ----------------------------------------- fnCheckLogin() --------------------------------  */
-	 	function fnCheckLogin(){
-			let loginInfo = '${loginUser.id}';
-			if (loginInfo == '') {
 				
-			 Swal.fire({
-					text: '세션이 만료되었습니다. 로그인 화면으로 이동하시겠습니까?',
-			        icon: 'warning',
-			        showCancelButton: true,
-			        confirmButtonColor: '#D4D4D4',  // confirm
-			        cancelButtonColor: '#D4D4D4',   // cancel
-			        confirmButtonText: '이동',
-			        cancelButtonText: '취소'	
-			     }).then((result) => {
-					if(result.isConfirmed) { // confirm이 false이면 return
-						location.href='<%=request.getContextPath()%>/';
-					}
-			     })
-			}
-		}	 	 		
 	
 </script>
 </head>
@@ -523,16 +502,16 @@
 				<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" class="pointer defaultImg">
 			</c:if>
 		    <c:if test="${board.profile.id == board.id and not empty board.profile.pSaved}" >
-		    		<img id="user_img" src="/${board.profile.pPath}/${board.profile.pSaved}"  class="pointer">
+		    		<img id="user_img" src="/nearby/${board.profile.pPath}/${board.profile.pSaved}"  class="pointer">
 		    </c:if>
 	    	</div>
 	    	<input type="hidden" id="bNo" value="${board.bNo}">
 	    	<div class="idAndDate">	
 		    	<c:if test="${loginUser.id != board.id}">
-					<a href="<%=request.getContextPath()%>/board/selectUserHome?id=${board.id}">${board.id}</a>                
+					<a href="/nearby/board/selectUserHome?id=${board.id}">${board.id}</a>                
 				</c:if>
 				<c:if test="${loginUser.id == board.id}">
-					<a href="<%=request.getContextPath()%>/board/myHome">${board.id}</a>                
+					<a href="/nearby/board/myHome">${board.id}</a>                
 				</c:if>
 	    		<div class="date">
 			    	    <fmt:formatDate value="${board.created}" pattern="MM월 dd일  a hh:mm" />
@@ -563,7 +542,7 @@
 	 </div>
 		<!--------------------- 내용만 삽입할 때 ------------------------------->
  			 <c:if test="${ null == board.origin }">
-	  			<div class="AddrAndContent"  onclick="location.href='<%=request.getContextPath()%>/board/selectBoard?bNo=${board.bNo}';">
+	  			<div class="AddrAndContent"  onclick="location.href='/nearby/board/selectBoard?bNo=${board.bNo}';">
 	  				  <div class="addrAndMap">
 						       		  <i class="fas fa-map-marker-alt" style="color:#fe4662; font-size:15px; width:30px"></i>
 						              <span class="address"> ${board.location} </span>
@@ -575,7 +554,7 @@
 		  </c:if>
   		<!-------------------- 이미지/비디오 삽입할때 ---------------->		  
 		 <c:if test="${board.saved ne null}">	  
-		      <div class="addressAndImage"  onclick="location.href='<%=request.getContextPath()%>/board/selectBoard?bNo=${board.bNo}';">
+		      <div class="addressAndImage"  onclick="location.href='/nearby/board/selectBoard?bNo=${board.bNo}';">
 			      <div class="addrAndMap">
 			       		  <i class="fas fa-map-marker-alt" style="color:#fe4662; font-size:15px; width:30px"></i>
 			              <span class="address"> ${board.location} </span>
@@ -583,13 +562,13 @@
 		    	  <!------------------ 이미지 및 영상 관련 ----------------------------------------->
   					   <c:set value="${board.saved}" var="video"></c:set>
 		  				 <c:if test="${not f:contains(video, 'video')}">
-		  						 <div class="imgSize">  <img alt="${board.origin}" src="/${board.path}/${board.saved}" id="image">  </div>
+		  						 <div class="imgSize">  <img alt="${board.origin}" src="/nearby/${board.path}/${board.saved}" id="image">  </div>
 		  				  </c:if>
 		  				
 		  				<c:if test ="${f:contains(video, 'video')}">
 		  				   <div class="imgSize">
 			  				    <video autoplay controls loop muted poster="video"  id="video">
-			  						<source src="/${board.path}/${board.saved}"  type="video/mp4" >
+			  						<source src="/nearby/${board.path}/${board.saved}"  type="video/mp4" >
 			  					</video>
 		  					</div>
 		  				</c:if>
@@ -623,7 +602,7 @@
 						<img class="reply_user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png" class="pointer defaultImg">
 					</c:if>
 					<c:if test="${not empty loginUser.profile.pSaved}">
-						<img class="reply_user_img" src="/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" class="pointer">
+						<img class="reply_user_img" src="/nearby/${loginUser.profile.pPath}/${loginUser.profile.pSaved}" class="pointer">
 					</c:if>
 				</td>
 				<td>

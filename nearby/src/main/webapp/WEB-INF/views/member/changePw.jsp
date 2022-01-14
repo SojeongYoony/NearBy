@@ -88,7 +88,7 @@
 	let regName = /^[a-zA-Z가-힣]{1,30}$/;
     // 이메일
 	let regEmail = /^[0-9a-zA-Z-_]+@[a-zA-Z0-9]+([.][a-zA-Z]{2,}){1,2}/;
-    // 핸드폰 번호
+
 	let pw_result = false;
 	let new_pw_result = false;
 	let pw_double_result = false;
@@ -138,7 +138,7 @@
          	
          	$('#authCode_btn').click(function(){
          		$.ajax({
-         			url : '<%=request.getContextPath()%>/member/sendAuthCode',
+         			url : '/nearby/member/sendAuthCode',
          			type: 'post',
          			data: 'email='+ $('#email').val(),
          			dataType: 'json',
@@ -192,7 +192,7 @@
 	    $('#password_check_btn').on('click',function(){ // TODO ajax로 select 결과 받아서 처리하기해야함.
 
 			$.ajax({
-				url : '<%=request.getContextPath()%>/member/checkPassword',
+				url : '/nearby/member/checkPassword',
 				type : 'post',
 				data : 'pw=' + $('#pw').val(),
 				dataType: 'json',               // 받아올 데이터 타입
@@ -231,7 +231,7 @@
 	    $('#authCode_btn').on('click',function(){ 
 
 			$.ajax({
-				url : '<%=request.getContextPath()%>/member/selectByEmail',
+				url : '/nearby/member/selectByEmail',
 				type : 'post',
 				data : 'email=' + $('#email').val(),
 				dataType: 'json',               // 받아올 데이터 타입
@@ -266,7 +266,7 @@
     	
    /*  	$('#authCode_btn').click(function(){ */
     		$.ajax({
-    			url : '<%=request.getContextPath()%>/member/sendAuthCode',
+    			url : '/nearby/member/sendAuthCode',
     			type: 'post',
     			data: 'email='+ $('#email').val(),
     			dataType: 'json',
@@ -315,16 +315,14 @@
 		if (loginInfo == '') {
 			
 		 Swal.fire({
-				text: '세션이 만료되었습니다. 로그인 화면으로 이동하시겠습니까?',
+				text: '세션이 만료되었습니다. 로그인 화면으로 이동합니다.',
 		        icon: 'warning',
-		        showCancelButton: true,
 		        confirmButtonColor: '#D4D4D4',  // confirm
 		        cancelButtonColor: '#D4D4D4',   // cancel
-		        confirmButtonText: '이동',
-		        cancelButtonText: '취소'	
+		        confirmButtonText: '메인으로',
 		     }).then((result) => {
 				if(result.isConfirmed) { // confirm이 false이면 return
-					location.href='<%=request.getContextPath()%>/';
+					location.href='/nearby/';
 				}
 		     })
 		}

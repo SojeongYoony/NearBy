@@ -192,9 +192,7 @@ public class MemberServiceImpl implements MemberService {
 	                    out.println("<style> .swal2-styled.swal2-confirm { width: 100px; background-color: #d4d4d4;  }</style>");
 		 				out.println("<script>");
 		 			    out.println("$(document).ready(function(){");
-		 		//		out.println("alert('아이디와 비밀번호를 확인해주세요');");
 		 			  	out.println("Swal.fire({ text: '아이디와 비밀번호를 확인해주세요', confirmButtonText:'OK',   closeOnClickOutside: false, timer: 11000 }).then((result) => {   if (result.isConfirmed) {  history.back(); }; }) ");
-		 			//	out.println("history.back();");
 		 				out.println("});");
 	 					out.println("</script>");
 		 				out.close();

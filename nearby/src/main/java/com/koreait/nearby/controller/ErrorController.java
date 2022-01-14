@@ -13,7 +13,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 public class ErrorController {
 
 	
-	 
+	 /*
 	 @ExceptionHandler(Exception.class)
 	 public String except(Exception e, Model model){ 
 		 model.addAttribute("exception", e);
@@ -26,6 +26,6 @@ public class ErrorController {
      public String handle404(NoHandlerFoundException ex) { 
 		 return "error/404error"; 
 		 }
-	
+	*/
 	
 }
