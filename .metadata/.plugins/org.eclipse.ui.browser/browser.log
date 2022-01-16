@@ -370,3 +370,14 @@
 1월 13, 2022 24:49:39.26 [6884:10888:0113/004939.025:ERROR:chrome_browser_main_extra_parts_metrics.cc(235)] START: GetDefaultBrowser(). If you don't see the END: message, this is crbug.com/1216328.
 1월 13, 2022 24:49:39.31 [6884:10888:0113/004939.031:ERROR:chrome_browser_main_extra_parts_metrics.cc(239)] END: GetDefaultBrowser()
 1월 13, 2022 24:49:39.44 [6884:10156:0113/004939.043:ERROR:device_event_log_impl.cc(214)] [00:49:39.043] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
+
+1월 16, 2022 23:49:46.317 NEW SESSION
+1월 16, 2022 23:49:46.317 [7152:7340:0116/234946.314:ERROR:chrome_browser_main_extra_parts_metrics.cc(227)] START: ReportBluetoothAvailability(). If you don't see the END: message, this is crbug.com/1216328.
+1월 16, 2022 23:49:46.318 [7152:7340:0116/234946.314:ERROR:chrome_browser_main_extra_parts_metrics.cc(230)] END: ReportBluetoothAvailability()
+1월 16, 2022 23:49:46.319 [7152:7340:0116/234946.314:ERROR:chrome_browser_main_extra_parts_metrics.cc(235)] START: GetDefaultBrowser(). If you don't see the END: message, this is crbug.com/1216328.
+1월 16, 2022 23:49:46.319 [7152:7340:0116/234946.318:ERROR:chrome_browser_main_extra_parts_metrics.cc(239)] END: GetDefaultBrowser()
+1월 16, 2022 23:49:46.320 [7152:860:0116/234946.320:ERROR:device_event_log_impl.cc(214)] [23:49:46.320] USB: usb_device_handle_win.cc:1050 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+1월 16, 2022 23:49:46.321 [7152:860:0116/234946.320:ERROR:usb_descriptors.cc(117)] Failed to read configuration descriptor.
+1월 16, 2022 23:49:46.321 [7152:860:0116/234946.320:ERROR:usb_descriptors.cc(100)] Failed to read all configuration descriptors. Expected 1, got 0.
+1월 16, 2022 23:49:46.321 [7152:860:0116/234946.320:ERROR:device_event_log_impl.cc(214)] [23:49:46.320] USB: usb_device_win.cc:96 Failed to read descriptors from \\?\usb#vid_275d&pid_0ba6#6&2b2978c9&0&4#{a5dcbf10-6530-11d2-901f-00c04fb951ed}.
+1월 16, 2022 23:49:46.352 [7152:860:0116/234946.352:ERROR:device_event_log_impl.cc(214)] [23:49:46.352] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.

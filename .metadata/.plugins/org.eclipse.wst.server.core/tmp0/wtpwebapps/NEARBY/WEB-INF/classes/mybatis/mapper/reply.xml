@@ -40,8 +40,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- PAGING 용 SELECT... -->
 	<select id="selectReplyListForPaging" resultMap="ReplyMap" parameterType="Map">
-		SELECT B.RN, B.R_NO, B.ID, B.B_NO, B.R_CONTENT, B.R_LIKES, B.R_CREATED, B.R_MODIFIED, B.STATE, B.DEPTH, B.GROUPNO, B.GROUPORD, B.P_ORIGIN, B.P_SAVED, B.P_PATH
-		  FROM (SELECT  @ROWNUM := @ROWNUM +1 AS RN, A.R_NO, A.ID, A.B_NO, A.R_CONTENT, A.R_LIKES, A.R_CREATED, A.R_MODIFIED, A.STATE, A.DEPTH, A.GROUPNO, A.GROUPORD, A.P_ORIGIN, A.P_SAVED, A.P_PATH
+		SELECT B.R_NO, B.ID, B.B_NO, B.R_CONTENT, B.R_LIKES, B.R_CREATED, B.R_MODIFIED, B.P_ORIGIN, B.P_SAVED, B.P_PATH
+		  FROM (SELECT  A.R_NO, A.ID, A.B_NO, A.R_CONTENT, A.R_LIKES, A.R_CREATED, A.R_MODIFIED, A.P_ORIGIN, A.P_SAVED, A.P_PATH
 		          FROM (SELECT R.R_NO 
 		          			 , R.ID 
 		          			 , R.B_NO 
@@ -49,10 +49,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		          			 , R.R_LIKES
 		          			 , R.R_CREATED 
 		          			 , R.R_MODIFIED
-		          			 , R.STATE 
-		          			 , R.DEPTH 
-		          			 , R.GROUPNO 
-		          			 , R.GROUPORD 
 		          			 , P.P_ORIGIN 
 		          			 , P.P_SAVED 
 		          			 , P.P_PATH 
