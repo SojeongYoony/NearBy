@@ -381,3 +381,28 @@
 1월 16, 2022 23:49:46.321 [7152:860:0116/234946.320:ERROR:usb_descriptors.cc(100)] Failed to read all configuration descriptors. Expected 1, got 0.
 1월 16, 2022 23:49:46.321 [7152:860:0116/234946.320:ERROR:device_event_log_impl.cc(214)] [23:49:46.320] USB: usb_device_win.cc:96 Failed to read descriptors from \\?\usb#vid_275d&pid_0ba6#6&2b2978c9&0&4#{a5dcbf10-6530-11d2-901f-00c04fb951ed}.
 1월 16, 2022 23:49:46.352 [7152:860:0116/234946.352:ERROR:device_event_log_impl.cc(214)] [23:49:46.352] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
+
+1월 17, 2022 02:44:03.582 NEW SESSION
+1월 17, 2022 02:44:03.582 [3812:7804:0117/024403.578:ERROR:chrome_browser_main_extra_parts_metrics.cc(227)] START: ReportBluetoothAvailability(). If you don't see the END: message, this is crbug.com/1216328.
+1월 17, 2022 02:44:03.583 [3812:7804:0117/024403.578:ERROR:chrome_browser_main_extra_parts_metrics.cc(230)] END: ReportBluetoothAvailability()
+1월 17, 2022 02:44:03.584 [3812:7804:0117/024403.578:ERROR:chrome_browser_main_extra_parts_metrics.cc(235)] START: GetDefaultBrowser(). If you don't see the END: message, this is crbug.com/1216328.
+1월 17, 2022 02:44:03.588 [3812:7804:0117/024403.588:ERROR:chrome_browser_main_extra_parts_metrics.cc(239)] END: GetDefaultBrowser()
+1월 17, 2022 02:44:03.593 [3812:5480:0117/024403.592:ERROR:device_event_log_impl.cc(214)] [02:44:03.592] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
+
+1월 17, 2022 03:46:08.650 NEW SESSION
+1월 17, 2022 03:46:08.650 [8764:1992:0117/034608.649:ERROR:chrome_browser_main_extra_parts_metrics.cc(227)] START: ReportBluetoothAvailability(). If you don't see the END: message, this is crbug.com/1216328.
+1월 17, 2022 03:46:08.651 [8764:1992:0117/034608.649:ERROR:chrome_browser_main_extra_parts_metrics.cc(230)] END: ReportBluetoothAvailability()
+1월 17, 2022 03:46:08.651 [8764:1992:0117/034608.649:ERROR:chrome_browser_main_extra_parts_metrics.cc(235)] START: GetDefaultBrowser(). If you don't see the END: message, this is crbug.com/1216328.
+1월 17, 2022 03:46:08.651 [8764:6544:0117/034608.651:ERROR:device_event_log_impl.cc(214)] [03:46:08.651] USB: usb_device_handle_win.cc:1050 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+1월 17, 2022 03:46:08.651 [8764:6544:0117/034608.651:ERROR:usb_descriptors.cc(141)] Failed to read length for configuration 0.
+1월 17, 2022 03:46:08.653 [8764:6544:0117/034608.651:ERROR:usb_descriptors.cc(100)] Failed to read all configuration descriptors. Expected 1, got 0.
+1월 17, 2022 03:46:08.653 [8764:6544:0117/034608.651:ERROR:device_event_log_impl.cc(214)] [03:46:08.651] USB: usb_device_win.cc:96 Failed to read descriptors from \\?\usb#vid_275d&pid_0ba6#6&2b2978c9&0&4#{a5dcbf10-6530-11d2-901f-00c04fb951ed}.
+1월 17, 2022 03:46:08.653 [8764:1992:0117/034608.653:ERROR:chrome_browser_main_extra_parts_metrics.cc(239)] END: GetDefaultBrowser()
+1월 17, 2022 03:46:08.656 [8764:6544:0117/034608.655:ERROR:device_event_log_impl.cc(214)] [03:46:08.656] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
+
+1월 17, 2022 04:02:25.373 NEW SESSION
+1월 17, 2022 04:02:25.373 [9536:7948:0117/040225.371:ERROR:chrome_browser_main_extra_parts_metrics.cc(227)] START: ReportBluetoothAvailability(). If you don't see the END: message, this is crbug.com/1216328.
+1월 17, 2022 04:02:25.373 [9536:7948:0117/040225.371:ERROR:chrome_browser_main_extra_parts_metrics.cc(230)] END: ReportBluetoothAvailability()
+1월 17, 2022 04:02:25.374 [9536:7948:0117/040225.371:ERROR:chrome_browser_main_extra_parts_metrics.cc(235)] START: GetDefaultBrowser(). If you don't see the END: message, this is crbug.com/1216328.
+1월 17, 2022 04:02:25.377 [9536:7948:0117/040225.377:ERROR:chrome_browser_main_extra_parts_metrics.cc(239)] END: GetDefaultBrowser()
+1월 17, 2022 04:02:25.379 [9536:2156:0117/040225.378:ERROR:device_event_log_impl.cc(214)] [04:02:25.377] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.

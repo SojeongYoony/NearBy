@@ -296,7 +296,8 @@
 					contentType: 'application/json',
 					dataType: 'json',
 					success: function(map){
-						if(map.result && map.result != null) {
+//						if(map.result && map.result != null) {
+						if(map.result > 0) {
 							Swal.fire({
 					            icon: 'success',
 					            text: map.member.name + '님의 회원정보가 수정되었습니다.',

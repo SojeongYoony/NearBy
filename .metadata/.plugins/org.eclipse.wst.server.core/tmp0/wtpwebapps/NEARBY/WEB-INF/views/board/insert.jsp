@@ -386,7 +386,7 @@
 	</header>
 	
 	<div class="insert_wrap">
-	<form id="insertBoard_Form" action="/board/insertBoard" method="post" enctype="multipart/form-data" name="insertBoard_Form">
+	<form id="insertBoard_Form" action="/nearby/board/insertBoard" method="post" enctype="multipart/form-data" name="insertBoard_Form">
 		<div class="profileImg"  id="p_img">
 			<c:if test="${empty loginUser.profile.pSaved}">
 				<img id="user_img" src="${pageContext.request.contextPath}/resources/image/profile_default.png"  class="pointer defaultImg">

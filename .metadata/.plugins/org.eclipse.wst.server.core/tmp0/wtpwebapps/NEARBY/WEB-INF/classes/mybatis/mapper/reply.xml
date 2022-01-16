@@ -40,24 +40,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- PAGING 용 SELECT... -->
 	<select id="selectReplyListForPaging" resultMap="ReplyMap" parameterType="Map">
-		SELECT B.R_NO, B.ID, B.B_NO, B.R_CONTENT, B.R_LIKES, B.R_CREATED, B.R_MODIFIED, B.P_ORIGIN, B.P_SAVED, B.P_PATH
-		  FROM (SELECT  A.R_NO, A.ID, A.B_NO, A.R_CONTENT, A.R_LIKES, A.R_CREATED, A.R_MODIFIED, A.P_ORIGIN, A.P_SAVED, A.P_PATH
-		          FROM (SELECT R.R_NO 
-		          			 , R.ID 
-		          			 , R.B_NO 
-		          			 , R.R_CONTENT 
-		          			 , R.R_LIKES
-		          			 , R.R_CREATED 
-		          			 , R.R_MODIFIED
-		          			 , P.P_ORIGIN 
-		          			 , P.P_SAVED 
-		          			 , P.P_PATH 
-		                  FROM PROFILE P LEFT JOIN REPLY R
-		                    ON P.ID = R.ID
-		                 WHERE R.B_NO = #{bNo}
-		                   AND R.STATE = 0
-		                 ) A ORDER BY A.R_CREATED desc ) B
-		 LIMIT #{beginRecord}, #{recordPerPage}	   
+	  	 SELECT A.R_NO, A.ID, A.B_NO, A.R_CONTENT, A.R_CREATED, A.R_MODIFIED, A.P_ORIGIN, A.P_SAVED, A.P_PATH
+		   FROM (SELECT R.R_NO 
+	       		 	  , R.ID 
+        			  , R.B_NO 
+        			  , R.R_CONTENT 
+        			  , R.R_CREATED 
+        			  , R.R_MODIFIED
+        			  , P.P_ORIGIN 
+        			  , P.P_SAVED 
+        			  , P.P_PATH 
+	               FROM PROFILE P LEFT JOIN REPLY R
+                     ON P.ID = R.ID
+                  WHERE R.B_NO = #{bNo} ) A 
+		  ORDER BY A.R_CREATED desc
+		  LIMIT #{beginRecord}, #{recordPerPage}	   
 	</select>
 	
 	<!-- total 댓글수 per 게시글 -->
