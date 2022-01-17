@@ -75,13 +75,6 @@ public class MemberController {
 		return service.idCheck(id);
 	}
 	
-	/*
-	 * @ResponseBody
-	 * 
-	 * @PostMapping(value="idCheck", produces ="application/json; charset=UTF-8" )
-	 * public ResponseEntity<Integer> idCheck(String id) { return new
-	 * ResponseEntity(service.idCheck(id), HttpStatus.OK); }
-	 */
 	// 이메일 중복확인 + 아이디 찾기 
 	@ResponseBody
 	@PostMapping(value="selectByEmail", produces ="application/json; charset=UTF-8" )
@@ -95,12 +88,6 @@ public class MemberController {
 	public Map<String, Object> sendAuthCode(@RequestParam("email") String email) {
 		return service.sendAuthCode(email);
 	}
-	
-	/*
-	 * // 로그인
-	 * @PostMapping(value="login") public void login(HttpServletRequest request,
-	 * HttpServletResponse response) { service.login(request, response); }
-	 */
 	
 	
 	// 로그인

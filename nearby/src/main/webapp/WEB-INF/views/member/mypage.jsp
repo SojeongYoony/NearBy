@@ -296,7 +296,6 @@
 					contentType: 'application/json',
 					dataType: 'json',
 					success: function(map){
-//						if(map.result && map.result != null) {
 						if(map.result > 0) {
 							Swal.fire({
 					            icon: 'success',

@@ -116,8 +116,6 @@
 	}
 	
 	function fnUpdate(){
-	/* 	if(confirm('게시글을 수정하시겠습니까?') )
-			location.href= '/board/updateBoardPage?bNo='+${board.bNo}; */
 		 Swal.fire({
 			text: '게시글을 수정하시겠습니까?',
 	        icon: 'warning',
@@ -195,13 +193,11 @@
 	  				data: "bNo="+i, 
 	 				dataType: 'json',
 	  				success: function(board){
-	  			//	  console.log("좋아요 취소 카운트" + board.likes);
 	  				   $( '#like_count'+ bNo ).text(board.likes);
 	  				 location.href="/nearby/board/selectBoard?bNo="+bNo;
 	  				   
 	  				},
 	  				error : function(xhr, error){
-	  //					console.log(xhr.error)
 	  				}				
 	  			});  // ajax
 	  			return;

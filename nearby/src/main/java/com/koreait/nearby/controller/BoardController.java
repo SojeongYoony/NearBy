@@ -100,7 +100,6 @@ public class BoardController {
 	   @ResponseBody
 	   @PostMapping(value="likes", produces ="application/json; charset=UTF-8" )
 	    public Board likes(@RequestParam Long bNo, HttpSession session) {
-//		   System.out.println("controller bNo" + bNo);
 		   Likes likes = new Likes();
 		   likes.setbNo(bNo); // 좋아요 한 게시글 번호
 		   Member user = (Member)session.getAttribute("loginUser");
@@ -146,10 +145,8 @@ public class BoardController {
 		/* 해당 유저의 홈으로 가기 */
 		@GetMapping("selectUserHome")
 			public String selectUserHome (@RequestParam("id")String id, Model model) {
-			System.out.println("requestpara Id : " + id);
 			model.addAttribute("user", service.selectUserHome(id));
 			model.addAttribute("userProfile", service.selectUserProfile(id));
-			System.out.println("userProfile : " + service.selectUserProfile(id));
 			model.addAttribute("followingList", service.selectFollowingIdById(id));
 			model.addAttribute("followedList", service.selectFollowedIdById(id));
 			model.addAttribute("userBoardCount", service.selectUserHomeBoardsCount(id));
