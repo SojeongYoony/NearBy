@@ -54,10 +54,8 @@
   
    function fnTextLimit(){
 	      $('#content').on('keyup', function(event){
-	      //console.log(  $('#content').val());
 	      
 	         if( $('#content').val().length > 2000) {
-	         //alert("글자수는 2000자까지입니다.");
 	         Swal.fire({
 	               text: '글자수는 2000자까지입니다.',
 	            })
@@ -89,7 +87,6 @@
         
         // 위치는 빈값이 아니나 파일이랑 내용이 빈값일 때 
           } else if ( $('.location').val() != ''  &&   $('#content').val() == '' && $('#modify_file').val() == '' )  {
-           //  alert("사진이나 일상을 입력해주세요.");
              Swal.fire({
                 text: '사진이나 일상을 적어주세요.'
                 
@@ -108,7 +105,6 @@
 			
 			// 확장자 정보
 			if( $.inArray(extName, ["JPG", "PNG", "JPEG", "GIF","MP4", "MPEG", "AVI", "MOV", "M4V", "JFIF"])  == -1 )  {  // 첨부된 파일이 ["JPG", "PNG", "JPEC", "GIF"] 중 하나가 아니면
-			// 	alert('업로드 할 수 없는 확장자입니다.');
 			 	Swal.fire({
 					text:'업로드 할 수 없는 확장자입니다.'
 				})
@@ -120,7 +116,6 @@
 			let maxSize = 1024 * 1024 * 1000;   		   // 최대크기 10MB
 			let fileSize = $(this)[0].files[0].size;       // 첨부된 파일 크기
 			if ( fileSize > maxSize ){
-			//	alert('1GB 이하의 파일만 업로드가 가능합니다.');
 				Swal.fire({
 					text:'1GB 이하의 파일만 업로드가 가능합니다.'
 				})
@@ -149,7 +144,6 @@
 				 }
 			};
 				reader.readAsDataURL(input.files[0]);
-			// console.log(input.files[0].name.split('.').pop().toLowerCase());
 			$('#modify_file').css('display', 'block');
 			$("#previewImg").css('display', 'block');
 			$('#img_wrap').css('padding', '0');
@@ -369,7 +363,7 @@
 		        cancelButtonText: '취소'	
 		     }).then((result) => {
 				if(result.isConfirmed) { // confirm이 false이면 return
-					location.href='<%=request.getContextPath()%>/';
+					location.href='/nearby/';
 				}
 		     })
 		}

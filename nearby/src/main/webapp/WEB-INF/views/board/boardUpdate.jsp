@@ -40,7 +40,6 @@
 	
 	 function fnTextLimit(){
 	   $('#content').on('keyup', function(){
-	   //console.log(  $('#content').val());
 		   if( $('#content').val().length > 2000) {
 			   Swal.fire({
 					icon: 'warning',
