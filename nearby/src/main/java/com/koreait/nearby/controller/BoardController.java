@@ -77,7 +77,6 @@ public class BoardController {
 	   public String updateBoardPage(@RequestParam Long bNo, Model model) {
 	      Board board = service.selectBoardByNo(bNo);
 	      model.addAttribute("board", board);
-//	      System.out.println("보드 수정하기 : "+board.toString());
 	      return "board/boardUpdate";
 	   }
 	   

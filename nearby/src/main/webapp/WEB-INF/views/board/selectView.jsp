@@ -109,7 +109,6 @@
  					 }
  					}, 
  				error: function(){
- 				//	alert("ajax에러입니다")
  				}
  			})
  		}
