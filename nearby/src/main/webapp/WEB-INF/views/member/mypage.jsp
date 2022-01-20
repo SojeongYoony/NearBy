@@ -363,7 +363,6 @@
 						return;
 					} // End if
 		     	})
-
 		}) // End click event
 	} // End fnLeave
 	

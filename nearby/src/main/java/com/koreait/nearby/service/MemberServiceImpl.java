@@ -444,22 +444,18 @@ public class MemberServiceImpl implements MemberService {
 	      adminPage p = new adminPage();
 	      p.setPageEntity(cnt, page);
 	  
-	  
 	      dbMap.put("beginRecord", p.getBeginRecord()-1 );
 	      dbMap.put("recordPerPage", p.getRecordPerPage());
 	      
 	      
 	      // 검색 결과 리스트
 	      List<Member> searchResult = memberRepository.selectFindList(dbMap);
-	      
 	      int index = searchResult.size();
-	      
 	      
 		// view에서 쓸 resultMap
 	   Map<String, Object> resultMap = new HashMap<String, Object>();
-			
-			
-		//  DB로 보낼 beginRecord, endRecord 작업 
+
+	   //  DB로 보낼 beginRecord, endRecord 작업 
 		   resultMap.put("beginRecord", p.getBeginRecord()+"");
 		   resultMap.put("endRecord", p.getEndRecord()+"");
 		   resultMap.put("searchResult", searchResult); //list
