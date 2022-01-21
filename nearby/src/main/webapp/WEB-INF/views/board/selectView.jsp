@@ -129,8 +129,6 @@
             	 location.href= '/nearby/board/updateBoardPage?bNo='+${board.bNo}; 
              }
 	     })    
-			
-			
 	}
 	
     function fnSendBno(){
@@ -155,8 +153,6 @@
 		
  		}); // each
  	} //  fnSendBno()
-	
-	
 	
 	function fnLike(i){
 	       let likeBtn = $('.like_btn');
@@ -202,8 +198,6 @@
 	  			return;
 	      } // if 
 	    }	 
- 			
- 	
 
 	
 	/* ----------------------------------------- fnReplyList() --------------------------------  */
@@ -270,7 +264,6 @@
 					.append( $('<td class="btn_area">').html( $('<input type="button" class="delete_reply_btn pointer disapear reply_btns" data-no="'+ reply.rNo +'" value="삭제" data-login="'+id+'" data-writer="'+reply.id+'" ></td>') ) )
 					.appendTo( '.output_reply_table' );
 					$('.output_reply_table').append( $('<tr class="input_row">').html( $('<td colspan="4"><input type="text" class="reply_content" id="updateContent" value="'+reply.rContent+'" readonly></td><td class="btn_area"><input type="button" class="update_reply_btn pointer reply_btns disapear reply_insert_btns" data-updateno="'+reply.rNo+'" value="등록"></td>') ) );
-
 					
 					// 유저 이름당 href 링크 만들기
 					if (reply.id != id) {
@@ -513,7 +506,6 @@
 			    	    <i class="fas fa-globe-asia" ></i>
 			    </div>
 	    	</div> 
-	    
 		<c:if test="${board.id == loginUser.id}">   
 		 <div class="setting_wrap">	
 	    	<i class="fas fa-ellipsis-h setting" onclick="fnSetting()"></i>
@@ -523,7 +515,6 @@
 		    </ul>
 		   </div> 
 	    </c:if>	
-	    
     	<!-- 관리자일때만 삭제가능  아이콘 표시 -->
    		<c:if test="${ 'admin' == loginUser.id}">   
    		 <div class="setting_wrap">	
@@ -533,7 +524,6 @@
 	  		 </ul>
   		</div>
 	   </c:if>
-	    	
 	 </div>
 		<!--------------------- 내용만 삽입할 때 ------------------------------->
  			 <c:if test="${ null == board.origin }">
