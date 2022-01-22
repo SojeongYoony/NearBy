@@ -251,7 +251,7 @@ public class MemberServiceImpl implements MemberService {
 			if (name.trim() == null || name.trim().isEmpty()) throw new NullPointerException("입력된 이름이 없습니다.");
 			if (phone.trim() == null || phone.trim().isEmpty()) throw new NullPointerException("입력된 핸드폰 번호가 없습니다.");
 			if (phone.length() != 11 ) throw new NullPointerException("올바른 형식이 아닙니다.");
-			if (content.length() > 500) throw new PersistenceException("자기소개는 500자 이내로 작성해주세요.");
+			if (content.length() > 75) throw new PersistenceException("자기소개는 75자 이내로 작성해주세요.");
 
 			// Profile DB로 보낼 Bean 
 			Profile profile = new Profile();

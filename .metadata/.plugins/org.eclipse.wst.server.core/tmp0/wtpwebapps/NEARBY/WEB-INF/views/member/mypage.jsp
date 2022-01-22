@@ -249,10 +249,10 @@
 	function fnModifyMemberInfo() {
 		$('#modify_btn').click(function(){
 			let birthday = $('#birthday').val() + $('#month').val() + $('#day').val();
-			if ( $('#content').val().length > 500 ) {
+			if ( $('#content').val().length > 75 ) {
 				Swal.fire({
                     icon: 'error',
-                    text: '자기소개는 500자 이내로 작성해주세요' ,
+                    text: '자기소개는 75자 이내로 작성해주세요' ,
                 });
 				return;
 			} else if ( $('#name').val().trim() == '' ) {
@@ -261,7 +261,7 @@
                     text: '이름을 입력해주세요' ,
                 });
 				return;
-			} else if ( $('#name').val() > 16 ) {
+			} else if ( $('#name').val().length > 16 ) {
 				Swal.fire({
                     icon: 'error',
                     text: '이름은 16자 이내입니다.' ,
@@ -296,7 +296,6 @@
 					contentType: 'application/json',
 					dataType: 'json',
 					success: function(map){
-//						if(map.result && map.result != null) {
 						if(map.result > 0) {
 							Swal.fire({
 					            icon: 'success',
@@ -325,9 +324,6 @@
 		}) // End modify_btn click event
 	} // End fnModifyMemberInfo
 
-	
-
-	
 	
 /* ---------------------------------------------------------- fnLeave() ------------------------------ */
 	// 회원 탈퇴
@@ -367,7 +363,6 @@
 						return;
 					} // End if
 		     	})
-
 		}) // End click event
 	} // End fnLeave
 	

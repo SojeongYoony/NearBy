@@ -82,8 +82,6 @@
 						data: "bNo="+i, 
 						dataType: 'json',
 		 				success: function(board){
-		 	//				console.log(board);
-		 	//				console.log("좋아요 누른 카운트"+ board.likes);
   			  			   $( '#like_count'+bNo ).text(board.likes);
   			  			   location.href="/nearby/board/boardList";
 		 					
