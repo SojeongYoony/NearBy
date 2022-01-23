@@ -37,7 +37,7 @@ function fnMemberSearch(){
 	$('#search_btn').click(function(){
 		// 검색하는 것에 따라 이동경로 다르게 설정함
 		if ( $('#column').val() == 'ID' || $('#column').val() == 'NAME' || $('#column').val() == 'M_NO'  ||  $('#column').val() == 'EMAIL'  || $('#column').val() == 'BIRTHDAY' || $('#column').val() == 'GENDER' ) {
-			location.href='<%=request.getContextPath()%>/admin/findMember?column=' + $('#column').val() + '&query=' + $('#query').val();				
+			location.href='/nearby/admin/findMember?column=' + $('#column').val() + '&query=' + $('#query').val();				
 		}
 		else {
 			Swal.fire({

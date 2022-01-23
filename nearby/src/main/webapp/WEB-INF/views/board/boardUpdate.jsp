@@ -64,7 +64,7 @@
 		        cancelButtonText: '취소'
 		        }).then((result) => {
                     if (result.isConfirmed) {
-                    	location.href= '<%=request.getContextPath()%>/board/deleteBoard?bNo='+${board.bNo};
+                    	location.href= '/nearby/board/deleteBoard?bNo='+${board.bNo};
                     }
 	      })
 	} // fnDelete
@@ -275,7 +275,7 @@
 		        cancelButtonText: '취소'	
 		     }).then((result) => {
 				if(result.isConfirmed) { // confirm이 false이면 return
-					location.href='<%=request.getContextPath()%>/';
+					location.href='/nearby/';
 				}
 		     })
 		}

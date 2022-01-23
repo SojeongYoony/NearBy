@@ -49,7 +49,7 @@ function fnMemberDelete(i){
 		        }).then((result) => {
                     if (result.isConfirmed) {
 	                        $.ajax({
-									url : "<%=request.getContextPath()%>/admin/deleteMember",
+									url : "/nearby/admin/deleteMember",
 									type: "get",
 									data : "mNo="+i,
 									dataType: 'json',
@@ -58,7 +58,7 @@ function fnMemberDelete(i){
 										 if(map.result.result > 0){
 										  $('#mNoReInsert'+i).addClass('member_delete');
 										  $('#mNo'+i).removeAttr('onclick');
-										  location.href="<%=request.getContextPath()%>/admin/findMember";
+										  location.href="/nearby/admin/findMember";
 									 } 
 									}, 
 									error: function(xhr){
@@ -87,7 +87,7 @@ function fnMemberDelete(i){
               if (result.isConfirmed) {
            
                       $.ajax({
-                    		url : "<%=request.getContextPath()%>/admin/reInsertMember",
+                    		url : "/nearby/admin/reInsertMember",
             				type: "get",
             				data : "mNo="+i,
             				dataType: 'json',
@@ -95,7 +95,7 @@ function fnMemberDelete(i){
             				success : function(map){
             				 if(map.result.result > 0){
             					 $('#mNo'+i).addClass('member_delete');
-            					 location.href="<%=request.getContextPath()%>/admin/findMember";
+            					 location.href="/nearby/admin/findMember";
             				 } else {
             					// alert('삭제실패');
             				 }
