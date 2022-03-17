@@ -2,8 +2,10 @@
 
 **개발 : 2021.12 ~ 2022.01**
 **link : http://nearbyinc.cafe24.com/**
+###### User Login Info
 * User Id : test
 * User Pw : aaaa1111!
+###### Administrator Login Info
 * admin Id : admin
 * admin Pw : aaaa1111!
 
