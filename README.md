@@ -80,7 +80,7 @@ ex) 총괄 관리자 : 모든 권한 및 유저 아이디 관리자 옵션 부�
 
 ### ⌨ 구현부 코드 보기
 
-<table border="1" style="text-align: center">
+<table border="1" text-align="center">
 <tbody style="text-align: center;" >
 
 <tr>
