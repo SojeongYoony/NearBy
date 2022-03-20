@@ -17,7 +17,6 @@ INDEX VERSION 1.131+D:\SmartWeb0809\springstudy\nearby\.metadata\.plugins\org.ec
 2687323615.index
 439495806.index
 2780252723.index
-2598825491.index
 2698871885.index
 1076945353.index
 2840441329.index
