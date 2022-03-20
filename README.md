@@ -76,3 +76,65 @@
 ex) 총괄 관리자 : 모든 권한 및 유저 아이디 관리자 옵션 부여 가능, <br>
     댓글 관리자 : 모든 댓글 삭제 가능 <br>
     게시글 관리자 : 모든 게시글 삭제 가능 <br>
+
+
+### ⌨ 구현부 코드 보기
+
+<table border="1">
+<tbody style="text-align: center; padding:4px;" >
+	<tr>
+		<td colspan="2">기능</td>
+		<td colspan="3">코드 링크</td>
+	</tr>
+	<tr>
+		<td rowspan="4">댓글</td>
+		<td>전체보기</td>
+		<td>JAVA</td>
+		<td>
+   [JavaScript](https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/board/board.jsp)
+  </td>
+		<td>DB Query</td>
+	</tr>
+	<tr>
+		<td>상세보기</td>
+		<td>JAVA</td>
+		<td>
+   [JavaScript](https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/board/selectView.jsp)
+  </td>
+		<td>DB Query</td>
+	<tr>
+	<tr>
+		<td>페이징</td>
+		<td>JAVA</td>
+		<td>JavaScript</td>
+		<td>DB Query</td>
+	<tr>
+		<td rowspan="5">USER</td>
+	</tr>
+	<tr>
+		<td>정보수정</td>
+		<td rowspan="2">JAVA</td>
+		<td rowspan="2">
+   [JavaScript](https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/member/mypage.jsp)
+  </td>
+		<td rowspan="2">DB Query</td>
+	</tr>
+	<tr>
+		<td>회원탈퇴</td>
+	</tr>
+	<tr>
+		<td>PW 수정</td>
+		<td>JAVA</td>
+		<td>
+   [JavaScript](https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/member/changePw.jsp)
+  </td>
+		<td>DB Query</td>
+	</tr>
+	<tr>
+		<td>세션확인</td>
+		<td>JAVA</td>
+		<td>JavaScript</td>
+		<td>DB Query</td>
+	</tr>
+</tbody>
+</table>
