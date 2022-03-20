@@ -101,7 +101,7 @@ JAVA
 JavaScript
 </a>
 </td>
-<td>
+<td rowspan="3">
 <a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/resources/mybatis/mapper/reply.xml">
 DB Query
 </a>
@@ -120,11 +120,6 @@ JAVA
 JavaScript
 </a>
 </td>
-<td>
-<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/resources/mybatis/mapper/reply.xml">
-DB Query
-</a>
-</td>
 <tr>
 
 <tr>
@@ -136,7 +131,6 @@ JAVA
 </a>
 </td>
 <td>JavaScript</td>
-<td>DB Query</td>
 <tr>
 <td rowspan="7">USER</td>
 </tr>
