@@ -91,16 +91,20 @@ ex) 총괄 관리자 : 모든 권한 및 유저 아이디 관리자 옵션 부�
 		<td>전체보기</td>
 		<td>JAVA</td>
 		<td>
-   [JavaScript](https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/board/board.jsp)
-  </td>
+			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/board/board.jsp">
+   				JavaScript
+			</a>
+  		</td>
 		<td>DB Query</td>
 	</tr>
 	<tr>
 		<td>상세보기</td>
 		<td>JAVA</td>
 		<td>
-   [JavaScript](https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/board/selectView.jsp)
-  </td>
+			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/board/selectView.jsp">
+				JavaScript
+			</a>
+ 		 </td>
 		<td>DB Query</td>
 	<tr>
 	<tr>
@@ -115,8 +119,10 @@ ex) 총괄 관리자 : 모든 권한 및 유저 아이디 관리자 옵션 부�
 		<td>정보수정</td>
 		<td rowspan="2">JAVA</td>
 		<td rowspan="2">
-   [JavaScript](https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/member/mypage.jsp)
-  </td>
+			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/member/mypage.jsp">
+				JavaScript
+			</a>
+		</td>
 		<td rowspan="2">DB Query</td>
 	</tr>
 	<tr>
