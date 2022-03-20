@@ -126,8 +126,10 @@ ex) 총괄 관리자 : 모든 권한 및 유저 아이디 관리자 옵션 부�
 		<td>PW 수정</td>
 		<td>JAVA</td>
 		<td>
-   [JavaScript](https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/member/changePw.jsp)
-  </td>
+			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/member/changePw.jsp">
+				JavaScript
+			</a>
+  		</td>
 		<td>DB Query</td>
 	</tr>
 	<tr>
