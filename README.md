@@ -34,7 +34,12 @@
 
 #### 편리한 서비스 구현
 * 좋아요, 팔로우, 댓글 기능을 추가하여 이용자간의 연결 최대화.
-* 댓글, 개인정보수정, 비밀번호 변경 등 일부 기능 ajax로 구현하여 페이지 변화 없이 즉각 반영
+* 댓글(
+[상세보기](https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/board/selectView.jsp), 
+[모든글보기](https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/board/board.jsp)
+), 
+[개인정보수정](https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/member/mypage.jsp), 
+[비밀번호 변경](https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/member/changePw.jsp) 등 일부 기능 ajax로 구현하여 페이지 변화 없이 즉각 반영
 
 #### 서버 배포
 * 배포 사이트의 DB 환경에 ORACLE이 포함되어 있지 않아 MySql Query로 변경하여 해결
