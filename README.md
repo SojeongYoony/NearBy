@@ -27,7 +27,11 @@
 * Tomcat, FileZila, Putty, HeidiSql, STS
 
 ### 💻개발 내용
-<img src="C:\Users\Yoony\Desktop\nearbyflow.png">
+
+
+<img src="C:/Users/Yoony/Desktop/nearbyflow.png" />
+
+
 #### 편리한 서비스 구현
 * 좋아요, 팔로우, 댓글 기능을 추가하여 이용자간의 연결 최대화.
 * 댓글, 개인정보수정, 비밀번호 변경 등 일부 기능 ajax로 구현하여 페이지 변화 없이 즉각 반영
