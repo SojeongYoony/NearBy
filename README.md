@@ -29,7 +29,7 @@
 ### 💻개발 내용
 
 
-<img src="./nearbyflow.png", width="100%", title="nearbyflow" />
+<img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/59540447-6001-4cf1-962f-4930e2df25f6/20220314_090339.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220320%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220320T045054Z&X-Amz-Expires=86400&X-Amz-Signature=00ef6b82c13998b1e20dbdb191466ca2eacc8702f4d139f2ae4852c230afcce1&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%2220220314_090339.png%22&x-id=GetObject" title="nearbyflow" />
 
 
 #### 편리한 서비스 구현
