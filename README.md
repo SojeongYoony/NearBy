@@ -89,59 +89,118 @@ ex) 총괄 관리자 : 모든 권한 및 유저 아이디 관리자 옵션 부�
 	<tr>
 		<td rowspan="4">댓글</td>
 		<td>전체보기</td>
-		<td>JAVA</td>
+		<td>
+			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/java/com/koreait/nearby/service/ReplyServiceImpl.java">
+				JAVA
+			</a>
+		</td>
 		<td>
 			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/board/board.jsp">
    				JavaScript
 			</a>
   		</td>
-		<td>DB Query</td>
+		<td>
+			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/resources/mybatis/mapper/reply.xml">
+			DB Query
+			</a>
+		</td>
 	</tr>
 	<tr>
 		<td>상세보기</td>
-		<td>JAVA</td>
+		<td>
+			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/java/com/koreait/nearby/service/ReplyServiceImpl.java">
+				JAVA
+			</a>
+		</td>
 		<td>
 			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/board/selectView.jsp">
 				JavaScript
 			</a>
  		 </td>
-		<td>DB Query</td>
+		<td>
+			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/resources/mybatis/mapper/reply.xml">
+			DB Query
+			</a>
+		</td>
 	<tr>
 	<tr>
 		<td>페이징</td>
-		<td>JAVA</td>
+		<td>
+			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/java/com/koreait/nearby/util/PageUtils.java">
+			
+				JAVA
+			</a>
+		</td>
 		<td>JavaScript</td>
 		<td>DB Query</td>
 	<tr>
-		<td rowspan="5">USER</td>
+		<td rowspan="6">USER</td>
 	</tr>
 	<tr>
 		<td>정보수정</td>
-		<td rowspan="2">JAVA</td>
+		<td rowspan="2">
+			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/java/com/koreait/nearby/service/MemberServiceImpl.java">
+				JAVA
+			</a>
+		</td>
 		<td rowspan="2">
 			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/member/mypage.jsp">
 				JavaScript
 			</a>
 		</td>
-		<td rowspan="2">DB Query</td>
+		<td rowspan="2">
+			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/resources/mybatis/mapper/member.xml">
+				DB Query
+			</a>
+		</td>
+	</tr>
+		<tr>
+		<td>프로필사진</td>
+		<td rowspan="2">
+			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/java/com/koreait/nearby/service/ProfileServiceImpl.java">
+				JAVA
+			</a>
+		</td>
+		<td rowspan="2">
+			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/member/mypage.jsp">
+				JavaScript
+			</a>
+		</td>
+		<td rowspan="2">
+			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/resources/mybatis/mapper/profile.xml">
+				DB Query
+			</a>
+		</td>
 	</tr>
 	<tr>
 		<td>회원탈퇴</td>
 	</tr>
 	<tr>
 		<td>PW 수정</td>
-		<td>JAVA</td>
+		<td>
+			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/java/com/koreait/nearby/service/MemberServiceImpl.java">
+				JAVA
+			</a>
+		</td>
 		<td>
 			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/member/changePw.jsp">
 				JavaScript
 			</a>
   		</td>
-		<td>DB Query</td>
+		<td>
+			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/resources/mybatis/mapper/member.xml">
+				DB Query
+			</a>
+		</td>
 	</tr>
 	<tr>
 		<td>세션확인</td>
 		<td>JAVA</td>
-		<td>JavaScript</td>
+		<td>
+			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/layout/header.jsp">
+				JavaScript
+			</a>
+		</td>
 		<td>DB Query</td>
 	</tr>
 </tbody>
