@@ -101,7 +101,7 @@ JAVA
 JavaScript
 </a>
 </td>
-<td rowspan="3">
+<td rowspan="4">
 <a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/resources/mybatis/mapper/reply.xml">
 DB Query
 </a>
