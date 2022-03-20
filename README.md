@@ -29,7 +29,7 @@
 ### 💻개발 내용
 
 
-<img src="C:/Users/Yoony/Desktop/nearbyflow.png" />
+<img src="./nearbyflow.png" title="nearbyflow" />
 
 
 #### 편리한 서비스 구현
