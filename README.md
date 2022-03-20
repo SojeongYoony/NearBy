@@ -134,7 +134,7 @@ ex) 총괄 관리자 : 모든 권한 및 유저 아이디 관리자 옵션 부�
 		<td>JavaScript</td>
 		<td>DB Query</td>
 	<tr>
-		<td rowspan="6">USER</td>
+		<td rowspan="7">USER</td>
 	</tr>
 	<tr>
 		<td>정보수정</td>
@@ -154,26 +154,26 @@ ex) 총괄 관리자 : 모든 권한 및 유저 아이디 관리자 옵션 부�
 			</a>
 		</td>
 	</tr>
-		<tr>
+	<tr>
+		<td>회원탈퇴</td>
+	</tr>
+	<tr>
 		<td>프로필사진</td>
-		<td rowspan="2">
+		<td>
 			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/java/com/koreait/nearby/service/ProfileServiceImpl.java">
 				JAVA
 			</a>
 		</td>
-		<td rowspan="2">
+		<td>
 			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/member/mypage.jsp">
 				JavaScript
 			</a>
 		</td>
-		<td rowspan="2">
+		<td>
 			<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/resources/mybatis/mapper/profile.xml">
 				DB Query
 			</a>
 		</td>
-	</tr>
-	<tr>
-		<td>회원탈퇴</td>
 	</tr>
 	<tr>
 		<td>PW 수정</td>
