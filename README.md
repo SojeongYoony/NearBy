@@ -29,7 +29,7 @@
 ### 💻개발 내용
 
 
-<img src="./nearbyflow.png" title="nearbyflow" />
+<img src="./nearbyflow.png", width="100%", title="nearbyflow" />
 
 
 #### 편리한 서비스 구현
