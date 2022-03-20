@@ -91,7 +91,7 @@ ex) 총괄 관리자 : 모든 권한 및 유저 아이디 관리자 옵션 부�
 <tr>
 <td rowspan="4">댓글</td>
 <td>전체보기</td>
-<td>
+<td rowspan="3">
 <a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/java/com/koreait/nearby/service/ReplyServiceImpl.java">
 JAVA
 </a>
@@ -111,11 +111,6 @@ DB Query
 <tr>
 <td>상세보기</td>
 <td>
-<a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/java/com/koreait/nearby/service/ReplyServiceImpl.java">
-JAVA
-</a>
-</td>
-<td>
 <a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/webapp/WEB-INF/views/board/selectView.jsp">
 JavaScript
 </a>
@@ -126,7 +121,6 @@ JavaScript
 <td>페이징</td>
 <td>
 <a href="https://github.com/SojeongYoony/NearBy/blob/master/NEARBY/src/main/java/com/koreait/nearby/util/PageUtils.java">
-
 JAVA
 </a>
 </td>
