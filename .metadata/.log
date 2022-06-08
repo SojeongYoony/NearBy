@@ -14449,3 +14449,15 @@ org.eclipse.jgit.errors.TransportException: https://github.com/SojeongYoony/Near
 	at org.eclipse.egit.core.op.PushOperation.run(PushOperation.java:191)
 	at org.eclipse.egit.ui.internal.push.ConfirmationPage$2.run(ConfirmationPage.java:211)
 	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:122)
+
+!ENTRY org.eclipse.egit.core 4 0 2022-04-26 21:48:51.872
+!MESSAGE An exception occurred during push on URI https://github.com/SojeongYoony/NearBy.git: https://github.com/SojeongYoony/NearBy.git: not authorized
+!STACK 0
+org.eclipse.jgit.errors.TransportException: https://github.com/SojeongYoony/NearBy.git: not authorized
+	at org.eclipse.jgit.transport.TransportHttp.connect(TransportHttp.java:540)
+	at org.eclipse.jgit.transport.TransportHttp.openPush(TransportHttp.java:436)
+	at org.eclipse.jgit.transport.PushProcess.execute(PushProcess.java:127)
+	at org.eclipse.jgit.transport.Transport.push(Transport.java:1335)
+	at org.eclipse.egit.core.op.PushOperation.run(PushOperation.java:191)
+	at org.eclipse.egit.ui.internal.push.ConfirmationPage$2.run(ConfirmationPage.java:211)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:122)
